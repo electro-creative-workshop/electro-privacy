@@ -4,12 +4,12 @@ The goal with this code is to simplify the integration into the WordPress and Ne
 
 1. Add this package as a project dependency in package.json
 
-   `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^1.0.0",`
+    `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^1.0.0",`
 
 2. Load required JS & CSS from this package
 
-   - @import "../../node_modules/electro-privacy/dist/electro-privacy";
+    - @import "../../node_modules/electro-privacy/dist/electro-privacy";
 
 3. Add to your footer near the "Cookie Settings" button:
 
-- `<button id="do-not-share" onclick="OneTrust.ToggleInfoDisplay()">Do Not Share My Personal Information</button>`
+-   `<button id="do-not-share" onclick="OneTrust.ToggleInfoDisplay()">Do Not Share My Personal Information</button>`

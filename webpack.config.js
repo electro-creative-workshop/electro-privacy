@@ -1,14 +1,16 @@
-const path = require("path");
+const path = require('path');
+const webpack = require('webpack');
 
-module.exports = (env, argv) => [
-  {
-    mode: "production",
+module.exports = {
+    mode: 'production',
     entry: {
-      main: ["./src/js/ot-dns-script-1.js", "./src/js/ot-dns-script-2.js"],
+        otDnsScript1: './src/js/ot-dns-script-1.js',
+        otDnsScript2: './src/js/ot-dns-script-2.js',
     },
     output: {
-      path: path.resolve(__dirname, "dist"),
-      filename: "electro-dns-privacy.js",
+        path: path.resolve(__dirname, 'dist'),
     },
-  },
-];
+    optimization: {
+        minimize: false,
+    },
+};
