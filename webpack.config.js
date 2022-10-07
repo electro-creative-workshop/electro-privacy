@@ -4,11 +4,11 @@ module.exports = (env, argv) => [
   {
     mode: "production",
     entry: {
-      main: path.resolve(__dirname, "src/js/search.js"),
+      main: ["./src/js/ot-dns-script-1.js", "./src/js/ot-dns-script-2.js"],
     },
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "clorox-search.js",
+      filename: "electro-dns-privacy.js",
     },
   },
 ];

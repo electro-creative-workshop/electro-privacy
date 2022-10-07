@@ -8,4 +8,4 @@ The goal with this code is to simplify the integration into the WordPress and Ne
 
 2. Load required JS & CSS from this package
 
-   - @import "../../node_modules/clorox-privacy/dist/electro-privacy";
+   - @import "../../node_modules/electro-privacy/dist/electro-privacy";

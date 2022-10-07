@@ -1,8 +1,8 @@
 {
-  "name": "clorox-privacy",
+  "name": "electro-privacy",
   "version": "1.0.0",
   "description": "Loads OneTrust Do Not Share JavaScript and CSS",
-  "main": "dist/clorox-privacy.js",
+  "main": "dist/electro-privacy.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/electro-creative-workshop/electro-privacy.git"
@@ -12,5 +12,15 @@
   "bugs": {
     "url": "https://github.com/electro-creative-workshop/electro-privacy/issues"
   },
-  "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme"
+  "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme",
+  "devDependencies": {
+    "sass": "^1.51.0",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
+  },
+  "scripts": {
+    "build": "npm run build:scss && npm run build:webpack",
+    "build:webpack": "webpack --progress --mode production",
+    "build:scss": "sass --no-source-map --style=compressed src/scss/privacy.scss dist/electro-privacy.css"
+  }
 }
