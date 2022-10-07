@@ -2,7 +2,7 @@
     "name": "electro-privacy",
     "version": "1.0.0",
     "description": "Loads OneTrust Do Not Share JavaScript and CSS",
-    "main": "dist/electro-privacy.js",
+    "main": "dist/otDnsScript1.js",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/electro-creative-workshop/electro-privacy.git"

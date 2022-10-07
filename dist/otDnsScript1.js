@@ -41,14 +41,7 @@ function OptanonWrapper() {
         dsIdSet = true;
     }
 
-    Optanon.InsertScript(
-        '/wp-content/themes/electro/js/build/onetrustdnsExternal.js',
-        'body',
-        null,
-        null,
-        'C0001',
-        true
-    );
+    Optanon.InsertScript('ot-dns-script-2.js', 'body', null, null, 'C0001', true);
 }
 
 /******/ })()
