@@ -8,6 +8,4 @@ The goal with this code is to simplify the integration into the WordPress and Ne
 
 2. Load required JS & CSS from this package
 
-   - import {initCloroxSearch} from 'clorox-search';
-
-   - @import "../../node_modules/clorox-search/dist/clorox-search";
+   - @import "../../node_modules/clorox-privacy/dist/clorox-privacy";
