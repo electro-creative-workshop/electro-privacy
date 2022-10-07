@@ -9,3 +9,7 @@ The goal with this code is to simplify the integration into the WordPress and Ne
 2. Load required JS & CSS from this package
 
    - @import "../../node_modules/electro-privacy/dist/electro-privacy";
+
+3. Add to your footer near the "Cookie Settings" button:
+
+- `<button id="do-not-share" onclick="OneTrust.ToggleInfoDisplay()">Do Not Share My Personal Information</button>`
