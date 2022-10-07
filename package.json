@@ -1,0 +1,16 @@
+{
+  "name": "clorox-privacy",
+  "version": "1.0.0",
+  "description": "Loads OneTrust Do Not Share JavaScript and CSS",
+  "main": "dist/clorox-privacy.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electro-creative-workshop/electro-privacy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/electro-creative-workshop/electro-privacy/issues"
+  },
+  "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme"
+}
