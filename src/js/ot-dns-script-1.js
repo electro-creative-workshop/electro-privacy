@@ -39,5 +39,5 @@ function OptanonWrapper() {
         dsIdSet = true;
     }
 
-    Optanon.InsertScript('ot-dns-script-2.js', 'body', null, null, 'C0001', true);
+    Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
