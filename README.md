@@ -2,6 +2,8 @@
 
 The goal with this code is to simplify the integration into the WordPress and NextJS sites.
 
+## WordPress Sites
+
 1. Add this package as a project dependency in package.json
 
     - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^1.0.0",`
@@ -19,10 +21,14 @@ The goal with this code is to simplify the integration into the WordPress and Ne
 
 4. In footer.scss, add the `#do-not-share` to the `#ot-sdk-btn` rule to style "Do Not Share My Personal Information" button the same way as "Cookie Settings". For example:
 
+    ```
     #ot-sdk-btn, #do-not-share {
-    margin-bottom: 1em;
-    padding: 0 !important;
-    font-size: 1em !important;
-    color: $color-white !important;
-    border: none !important;
+     margin-bottom: 1em;
+     padding: 0 !important;
+     font-size: 1em !important;
+     color: $color-white !important;
+     border: none !important;
     }
+    ```
+
+## NextJS sites:
