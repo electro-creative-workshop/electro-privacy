@@ -1,18 +1,18 @@
 # Clorox OneTrust Do Not Share Integration
 
-The goal with this code is to simplify the integration into the WordPress and NextJS sites.
+This code is to simplify the integration of the second OneTrust modal into WordPress and NextJS sites.
 
 ## WordPress Sites
 
-1. Add this package as a project dependency in package.json
+1. Add this package as a project dependency in `package.json`
 
     - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^1.0.0",`
 
 2. Load required JS & CSS from this package
 
-    - main.js:
+    - in `main.js`:
         - `import 'electro-privacy'`
-    - in scss/decoration/index.scss
+    - in `scss/decoration/index.scss`
         - `@import '../../../node_modules/electro-privacy/dist/electro-privacy';`
 
 3. Add to the footer near the "Cookie Settings" button:
@@ -33,17 +33,19 @@ The goal with this code is to simplify the integration into the WordPress and Ne
 
 ## NextJS sites:
 
-1. Add this package as a project dependency in package.json
+### Your NextJS site may differ slightly, but this is the general flavor of the changes
+
+1. Add this package as a project dependency in `package.json`
 
     - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^1.0.0",`
 
-2. in src/pages/\_app.js
+2. in `src/pages/\_app.js`
 
-    - import 'electro-privacy/dist/otDnsScript1.js'
+    - `import 'electro-privacy/dist/otDnsScript1.js'`
 
-3. in src/styles/global.scss
+3. in `src/styles/global.scss`
 
-    - @import '../../node_modules/electro-privacy/dist/electro-privacy';
+    - `@import '../../node_modules/electro-privacy/dist/electro-privacy';`
 
 4. Add near the "Cookie Settings" button:
 
