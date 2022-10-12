@@ -1,5 +1,5 @@
 let dsIdSet = false;
-function OptanonWrapper() {
+async function OptanonWrapper() {
     window.dataLayer.push({
         event: 'OneTrustGroupsUpdated',
         OneTrustActiveGroups: window.OnetrustActiveGroups,
@@ -37,7 +37,12 @@ function OptanonWrapper() {
         otDnsText.insertAdjacentHTML('afterend', dnsCustomText);
 
         dsIdSet = true;
+
+        // import 2nd js file
+        await import(/* webpackMode: "eager" */ './ot-dns-script-2');
     }
 
-    Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
+    // Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
+// make global
+window.OptanonWrapper = OptanonWrapper;
