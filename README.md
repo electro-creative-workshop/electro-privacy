@@ -10,8 +10,8 @@ The goal with this code is to simplify the integration into the WordPress and Ne
 
     - main.js:
         - `import 'electro-privacy'`
-    - footer.css
-    - `@import "../../node_modules/electro-privacy/dist/electro-privacy";`
+    - in scss/decoration/index.scss
+    - `@import '../../../node_modules/electro-privacy/dist/electro-privacy';`
 
 3. Add to your footer near the "Cookie Settings" button:
 
