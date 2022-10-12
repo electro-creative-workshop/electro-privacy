@@ -32,3 +32,33 @@ The goal with this code is to simplify the integration into the WordPress and Ne
     ```
 
 ## NextJS sites:
+
+1. Add this package as a project dependency in package.json
+
+    - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^1.0.0",`
+
+2. in src/pages/\_app.js
+
+    - import 'electro-privacy/dist/otDnsScript1.js'
+
+3. in src/styles/global.scss
+
+    - @import '../../node_modules/electro-privacy/dist/electro-privacy';
+
+4. Add near the "Cookie Settings" button:
+
+```
+    <button id="do-not-share">
+      Do Not Share My Personal Information
+    </button>
+```
+
+5. Add `#do-not-share` to the existing `#ot-sdk-btn` rule to style the "Do Not Share..." text:
+
+```
+#ot-sdk-btn,
+#do-not-share {
+  background: none !important;
+  border: none !important;
+  color: #133d8d !important;
+```
