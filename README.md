@@ -17,17 +17,12 @@ The goal with this code is to simplify the integration into the WordPress and Ne
 
     - `<button id="do-not-share" onclick="OneTrust.ToggleInfoDisplay()">Do Not Share My Personal Information</button>`
 
-4. In footer.scss, add the `#do-not-share` to the `#ot-sdk-btn` rule to style "Do Not Share My Personal Information" button the same way as "Cookie Settings".
+4. In footer.scss, add the `#do-not-share` to the `#ot-sdk-btn` rule to style "Do Not Share My Personal Information" button the same way as "Cookie Settings". For example:
 
-example:
-
-#ot-sdk-btn, #do-not-share {
-margin-bottom: 1em;
-padding: 0 !important;
-font-size: 1em !important;
-color: $color-white !important;
-border: none !important;
-&:hover {
-background: none !important;
-}
-}
+    #ot-sdk-btn, #do-not-share {
+    margin-bottom: 1em;
+    padding: 0 !important;
+    font-size: 1em !important;
+    color: $color-white !important;
+    border: none !important;
+    }
