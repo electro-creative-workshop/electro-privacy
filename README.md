@@ -41,7 +41,8 @@ This code is to simplify the integration of the second OneTrust modal into WordP
 
 2. in `src/pages/\_app.js`
 
-    - `import 'electro-privacy/dist/otDnsScript1.js'`
+    - `import { useEffect } from 'react'`
+    - in `export default function App({ Component, pageProps }) {` or something similar, add: - `useEffect(() => { import('electro-privacy'); }, [])`
 
 3. in `src/styles/global.scss`
 
@@ -50,9 +51,7 @@ This code is to simplify the integration of the second OneTrust modal into WordP
 4. Add near the "Cookie Settings" button:
 
 ```
-    <button id="do-not-share">
-      Do Not Share My Personal Information
-    </button>
+    <button id="do-not-share" onClick={() => OneTrust.ToggleInfoDisplay()}>
 ```
 
 5. Add `#do-not-share` to the existing `#ot-sdk-btn` rule to style the "Do Not Share..." text:
