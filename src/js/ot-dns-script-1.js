@@ -25,7 +25,7 @@ async function OptanonWrapper() {
         dnsCustomText +=
             'behavioral advertising cookies and trackers on this website toggle “Targeting / Advertising” cookies to “off” ';
         dnsCustomText +=
-            'and click “Save Settings.”   Note that your opt-out preference will be tracked via a cookie which, means ';
+            'and click “Save Settings.” Note that your opt-out preference will be tracked via a cookie which, means ';
         dnsCustomText +=
             'your selection is limited to the specific device and browser you are using during this visit to our website. ';
         dnsCustomText +=
