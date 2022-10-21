@@ -40,17 +40,17 @@ function validateEmail(email) {
 function inputValidation() {
     const emailInputValue = document.getElementById('ot-email').value;
     const textInput = document.getElementById('ot-email');
-    const confirmSubmit =
-        '<div id="ot-submit-text" style="display: inline; margin-left: 10px !important;">Successfully Submitted!</div>';
-    const otEmailSubmit = document.querySelectorAll('#ot-email-submit #submit')[0];
-
-    otEmailSubmit.insertAdjacentHTML('afterend', confirmSubmit);
 
     if (validateEmail(emailInputValue)) {
         console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
         submitPreferences();
         textInput.disabled = true;
         document.getElementById('submit').disabled = true;
+
+        const confirmSubmit =
+            '<div id="ot-submit-text" style="display: inline; margin-left: 10px !important;">Successfully Submitted!</div>';
+        const otEmailSubmit = document.querySelectorAll('#ot-email-submit #submit')[0];
+        otEmailSubmit.insertAdjacentHTML('afterend', confirmSubmit);
     } else {
         console.log(`function returned false; emailInputValue = ${emailInputValue}`);
         console.log('invalid email');

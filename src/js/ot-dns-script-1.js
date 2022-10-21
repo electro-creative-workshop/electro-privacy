@@ -14,7 +14,7 @@ async function OptanonWrapper() {
         otEmailHTML += ' if you visit from a different device or browser:';
         otEmailHTML += '<form id="ot-email-submit" onsubmit="return false;">';
         otEmailHTML += '<label for="ot-email">Email: ';
-        otEmailHTML += '<input type="email" id="ot-email" name="ot-email">';
+        otEmailHTML += '<input type="email" id="ot-email" name="ot-email" required>';
         otEmailHTML += '<input type="submit" id="submit" value="Submit">';
         otEmailHTML += '</label></form></div>';
 

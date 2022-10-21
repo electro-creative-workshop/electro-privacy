@@ -46,17 +46,17 @@ function validateEmail(email) {
 function inputValidation() {
     const emailInputValue = document.getElementById('ot-email').value;
     const textInput = document.getElementById('ot-email');
-    const confirmSubmit =
-        '<div id="ot-submit-text" style="display: inline; margin-left: 10px !important;">Successfully Submitted!</div>';
-    const otEmailSubmit = document.querySelectorAll('#ot-email-submit #submit')[0];
-
-    otEmailSubmit.insertAdjacentHTML('afterend', confirmSubmit);
 
     if (validateEmail(emailInputValue)) {
         console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
         submitPreferences();
         textInput.disabled = true;
         document.getElementById('submit').disabled = true;
+
+        const confirmSubmit =
+            '<div id="ot-submit-text" style="display: inline; margin-left: 10px !important;">Successfully Submitted!</div>';
+        const otEmailSubmit = document.querySelectorAll('#ot-email-submit #submit')[0];
+        otEmailSubmit.insertAdjacentHTML('afterend', confirmSubmit);
     } else {
         console.log(`function returned false; emailInputValue = ${emailInputValue}`);
         console.log('invalid email');
@@ -277,7 +277,7 @@ async function OptanonWrapper() {
         otEmailHTML += ' if you visit from a different device or browser:';
         otEmailHTML += '<form id="ot-email-submit" onsubmit="return false;">';
         otEmailHTML += '<label for="ot-email">Email: ';
-        otEmailHTML += '<input type="email" id="ot-email" name="ot-email">';
+        otEmailHTML += '<input type="email" id="ot-email" name="ot-email" required>';
         otEmailHTML += '<input type="submit" id="submit" value="Submit">';
         otEmailHTML += '</label></form></div>';
 
@@ -288,7 +288,7 @@ async function OptanonWrapper() {
         dnsCustomText +=
             'behavioral advertising cookies and trackers on this website toggle “Targeting / Advertising” cookies to “off” ';
         dnsCustomText +=
-            'and click “Save Settings.”   Note that your opt-out preference will be tracked via a cookie which, means ';
+            'and click “Save Settings.” Note that your opt-out preference will be tracked via a cookie which, means ';
         dnsCustomText +=
             'your selection is limited to the specific device and browser you are using during this visit to our website. ';
         dnsCustomText +=
