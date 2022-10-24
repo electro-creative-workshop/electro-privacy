@@ -28,11 +28,11 @@ function setPreferences(otDataSubjectId) {
 
 // set variable for Email Submit button
 const submitBtn = document.getElementById('submit');
+const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // email format validation
 function validateEmail(email) {
-    const re =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }
 
@@ -155,6 +155,10 @@ function hideDnsUI() {
 
 // adding click event listeners to email submit button in DNS UI and CTAs
 setTimeout(() => {
+    // add pattern to email input
+    document.getElementById('ot-email').pattern = re;
+    document.getElementById('ot-email').setCustomValidity('Please enter a valid email.');
+
     document.getElementById('submit').addEventListener('click', inputValidation);
     document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
     document.getElementById('accept-recommended-btn-handler').addEventListener('click', hideDnsUI);
