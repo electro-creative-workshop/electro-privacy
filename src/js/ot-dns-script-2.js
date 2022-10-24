@@ -161,8 +161,18 @@ setTimeout(() => {
 
     document.getElementById('submit').addEventListener('click', inputValidation);
     document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
+
+    // footer link
+    document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
+
+    // ot banner link
+    document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
+
+    /*
     document.getElementById('accept-recommended-btn-handler').addEventListener('click', hideDnsUI);
     document
         .querySelectorAll('.save-preference-btn-handler.onetrust-close-btn-handler')[0]
         .addEventListener('click', hideDnsUI);
+
+     */
 }, 200);
