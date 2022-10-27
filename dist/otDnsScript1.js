@@ -172,7 +172,9 @@ setTimeout(() => {
     document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
 
     // ot banner link
-    document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
+    if (document.getElementById('onetrust-pc-btn-handler')) {
+        document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
+    }
 
     /*
     document.getElementById('accept-recommended-btn-handler').addEventListener('click', hideDnsUI);
@@ -321,8 +323,15 @@ async function OptanonWrapper() {
 
     // Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
-// make global
-window.OptanonWrapper = OptanonWrapper;
+
+// has optanon already initialized
+if (!window['Optanon']) {
+    // make global
+    window.OptanonWrapper = OptanonWrapper;
+} else {
+    // already initialized
+    OptanonWrapper();
+}
 
 })();
 

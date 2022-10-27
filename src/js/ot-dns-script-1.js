@@ -44,5 +44,12 @@ async function OptanonWrapper() {
 
     // Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
-// make global
-window.OptanonWrapper = OptanonWrapper;
+
+// has optanon already initialized
+if (!window['Optanon']) {
+    // make global
+    window.OptanonWrapper = OptanonWrapper;
+} else {
+    // already initialized
+    OptanonWrapper();
+}
