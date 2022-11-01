@@ -278,7 +278,7 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 let dsIdSet = false;
-async function OptanonWrapper() {
+async function OptanonWrapperLocal() {
     window.dataLayer.push({
         event: 'OneTrustGroupsUpdated',
         OneTrustActiveGroups: window.OnetrustActiveGroups,
@@ -324,14 +324,19 @@ async function OptanonWrapper() {
     // Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
 
-// has optanon already initialized
-if (!window['Optanon']) {
-    // make global
-    window.OptanonWrapper = OptanonWrapper;
-} else {
-    // already initialized
-    OptanonWrapper();
+
+// removed global callback from ot library
+
+// wait for needed elements to be created in document
+// then do this init
+function checkBeforeInit() {
+    if (document.querySelectorAll('.ot-sdk-row.ot-cat-grp').length && document.getElementById('ot-pc-desc')) {
+        OptanonWrapperLocal();
+    } else {
+        setTimeout(checkBeforeInit, 100);
+    }
 }
+setTimeout(checkBeforeInit, 100);
 
 })();
 
