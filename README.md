@@ -6,7 +6,7 @@ This code is to simplify the integration of the second OneTrust modal into WordP
 
 1. Add this package as a project dependency in `package.json`
 
-    - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^1.1.1",`
+    - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x",`
     - Note: where ^1.x.x is the latest version. See https://github.com/electro-creative-workshop/electro-privacy/tags
 
 2. Load required JS & CSS from this package
@@ -38,7 +38,7 @@ This code is to simplify the integration of the second OneTrust modal into WordP
 
 1. Add this package as a project dependency in `package.json`
 
-    - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^1.0.0",`
+    - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x",`
 
 2. in `src/pages/\_app.js`
 
