@@ -7,3 +7,7 @@
 ## 1.1.2 Token Change
 
 -   Changed token per OneTrust
+
+## 1.1.3 Fixed Broken Token
+
+-   Token has to be in quotation marks
