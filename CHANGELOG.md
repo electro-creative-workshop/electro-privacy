@@ -2,11 +2,11 @@
 
 ## 1.1.1 Stable Version
 
--   Stable version that was approved by QA.
+-   Version that was approved by initial QA testing.
 
 ## 1.1.2 Token Change
 
--   Changed token per OneTrust
+-   Changed token after it was changed in the OneTrust dashboard.
 
 ## 1.1.3 Fixed Broken Token
 
