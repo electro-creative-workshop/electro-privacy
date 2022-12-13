@@ -26,8 +26,6 @@ function setPreferences(otDataSubjectId) {
     console.log(body);
 }
 
-// set variable for Email Submit button
-const submitBtn = document.getElementById('submit');
 const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -45,11 +43,11 @@ function inputValidation() {
         console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
         submitPreferences();
         textInput.disabled = true;
-        document.getElementById('submit').disabled = true;
+        document.getElementById('ot-dns-submit').disabled = true;
 
         const confirmSubmit =
             '<div id="ot-submit-text" style="display: inline; margin-left: 10px !important;">Successfully Submitted!</div>';
-        const otEmailSubmit = document.querySelectorAll('#ot-email-submit #submit')[0];
+        const otEmailSubmit = document.querySelectorAll('#ot-email-submit #ot-dns-submit')[0];
         otEmailSubmit.insertAdjacentHTML('afterend', confirmSubmit);
     } else {
         console.log(`function returned false; emailInputValue = ${emailInputValue}`);
@@ -159,7 +157,7 @@ setTimeout(() => {
     document.getElementById('ot-email').pattern = re;
     document.getElementById('ot-email').setCustomValidity('Please enter a valid email.');
 
-    document.getElementById('submit').addEventListener('click', inputValidation);
+    document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
     document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
 
     // footer link

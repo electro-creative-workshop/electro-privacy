@@ -15,3 +15,7 @@
 ## 1.1.4 Production Token
 
 -   Changed to production token/url/id (removing UAT information).
+
+## 1.1.5 Form submit button conflict
+
+- Changed id from submit to ot-dns-submit

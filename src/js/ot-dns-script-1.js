@@ -15,7 +15,7 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '<form id="ot-email-submit" onsubmit="return false;">';
         otEmailHTML += '<label for="ot-email">Email: ';
         otEmailHTML += '<input type="email" id="ot-email" name="ot-email" required>';
-        otEmailHTML += '<input type="submit" id="submit" value="Submit">';
+        otEmailHTML += '<input type="submit" id="ot-dns-submit" value="Submit">';
         otEmailHTML += '</label></form></div>';
 
         let dnsCustomText =
