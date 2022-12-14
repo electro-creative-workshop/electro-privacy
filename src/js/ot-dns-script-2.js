@@ -40,7 +40,7 @@ function inputValidation() {
     const textInput = document.getElementById('ot-email');
 
     if (validateEmail(emailInputValue)) {
-        console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
+        // console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
         submitPreferences();
         textInput.disabled = true;
         document.getElementById('ot-dns-submit').disabled = true;
