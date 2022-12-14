@@ -18,8 +18,13 @@
 
 ## 1.1.5 Form submit button conflict
 
-- Changed id from submit to ot-dns-submit
+-   Changed id from submit to ot-dns-submit
 
 ## 1.1.6 remove console.log
 
-- console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
+-   console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
+
+## 1.1.7 remove more console.log
+
+-   console.log(`function returned false; emailInputValue = ${emailInputValue}`);
+-   console.log('invalid email');

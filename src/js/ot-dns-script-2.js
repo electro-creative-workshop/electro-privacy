@@ -23,7 +23,7 @@ function setPreferences(otDataSubjectId) {
     xhr.open('POST', url);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(body);
-    console.log(body);
+    //console.log(body);
 }
 
 const re =
@@ -50,8 +50,8 @@ function inputValidation() {
         const otEmailSubmit = document.querySelectorAll('#ot-email-submit #ot-dns-submit')[0];
         otEmailSubmit.insertAdjacentHTML('afterend', confirmSubmit);
     } else {
-        console.log(`function returned false; emailInputValue = ${emailInputValue}`);
-        console.log('invalid email');
+        //console.log(`function returned false; emailInputValue = ${emailInputValue}`);
+        //console.log('invalid email');
     }
 }
 
