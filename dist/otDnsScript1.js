@@ -1,4 +1,4 @@
-/*! version: 1.1.5 */
+/*! version: 1.1.6 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
