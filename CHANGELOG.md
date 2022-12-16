@@ -28,3 +28,7 @@
 
 -   console.log(`function returned false; emailInputValue = ${emailInputValue}`);
 -   console.log('invalid email');
+
+## 1.1.8 Updated language
+
+- in DNS popup

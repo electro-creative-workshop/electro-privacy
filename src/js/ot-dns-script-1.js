@@ -8,28 +8,39 @@ async function OptanonWrapperLocal() {
     if (dsIdSet == false) {
         let otEmailHTML = '<div id="ot-email-text" style="display: none">';
         otEmailHTML +=
-            'To request that your personal information is not shared for these purposes outside of the cookie context,';
+            'You may have previously provided your email address to us. In some cases, we use email addresses or other ';
         otEmailHTML +=
-            ' we will need your email address. You will not need to provide us with your email address again';
-        otEmailHTML += ' if you visit from a different device or browser:';
+            'non-cookie personal information to deliver behavioral advertising to consumers on third party platforms like ';
+        otEmailHTML +=
+            'Facebook and Google. To request that your personal information is not shared for these purposes, please ';
+        otEmailHTML += 'enter your email address below:';
         otEmailHTML += '<form id="ot-email-submit" onsubmit="return false;">';
         otEmailHTML += '<label for="ot-email">Email: ';
         otEmailHTML += '<input type="email" id="ot-email" name="ot-email" required>';
         otEmailHTML += '<input type="submit" id="ot-dns-submit" value="Submit">';
-        otEmailHTML += '</label></form></div>';
+        otEmailHTML += '</label></form><br>';
+        otEmailHTML += 'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.';
+        otEmailHTML += '</div>';
 
         let dnsCustomText =
-            '<div id="dns-custom-text" style="display: none">Under some state laws you have the right to opt out of cross-context behavioral ';
+            '<div id="dns-custom-text" style="display: none">Under some state laws you have the right to opt out of the sharing of your information for cross-context ';
         dnsCustomText +=
-            'advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>To turn off the ';
+            'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>To turn off the ';
         dnsCustomText +=
-            'behavioral advertising cookies and trackers on this website toggle “Targeting / Advertising” cookies to “off” ';
+            'behavioral advertising cookies and trackers on this website, toggle “Targeting / Advertising ';
         dnsCustomText +=
-            'and click “Save Settings.” Note that your opt-out preference will be tracked via a cookie which, means ';
+            'Cookies” to “off” and click “Save Settings.” If the toggle is already set to “off” - you may have already updated ';
         dnsCustomText +=
-            'your selection is limited to the specific device and browser you are using during this visit to our website. ';
+            'your cookie settings, or the Global Privacy Control (“GPC”) signal may be enabled in your browser.';
         dnsCustomText +=
-            'If you visit this website from a different device or browser, or if you clear your cookies, you will need to opt out again.</div>';
+            '<br><br>';
+        dnsCustomText +=
+            'In most cases, your opt-out preference will be tracked via a cookie, which means your selection is limited to the ';
+        dnsCustomText +=
+            'specific device and browser you are using during this visit to our website. If you visit this website from a ';
+        dnsCustomText +=
+            'different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.';
+
         const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
         otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
 
