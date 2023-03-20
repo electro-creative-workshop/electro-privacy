@@ -66,9 +66,11 @@ This code is to simplify the integration of the second OneTrust modal into WordP
 ```
 
 ## UAT Values
-The current production version sends entries to the live OneTrust collection point. If you need to support UAT, you will need to change the following values:
+The current production version sends entries to the live OneTrust collection point by default. If you need to support UAT, set this variable before importing electro-privacy:
+
+window.electroPrivacyStaging = true;
+
+This will change the following values to the non-production values:
 - url
 - token
 - ID
-
-Please see an older version for this information: https://github.com/electro-creative-workshop/electro-privacy/blob/dbfcc69627b3f8da59cd0244ad1d17ffa91e032f/src/js/ot-dns-script-2.js
