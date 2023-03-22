@@ -32,3 +32,7 @@
 ## 1.1.8 Updated language
 
 - in DNS popup
+
+## 1.1.9 Support parameter on impoart path to use staging server
+
+ - if window.electroPrivacyStaging set to true before electro-privacy js is imported, the library will use staging parameters for backend submissions.
