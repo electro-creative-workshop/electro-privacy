@@ -31,8 +31,12 @@
 
 ## 1.1.8 Updated language
 
-- in DNS popup
+-   in DNS popup
 
-## 1.1.9 Support parameter on impoart path to use staging server
+## 1.1.9 Support parameter on import path to use staging server
 
- - if window.electroPrivacyStaging set to true before electro-privacy js is imported, the library will use staging parameters for backend submissions.
+-   if `window.electroPrivacyStaging` set to `true` before electro-privacy js is imported, the library will use staging parameters for backend submissions.
+
+## 1.2.0 Support parameter on impoart path to use staging server
+
+-   changed setTimeout to setInterval
