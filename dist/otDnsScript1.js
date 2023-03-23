@@ -1,4 +1,4 @@
-/*! version: 1.1.9 */
+/*! version: 1.2.0 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -170,30 +170,29 @@ function hideDnsUI() {
 }
 
 // adding click event listeners to email submit button in DNS UI and CTAs
-setTimeout(() => {
-    // add pattern to email input
-    document.getElementById('ot-email').pattern = re;
-    document.getElementById('ot-email').setCustomValidity('Please enter a valid email.');
+let domCheckInterval = setInterval(dnsCheck,100);
 
-    document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
-    document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
+function dnsCheck(){
+    if (document.getElementById('do-not-share') != null){
+        // add pattern to email input
+        document.getElementById('ot-email').pattern = re;
+        document.getElementById('ot-email').setCustomValidity('Please enter a valid email.');
 
-    // footer link
-    document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
+        document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
+        document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
 
-    // ot banner link
-    if (document.getElementById('onetrust-pc-btn-handler')) {
-        document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
+        // footer link
+        document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
+
+        // ot banner link
+        if (document.getElementById('onetrust-pc-btn-handler')) {
+            document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
+        }
+
+        clearInterval(domCheckInterval)
+        domCheckInterval = null;
     }
-
-    /*
-    document.getElementById('accept-recommended-btn-handler').addEventListener('click', hideDnsUI);
-    document
-        .querySelectorAll('.save-preference-btn-handler.onetrust-close-btn-handler')[0]
-        .addEventListener('click', hideDnsUI);
-
-     */
-}, 200);
+}
 
 
 /***/ })
