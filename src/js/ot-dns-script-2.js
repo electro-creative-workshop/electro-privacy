@@ -19,9 +19,7 @@ if (window.electroPrivacyStaging) {
     preferences = '"purposes": [{"Id": "9cb76b94-6766-4f51-8f4b-1f518acdd165","TransactionType": "WITHDRAWN"}]';
 }
 
-
 // Purpose Ids Assigned to Collection Point
-
 
 // make POST call to hit collection point
 function setPreferences(otDataSubjectId) {
@@ -104,7 +102,7 @@ function doNotShareUI() {
     const catDescription = document.getElementById('ot-desc-id-C0004');
     const pcTitle = document.getElementById('ot-pc-title');
 
-    pcTitle.textContent = 'Do Not Share My Personal Information';
+    pcTitle.textContent = 'Privacy Choices';
 
     stockText.style.display = 'none';
     dnsText.style.display = 'block';
@@ -163,10 +161,10 @@ function hideDnsUI() {
 }
 
 // adding click event listeners to email submit button in DNS UI and CTAs
-let domCheckInterval = setInterval(dnsCheck,100);
+let domCheckInterval = setInterval(dnsCheck, 100);
 
-function dnsCheck(){
-    if (document.getElementById('do-not-share') != null){
+function dnsCheck() {
+    if (document.getElementById('do-not-share') != null) {
         // add pattern to email input
         document.getElementById('ot-email').pattern = re;
         document.getElementById('ot-email').setCustomValidity('Please enter a valid email.');
@@ -182,7 +180,7 @@ function dnsCheck(){
             document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
         }
 
-        clearInterval(domCheckInterval)
+        clearInterval(domCheckInterval);
         domCheckInterval = null;
     }
 }

@@ -1,4 +1,4 @@
-/*! version: 1.2.0 */
+/*! version: 1.2.1 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -26,9 +26,7 @@ if (window.electroPrivacyStaging) {
     preferences = '"purposes": [{"Id": "9cb76b94-6766-4f51-8f4b-1f518acdd165","TransactionType": "WITHDRAWN"}]';
 }
 
-
 // Purpose Ids Assigned to Collection Point
-
 
 // make POST call to hit collection point
 function setPreferences(otDataSubjectId) {
@@ -111,7 +109,7 @@ function doNotShareUI() {
     const catDescription = document.getElementById('ot-desc-id-C0004');
     const pcTitle = document.getElementById('ot-pc-title');
 
-    pcTitle.textContent = 'Do Not Share My Personal Information';
+    pcTitle.textContent = 'Privacy Choices';
 
     stockText.style.display = 'none';
     dnsText.style.display = 'block';
@@ -170,10 +168,10 @@ function hideDnsUI() {
 }
 
 // adding click event listeners to email submit button in DNS UI and CTAs
-let domCheckInterval = setInterval(dnsCheck,100);
+let domCheckInterval = setInterval(dnsCheck, 100);
 
-function dnsCheck(){
-    if (document.getElementById('do-not-share') != null){
+function dnsCheck() {
+    if (document.getElementById('do-not-share') != null) {
         // add pattern to email input
         document.getElementById('ot-email').pattern = re;
         document.getElementById('ot-email').setCustomValidity('Please enter a valid email.');
@@ -189,7 +187,7 @@ function dnsCheck(){
             document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
         }
 
-        clearInterval(domCheckInterval)
+        clearInterval(domCheckInterval);
         domCheckInterval = null;
     }
 }
@@ -307,11 +305,13 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '<input type="email" id="ot-email" name="ot-email" required>';
         otEmailHTML += '<input type="submit" id="ot-dns-submit" value="Submit">';
         otEmailHTML += '</label></form><br>';
-        otEmailHTML += 'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.';
+        otEmailHTML +=
+            'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.';
         otEmailHTML += '</div>';
 
-        let dnsCustomText =
-            '<div id="dns-custom-text" style="display: none">Under some state laws you have the right to opt out of the sharing of your information for cross-context ';
+        let dnsCustomText = '<h2>Do Not Seel or Share for Targeted Advertising</h2>';
+        dnsCustomText +=
+            '<div id="dns-custom-text" style="display: none">Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
         dnsCustomText +=
             'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>To turn off the ';
         dnsCustomText +=
@@ -320,8 +320,7 @@ async function OptanonWrapperLocal() {
             'Cookies” to “off” and click “Save Settings.” If the toggle is already set to “off” - you may have already updated ';
         dnsCustomText +=
             'your cookie settings, or the Global Privacy Control (“GPC”) signal may be enabled in your browser.';
-        dnsCustomText +=
-            '<br><br>';
+        dnsCustomText += '<br><br>';
         dnsCustomText +=
             'In most cases, your opt-out preference will be tracked via a cookie, which means your selection is limited to the ';
         dnsCustomText +=
@@ -343,7 +342,6 @@ async function OptanonWrapperLocal() {
 
     // Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
-
 
 // removed global callback from ot library
 

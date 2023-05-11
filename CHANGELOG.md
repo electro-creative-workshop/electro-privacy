@@ -38,3 +38,5 @@
 -   if `window.electroPrivacyStaging` set to `true` before electro-privacy js is imported, the library will use staging parameters for backend submissions.
 
 ## 1.2.0 Changed setTimeout to setInterval
+
+## 1.2.1 Legal requested copy changes

@@ -19,11 +19,19 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '<input type="email" id="ot-email" name="ot-email" required>';
         otEmailHTML += '<input type="submit" id="ot-dns-submit" value="Submit">';
         otEmailHTML += '</label></form><br>';
-        otEmailHTML += 'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.';
+        otEmailHTML +=
+            'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.';
+        otEmailHTML += '<h2>Deletion, Access, Or Correction Requests</h2>';
+        otEmailHTML += 'If you are a U.S. consumer and would like to exercise other privacy rights,';
+        otEmailHTML +=
+            'such as a deletion, access, or correction request, please visit our <a href="//thecloroxcompany.com/">U.S. Data Subject Request</a> page.';
+        otEmailHTML +=
+            'If you are a consumer that resides outside the U.S., please visit the <a href="//thecloroxcompany.com/">International Data Subject Request</a> page.';
         otEmailHTML += '</div>';
 
-        let dnsCustomText =
-            '<div id="dns-custom-text" style="display: none">Under some state laws you have the right to opt out of the sharing of your information for cross-context ';
+        let dnsCustomText = '<h2>Do Not Seel or Share for Targeted Advertising</h2>';
+        dnsCustomText +=
+            '<div id="dns-custom-text" style="display: none">Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
         dnsCustomText +=
             'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>To turn off the ';
         dnsCustomText +=
@@ -32,8 +40,7 @@ async function OptanonWrapperLocal() {
             'Cookies” to “off” and click “Save Settings.” If the toggle is already set to “off” - you may have already updated ';
         dnsCustomText +=
             'your cookie settings, or the Global Privacy Control (“GPC”) signal may be enabled in your browser.';
-        dnsCustomText +=
-            '<br><br>';
+        dnsCustomText += '<br><br>';
         dnsCustomText +=
             'In most cases, your opt-out preference will be tracked via a cookie, which means your selection is limited to the ';
         dnsCustomText +=
@@ -55,7 +62,6 @@ async function OptanonWrapperLocal() {
 
     // Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
-
 
 // removed global callback from ot library
 
