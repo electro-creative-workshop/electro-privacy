@@ -307,12 +307,12 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '</label></form><br>';
         otEmailHTML +=
             'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.<br><br>';
-        otEmailHTML += '<h2>Deletion, Access, Or Correction Requests</h2>';
+        otEmailHTML += '<h3>Deletion, Access, Or Correction Requests</h3>';
         otEmailHTML += 'If you are a U.S. consumer and would like to exercise other privacy rights,';
         otEmailHTML +=
             'such as a deletion, access, or correction request, please visit our <a href="//thecloroxcompany.com/">U.S. Data Subject Request</a> page.';
         otEmailHTML +=
-            'If you are a consumer that resides outside the U.S., please visit the <a href="//www.thecloroxcompany.com/privacy/dsar/">International Data Subject Request</a> page.';
+            'If you are a consumer that resides outside the U.S., please visit the <a href="//thecloroxcompany.com/privacy/dsar/">International Data Subject Request</a> page.';
         otEmailHTML += '</div>';
 
         let dnsCustomText = '<h3>Do Not Sell or Share for Targeted Advertising</h3>';
