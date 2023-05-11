@@ -307,21 +307,32 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '</label></form><br>';
         otEmailHTML +=
             'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.<br><br>';
-        otEmailHTML += '<h3>Deletion, Access, Or Correction Requests</h3>';
+        otEmailHTML += '<h3 style="font-size: .875em;">Deletion, Access, Or Correction Requests</h3>';
         otEmailHTML += 'If you are a U.S. consumer and would like to exercise other privacy rights,';
         otEmailHTML +=
             'such as a deletion, access, or correction request, please visit our <a href="//thecloroxcompany.com/">U.S. Data Subject Request</a> page.';
         otEmailHTML +=
-            'If you are a consumer that resides outside the U.S., please visit the <a href="//thecloroxcompany.com/privacy/dsar/">International Data Subject Request</a> page.';
+            'If you are a consumer that resides outside the U.S., please visit the <a href="//thecloroxcompany.com/privacy/dsar/">International Data Subject Request</a> page.<br /><br />';
+        otEmailHTML +=
+            'For more information about additional privacy practices and choices available to you, please visit our <a href="//www.thecloroxcompany.com/privacy/">Privacy Policy</a>.';
         otEmailHTML += '</div>';
 
-        let dnsCustomText = '<h3>Do Not Sell or Share for Targeted Advertising</h3>';
+        let dnsCustomText = '<h3 style="font-size: .875em;">Do Not Sell or Share for Targeted Advertising</h3>';
         dnsCustomText +=
             '<div id="dns-custom-text" style="display: none">Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
         dnsCustomText +=
-            'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>To turn off the ';
+            'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>';
+
+        const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
+        otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
+
+        const otDnsText = document.getElementById('ot-pc-desc');
+        otDnsText.insertAdjacentHTML('afterend', dnsCustomText);
+
+        dsIdSet = true;
+
         dnsCustomText +=
-            'behavioral advertising cookies and trackers on this website, toggle “Targeting / Advertising ';
+            'To turn off the  behavioral advertising cookies and trackers on this website, toggle “Targeting / Advertising ';
         dnsCustomText +=
             'Cookies” to “off” and click “Save Settings.” If the toggle is already set to “off” - you may have already updated ';
         dnsCustomText +=
@@ -333,14 +344,8 @@ async function OptanonWrapperLocal() {
             'specific device and browser you are using during this visit to our website. If you visit this website from a ';
         dnsCustomText +=
             'different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.';
-
-        const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
-        otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
-
-        const otDnsText = document.getElementById('ot-pc-desc');
-        otDnsText.insertAdjacentHTML('afterend', dnsCustomText);
-
-        dsIdSet = true;
+        dnsCustomText +=
+            'If you would like to updated other cookie-related preferences visit our <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button> link';
 
         // import 2nd js file
         await Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 115, 23));
