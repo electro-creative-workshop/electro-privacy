@@ -292,6 +292,7 @@ async function OptanonWrapperLocal() {
 
     if (dsIdSet == false) {
         let otEmailHTML = '<div id="ot-email-text" style="display: none">';
+        otEmailHTML += '<h3>Behavioral Advertising Linked To Your Email Address:</h3>';
         otEmailHTML +=
             'You may have previously provided your email address to us. In some cases, we use email addresses or other ';
         otEmailHTML +=
