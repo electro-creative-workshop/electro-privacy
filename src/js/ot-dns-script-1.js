@@ -50,7 +50,7 @@ async function OptanonWrapperLocal() {
         dnsCustomText +=
             'different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.';
         dnsCustomText +=
-            'If you would like to updated other cookie-related preferences visit the Cookie Settings link in the footer of this webpage.';
+            'If you would like to updated other cookie-related preferences visit the "Cookie Settings" link in the footer of this webpage.';
 
         const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
         otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
