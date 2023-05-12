@@ -310,7 +310,7 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '<h3 style="font-size: inherit;">Deletion, Access, Or Correction Requests</h3>';
         otEmailHTML += 'If you are a U.S. consumer and would like to exercise other privacy rights,';
         otEmailHTML +=
-            'such as a deletion, access, or correction request, please visit our <a href="//thecloroxcompany.com/">U.S. Data Subject Request</a> page.';
+            'such as a deletion, access, or correction request, please visit our <a href="//thecloroxcompany.com/privacy">U.S. Data Subject Request</a> page.';
         otEmailHTML +=
             'If you are a consumer that resides outside the U.S., please visit the <a href="//thecloroxcompany.com/privacy/dsar/">International Data Subject Request</a> page.<br /><br />';
         otEmailHTML +=
@@ -318,7 +318,7 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '</div>';
 
         let dnsCustomText = '<div id="dns-custom-text" style="display: none">';
-        dnsCustomText += '<h3 style="font-size: .875em;">Do Not Sell or Share for Targeted Advertising</h3>';
+        dnsCustomText += '<h3 style="font-size: inherit;">Do Not Sell or Share for Targeted Advertising</h3>';
         dnsCustomText +=
             'Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
         dnsCustomText +=
