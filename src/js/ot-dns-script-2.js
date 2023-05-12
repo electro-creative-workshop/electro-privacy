@@ -143,8 +143,7 @@ function hideDnsUI() {
         const catDescription = document.getElementById('ot-desc-id-C0004');
         const pcTitle = document.getElementById('ot-pc-title');
 
-        pcTitle.textContent = 'Your Privacy';
-
+        pcTitle.style.textAlign = 'center';
         stockText.style.display = 'block';
         dnsText.style.display = 'none';
         paidMarketingText.style.display = 'none';

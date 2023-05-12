@@ -36,15 +36,6 @@ async function OptanonWrapperLocal() {
             '<div id="dns-custom-text" style="display: none">Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
         dnsCustomText +=
             'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>';
-
-        const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
-        otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
-
-        const otDnsText = document.getElementById('ot-pc-desc');
-        otDnsText.insertAdjacentHTML('afterend', dnsCustomText);
-
-        dsIdSet = true;
-
         dnsCustomText +=
             'To turn off the  behavioral advertising cookies and trackers on this website, toggle “Targeting / Advertising ';
         dnsCustomText +=
@@ -59,7 +50,15 @@ async function OptanonWrapperLocal() {
         dnsCustomText +=
             'different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.';
         dnsCustomText +=
-            'If you would like to updated other cookie-related preferences visit our <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button> link';
+            'If you would like to updated other cookie-related preferences visit the Cookie Settings link in the footer of this webpage.';
+
+        const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
+        otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
+
+        const otDnsText = document.getElementById('ot-pc-desc');
+        otDnsText.insertAdjacentHTML('afterend', dnsCustomText);
+
+        dsIdSet = true;
 
         // import 2nd js file
         await import(/* webpackMode: "eager" */ './ot-dns-script-2');
