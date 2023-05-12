@@ -335,6 +335,7 @@ async function OptanonWrapperLocal() {
             'specific device and browser you are using during this visit to our website. If you visit this website from a ';
         dnsCustomText +=
             'different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.';
+        dnsCustomText += '<br><br>';
         dnsCustomText +=
             'If you would like to updated other cookie-related preferences visit the "Cookie Settings" link in the footer of this webpage.';
 
