@@ -306,7 +306,7 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '</label></form><br>';
         otEmailHTML +=
             'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.<br><br>';
-        otEmailHTML += '<h3 style="font-size: .875em;">Deletion, Access, Or Correction Requests</h3>';
+        otEmailHTML += '<h3 style="font-size: inherit;">Deletion, Access, Or Correction Requests</h3>';
         otEmailHTML += 'If you are a U.S. consumer and would like to exercise other privacy rights,';
         otEmailHTML +=
             'such as a deletion, access, or correction request, please visit our <a href="//thecloroxcompany.com/">U.S. Data Subject Request</a> page.';
@@ -316,9 +316,10 @@ async function OptanonWrapperLocal() {
             'For more information about additional privacy practices and choices available to you, please visit our <a href="//www.thecloroxcompany.com/privacy/">Privacy Policy</a>.';
         otEmailHTML += '</div>';
 
-        let dnsCustomText = '<h3 style="font-size: .875em;">Do Not Sell or Share for Targeted Advertising</h3>';
+        let dnsCustomText = '<div id="dns-custom-text" style="display: none">';
         dnsCustomText +=
-            '<div id="dns-custom-text" style="display: none">Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
+            'Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
+        dnsCustomText += '<h3 style="font-size: .875em;">Do Not Sell or Share for Targeted Advertising</h3>';
         dnsCustomText +=
             'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>';
         dnsCustomText +=
