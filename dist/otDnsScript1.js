@@ -317,9 +317,9 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '</div>';
 
         let dnsCustomText = '<div id="dns-custom-text" style="display: none">';
+        dnsCustomText += '<h3 style="font-size: .875em;">Do Not Sell or Share for Targeted Advertising</h3>';
         dnsCustomText +=
             'Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
-        dnsCustomText += '<h3 style="font-size: .875em;">Do Not Sell or Share for Targeted Advertising</h3>';
         dnsCustomText +=
             'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>';
         dnsCustomText +=
