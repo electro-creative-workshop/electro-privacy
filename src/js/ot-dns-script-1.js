@@ -25,7 +25,7 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '<h3 style="font-size: inherit;">Deletion, Access, Or Correction Requests</h3>';
         otEmailHTML += 'If you are a U.S. consumer and would like to exercise other privacy rights,';
         otEmailHTML +=
-            'such as a deletion, access, or correction request, please visit our <a href="//thecloroxcompany.com/privacy">U.S. Data Subject Request</a> page.';
+            'such as a deletion, access, or correction request, please visit our <a href="//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23">U.S. Data Subject Request</a> page.';
         otEmailHTML +=
             'If you are a consumer that resides outside the U.S., please visit the <a href="//thecloroxcompany.com/privacy/dsar/">International Data Subject Request</a> page.<br /><br />';
         otEmailHTML +=
@@ -53,7 +53,7 @@ async function OptanonWrapperLocal() {
             'different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.';
         dnsCustomText += '<br><br>';
         dnsCustomText +=
-            'If you would like to updated other cookie-related preferences visit the "Cookie Settings" link in the footer of this webpage.';
+            'If you would like to update other cookie-related preferences visit the "Cookie Settings" link in the footer of this webpage.';
 
         const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
         otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
