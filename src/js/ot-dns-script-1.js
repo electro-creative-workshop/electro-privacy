@@ -22,18 +22,22 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '</label></form><br>';
         otEmailHTML +=
             'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.<br><br>';
+        otEmailHTML += '<hr />';
+
         otEmailHTML += '<h3 style="font-size: inherit;">Deletion, Access, Or Correction Requests</h3>';
+
+        otEmailHTML += '<br />';
         otEmailHTML += 'If you are a U.S. consumer and would like to exercise other privacy rights,';
         otEmailHTML +=
-            'such as a deletion, access, or correction request, please visit our <a href="//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23">U.S. Data Subject Request</a> page.';
-        otEmailHTML +=
-            'If you are a consumer that resides outside the U.S., please visit the <a href="//thecloroxcompany.com/privacy/dsar/">International Data Subject Request</a> page.<br /><br />';
+            'such as a deletion, access, or correction request, please visit our <a target="_blank" href="//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23">U.S. Data Subject Request</a> page.';
+        otEmailHTML += '<br /><br />';
         otEmailHTML +=
             'For more information about additional privacy practices and choices available to you, please visit our <a href="//www.thecloroxcompany.com/privacy/">Privacy Policy</a>.';
         otEmailHTML += '</div>';
 
         let dnsCustomText = '<div id="dns-custom-text" style="display: none">';
         dnsCustomText += '<h3 style="font-size: inherit;">Do Not Sell or Share for Targeted Advertising</h3>';
+        dnsCustomText += '<br />';
         dnsCustomText +=
             'Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
         dnsCustomText +=
