@@ -67,6 +67,13 @@ async function OptanonWrapperLocal() {
         const otDnsText = document.getElementById('ot-pc-desc');
         otDnsText.insertAdjacentHTML('afterend', dnsCustomText);
 
+        // show "on/off" text near the toggle
+        const toggleTextContainer = document.createElement('div');
+        toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
+        toggleTextContainer.setAttribute('style', 'display: flex; justify-content: flex-end; width: 100%;');
+        const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
+        insertAfterThis.append(toggleTextContainer);
+
         dsIdSet = true;
 
         // import 2nd js file

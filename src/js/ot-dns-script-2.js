@@ -95,21 +95,14 @@ function doNotShareUI() {
     const performanceCat = document.querySelectorAll("div.ot-cat-item[data-optanongroupid='C0002']")[0];
     const functionalCat = document.querySelectorAll("div.ot-cat-item[data-optanongroupid='C0003']")[0];
     const closeBtn = document.getElementById('close-pc-btn-handler');
-    const targetingToggle = document.querySelectorAll('#ot-group-id-C0004[checked]')[0];
     const paidMarketingText = document.getElementById('ot-email-text');
     const emailInput = document.getElementById('ot-email-submit');
     const pcCatTitle = document.getElementById('ot-category-title');
     const catDescription = document.getElementById('ot-desc-id-C0004');
     const pcTitle = document.getElementById('ot-pc-title');
-    const toggleTextContainer = document.createElement('div');
-
-    // show "on/off" text near the toggle
-    toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
-    toggleTextContainer.setAttribute('style', 'display: flex; justify-content: flex-end; width: 100%;');
-    const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
-    insertAfterThis.append(toggleTextContainer);
-
     pcTitle.textContent = 'Privacy Choices';
+
+    const toggleTextContainer = document.getElementById('ot-checkbox-status');
 
     stockText.style.display = 'none';
     dnsText.style.display = 'block';
@@ -122,17 +115,8 @@ function doNotShareUI() {
     pcCatTitle.style.display = 'none';
     catDescription.style.display = 'none';
 
-    // listen for styled checkbox state
-    targetingToggle.addEventListener('change', function () {
-        let checkBoxStatus;
-
-        if (this.checked) {
-            checkBoxStatus = 'On';
-        } else {
-            checkBoxStatus = 'Off';
-        }
-        toggleTextContainer.textContent = checkBoxStatus;
-    });
+    // make sure On/Off text is displayed properly
+    document.querySelectorAll('#ot-group-id-C0004')[0].dispatchEvent(new Event('change'))
 
     dnsUI = true;
 }
@@ -149,7 +133,6 @@ function hideDnsUI() {
         const performanceCat = document.querySelectorAll("div.ot-cat-item[data-optanongroupid='C0002']")[0];
         const functionalCat = document.querySelectorAll("div.ot-cat-item[data-optanongroupid='C0003']")[0];
         const closeBtn = document.getElementById('close-pc-btn-handler');
-        const targetingToggle = document.querySelectorAll('#ot-group-id-C0004[checked]')[0];
         const paidMarketingText = document.getElementById('ot-email-text');
         const emailInput = document.getElementById('ot-email-submit');
         const pcCatTitle = document.getElementById('ot-category-title');
@@ -157,7 +140,6 @@ function hideDnsUI() {
         const pcTitle = document.getElementById('ot-pc-title');
 
         const toggleTextContainer = document.getElementById('ot-checkbox-status');
-
         toggleTextContainer.style.display = 'none';
 
         pcTitle.style.textAlign = 'center';
@@ -178,7 +160,6 @@ function hideDnsUI() {
 
 // adding click event listeners to email submit button in DNS UI and CTAs
 let domCheckInterval = setInterval(dnsCheck, 100);
-
 function dnsCheck() {
     if (document.getElementById('do-not-share') != null) {
         // add pattern to email input
@@ -195,6 +176,21 @@ function dnsCheck() {
         if (document.getElementById('onetrust-pc-btn-handler')) {
             document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
         }
+
+        // ESC key handling to close
+        //  Needed with onetrust-banner-sdk changes in
+        //  v202304.1.0 - which can remove keyboard handler when cookies popup closes
+        document.addEventListener('keydown', function(e) {
+            if ('Escape' === e.code) {
+                // click dialog close button
+                document.getElementById('close-pc-btn-handler')?.click();
+            }
+        });
+
+        // listen for styled checkbox state
+        document.querySelectorAll('#ot-group-id-C0004')[0].addEventListener('change', function () {
+            document.getElementById('ot-checkbox-status').textContent = this.checked ? 'On' : 'Off';
+        });
 
         clearInterval(domCheckInterval);
         domCheckInterval = null;
