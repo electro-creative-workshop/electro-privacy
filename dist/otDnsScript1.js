@@ -108,6 +108,13 @@ function doNotShareUI() {
     const pcCatTitle = document.getElementById('ot-category-title');
     const catDescription = document.getElementById('ot-desc-id-C0004');
     const pcTitle = document.getElementById('ot-pc-title');
+    const toggleTextContainer = document.createElement('div');
+
+    // show "on/off" text near the toggle
+    toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
+    toggleTextContainer.setAttribute('style', 'display: flex; justify-content: flex-end; width: 100%;');
+    const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
+    insertAfterThis.append(toggleTextContainer);
 
     pcTitle.textContent = 'Privacy Choices';
 
@@ -122,11 +129,17 @@ function doNotShareUI() {
     pcCatTitle.style.display = 'none';
     catDescription.style.display = 'none';
 
-    if (targetingToggle) {
-        // targetingToggle.click();
-    } else {
-        // do nothing;
-    }
+    // listen for styled checkbox state
+    targetingToggle.addEventListener('change', function () {
+        let checkBoxStatus;
+
+        if (this.checked) {
+            checkBoxStatus = 'On';
+        } else {
+            checkBoxStatus = 'Off';
+        }
+        toggleTextContainer.textContent = checkBoxStatus;
+    });
 
     dnsUI = true;
 }
@@ -143,12 +156,16 @@ function hideDnsUI() {
         const performanceCat = document.querySelectorAll("div.ot-cat-item[data-optanongroupid='C0002']")[0];
         const functionalCat = document.querySelectorAll("div.ot-cat-item[data-optanongroupid='C0003']")[0];
         const closeBtn = document.getElementById('close-pc-btn-handler');
-        const targetingToggle = document.querySelectorAll('#ot-group-id-C0004[checked]')[0];
+        // const targetingToggle = document.querySelectorAll('#ot-group-id-C0004[checked]')[0];
         const paidMarketingText = document.getElementById('ot-email-text');
         const emailInput = document.getElementById('ot-email-submit');
         const pcCatTitle = document.getElementById('ot-category-title');
         const catDescription = document.getElementById('ot-desc-id-C0004');
         const pcTitle = document.getElementById('ot-pc-title');
+
+        const toggleTextContainer = document.getElementById('ot-checkbox-status');
+
+        toggleTextContainer.style.display = 'none';
 
         pcTitle.style.textAlign = 'center';
         stockText.style.display = 'block';
@@ -295,7 +312,6 @@ async function OptanonWrapperLocal() {
         otEmailHTML += '<div id="ot-email-text" style="display: none">';
         otEmailHTML += '<h3 style="font-size: inherit;">Behavioral Advertising Linked To Your Email Address:</h3>';
         otEmailHTML += '<br />';
-
         otEmailHTML +=
             'You may have previously provided your email address to us. In some cases, we use email addresses or other ';
         otEmailHTML +=
@@ -320,7 +336,7 @@ async function OptanonWrapperLocal() {
             'such as a deletion, access, or correction request, please visit our <a target="_blank" href="//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23">U.S. Data Subject Request</a> page.';
         otEmailHTML += '<br /><br />';
         otEmailHTML +=
-            'For more information about additional privacy practices and choices available to you, please visit our <a href="//www.thecloroxcompany.com/privacy/">Privacy Policy</a>.';
+            'For more information about additional privacy practices and choices available to you, please visit our <a target="_blank" href="//thecloroxcompany.com/privacy/">Privacy Policy</a>.';
         otEmailHTML += '</div>';
 
         let dnsCustomText = '<div id="dns-custom-text" style="display: none">';

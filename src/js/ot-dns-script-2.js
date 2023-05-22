@@ -101,6 +101,13 @@ function doNotShareUI() {
     const pcCatTitle = document.getElementById('ot-category-title');
     const catDescription = document.getElementById('ot-desc-id-C0004');
     const pcTitle = document.getElementById('ot-pc-title');
+    const toggleTextContainer = document.createElement('div');
+
+    // show "on/off" text near the toggle
+    toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
+    toggleTextContainer.setAttribute('style', 'display: flex; justify-content: flex-end; width: 100%;');
+    const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
+    insertAfterThis.append(toggleTextContainer);
 
     pcTitle.textContent = 'Privacy Choices';
 
@@ -115,11 +122,17 @@ function doNotShareUI() {
     pcCatTitle.style.display = 'none';
     catDescription.style.display = 'none';
 
-    if (targetingToggle) {
-        // targetingToggle.click();
-    } else {
-        // do nothing;
-    }
+    // listen for styled checkbox state
+    targetingToggle.addEventListener('change', function () {
+        let checkBoxStatus;
+
+        if (this.checked) {
+            checkBoxStatus = 'On';
+        } else {
+            checkBoxStatus = 'Off';
+        }
+        toggleTextContainer.textContent = checkBoxStatus;
+    });
 
     dnsUI = true;
 }
@@ -142,6 +155,10 @@ function hideDnsUI() {
         const pcCatTitle = document.getElementById('ot-category-title');
         const catDescription = document.getElementById('ot-desc-id-C0004');
         const pcTitle = document.getElementById('ot-pc-title');
+
+        const toggleTextContainer = document.getElementById('ot-checkbox-status');
+
+        toggleTextContainer.style.display = 'none';
 
         pcTitle.style.textAlign = 'center';
         stockText.style.display = 'block';

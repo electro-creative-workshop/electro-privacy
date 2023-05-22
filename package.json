@@ -21,9 +21,9 @@
     },
     "scripts": {
         "prettier": "prettier -w .",
-        "build": "npm run build:scss && npm run build:webpack",
         "build:webpack": "webpack --progress --config webpack.config.js",
-        "build:scss": "sass --no-source-map --style=compressed src/scss/privacy.scss dist/electro-privacy.css"
+        "build:scss": "sass --no-source-map --style=compressed src/scss/privacy.scss dist/electro-privacy.css",
+        "build": "npm run build:webpack && npm run build:scss"
     },
     "dependencies": {
         "webpack-version-file": "^0.1.7"
