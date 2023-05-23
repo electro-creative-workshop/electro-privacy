@@ -102,8 +102,6 @@ function doNotShareUI() {
     const pcTitle = document.getElementById('ot-pc-title');
     pcTitle.textContent = 'Privacy Choices';
 
-    const toggleTextContainer = document.getElementById('ot-checkbox-status');
-
     stockText.style.display = 'none';
     dnsText.style.display = 'block';
     paidMarketingText.style.display = 'block';
@@ -117,6 +115,7 @@ function doNotShareUI() {
 
     // make sure On/Off text is displayed properly
     document.querySelectorAll('#ot-group-id-C0004')[0].dispatchEvent(new Event('change'))
+    document.getElementById('ot-checkbox-status').style.display = '';
 
     dnsUI = true;
 }

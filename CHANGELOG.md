@@ -44,3 +44,6 @@
 ## 1.2.2 Bug Fixes
  - Fix for Escape key not closing DNS popup (caused by onetrust-banner-sdk changes) - add our own keydown handler
  - Fix some errors with the Display of on/off text in DNS popup for Targeting/Advertising Cookies in addition to slider
+
+## 1.2.3 Bug Fixes
+  - Fix display of on/off text when switching between popups
