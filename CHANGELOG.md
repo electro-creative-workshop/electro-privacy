@@ -47,3 +47,6 @@
 
 ## 1.2.3 Bug Fixes
   - Fix display of on/off text when switching between popups
+
+## 1.2.4 Bug Fixes
+- Add display=flex when showing on/off text

@@ -1,4 +1,4 @@
-/*! version: 1.2.3 */
+/*! version: 1.2.4 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -122,7 +122,7 @@ function doNotShareUI() {
 
     // make sure On/Off text is displayed properly
     document.querySelectorAll('#ot-group-id-C0004')[0].dispatchEvent(new Event('change'))
-    document.getElementById('ot-checkbox-status').style.display = '';
+    document.getElementById('ot-checkbox-status').style.display = 'flex';
 
     dnsUI = true;
 }
