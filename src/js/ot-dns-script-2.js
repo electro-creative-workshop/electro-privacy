@@ -182,7 +182,10 @@ function dnsCheck() {
         document.addEventListener('keydown', function(e) {
             if ('Escape' === e.code) {
                 // click dialog close button
-                document.getElementById('close-pc-btn-handler')?.click();
+                const close = document.getElementById('close-pc-btn-handler');
+                if (close) {
+                    close.click();
+                }
             }
         });
 

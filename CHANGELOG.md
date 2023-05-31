@@ -50,3 +50,6 @@
 
 ## 1.2.4 Bug Fixes
 - Add display=flex when showing on/off text
+
+## 1.2.5 Remove optional chaining operator (.?)
+- Not all sites support it
