@@ -53,3 +53,6 @@
 
 ## 1.2.5 Remove optional chaining operator (.?)
 - Not all sites support it
+
+## 1.2.6 Detect non production systems for testing
+- Use UAT backend for urls that match non-production
