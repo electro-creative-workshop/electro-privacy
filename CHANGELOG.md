@@ -56,3 +56,7 @@
 
 ## 1.2.6 Detect non production systems for testing
 - Use UAT backend for urls that match non-production
+
+## 1.2.7 Fix regex pattern console error
+- HTML pattern attribute change to use regex v flag (needs more chars escaped in character classes)
+- https://groups.google.com/a/chromium.org/g/blink-dev/c/gIyvMw0n2qw
