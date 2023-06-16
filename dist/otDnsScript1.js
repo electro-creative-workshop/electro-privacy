@@ -1,13 +1,94 @@
-/*! version: 1.2.7 */
+/*! version: 1.3.0 */
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 115:
-/***/ (() => {
+/***/ 401:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "_": () => (/* binding */ getLanguageString)
+/* harmony export */ });
+/**
+ * support for handling langs
+ */
+
+
+let stringMap = {
+    emailTextBlock: 'You may have previously provided your email address to us. In some cases, we use email addresses or other non-cookie personal information to deliver behavioral advertising to consumers on third party platforms like Facebook and Google. To request that your personal information is not shared for these purposes, please enter your email address below:',
+
+    deletionTextBlock1: 'If you are a U.S. consumer and would like to exercise other privacy rights, '
+        + 'such as a deletion, access, or correction request, '
+        + 'please visit our <a target="_blank" href="//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23">U.S. Data Subject Request</a> page.',
+    deletionTextBlock2: 'For more information about additional privacy practices and choices available to you, please visit our '
+        + '<a target="_blank" href="//thecloroxcompany.com/privacy/">Privacy Policy</a>.',
+
+    targetedAdsTextBlock: 'Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context '
+        + 'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).'
+        + '<br><br>'
+        + 'To turn off the  behavioral advertising cookies and trackers on this website, toggle “Targeting / Advertising '
+        + 'Cookies” to “off” and click “Save Settings.” If the toggle is already set to “off” - you may have already updated '
+        + 'your cookie settings, or the Global Privacy Control (“GPC”) signal may be enabled in your browser.'
+        + '<br><br>'
+        + 'In most cases, your opt-out preference will be tracked via a cookie, which means your selection is limited to the '
+        + 'specific device and browser you are using during this visit to our website. If you visit this website from a '
+        + 'different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.'
+        + '<br><br>'
+        + 'If you would like to update other cookie-related preferences visit the "Cookie Settings" link in the footer of this webpage.',
+};
+
+const testList = [
+    'espanol',
+    'lndo.site/es/',
+];
+const url = location.hostname + location.pathname;
+if (testList.some(testString => url.includes(testString))) {
+    // use Espanol
+    stringMap['Privacy Choices'] = 'ivacypray oiceschay';
+
+    stringMap['Behavioral Advertising Linked To Your Email Address:'] = 'ehavioralbay advertisingyay inkedlay otay ouryay emailyay address:';
+    stringMap['emailTextBlock'] = 'ouyay aymay avehay eviouslypray ovidedpray ouryay emailyay addressyay otay usyay . inyay omesay asescay , eway useyay emailyay addressesyay oryay otheryay on-cookienay ersonalpay informationyay otay eliverday ehavioralbay advertisingyay otay onsumerscay onyay irdthay artypay atformsplay ikelay acebookfay andyay ooglegay . otay equestray atthay ouryay ersonalpay informationyay isyay otnay aredshay orfay esethay urposespay , easeplay enteryay ouryay emailyay addressyay below:';
+    stringMap['Email:'] = 'Correo electrónico:';
+    stringMap['Submit'] = 'Entregar';
+    stringMap['Once you have made all of your elections, click “Save Settings” to save your settings and close the window.'] =
+        'onceyay ouyay avehay ademay allyay ofyay ouryay electionsyay , ickclay “save settings” otay avesay ouryay ettingssay andyay oseclay ethay indowway.';
+
+    stringMap['Deletion, Access, Or Correction Requests'] = 'eletionday , accessyay , oryay orrectioncay equestsray';
+    stringMap['deletionTextBlock1'] = 'ifyay ouyay areyay ayay U.S> onsumercay andyay ouldway ikelay otay exerciseyay otheryay ivacypray ightsray , uchsay asyay ayay eletionday , accessyay , oryay orrectioncay equestray , easeplay isitvay our '
+        + '<a target="_blank" href="//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23">U.S. ataday ubjectsay equestray agepay.</a> page.',
+    stringMap['deletionTextBlock2'] = 'orfay oremay informationyay aboutyay additionalyay ivacypray acticespray andyay oiceschay availableyay otay ouyay , easeplay isitvay ouryay'
+        + '<a target="_blank" href="//thecloroxcompany.com/privacy/es-privacy/">ivacypray olicypay</a>.',
+
+    stringMap['Do Not Sell or Share for Targeted Advertising'] = 'oday otnay ellsay oryay areshay orfay argetedtay advertisingyay';
+    stringMap['targetedAdsTextBlock'] = 'underyay omesay atestay awslay ouyay avehay ethay ightray otay optyay outyay ofyay ethay ellingsay oryay aringshay ofyay ouryay informationyay orfay oss-contextcray ehavioralbay advertisingyay and/or ertaincay estypay ofyay argetedtay advertisingyay (“behavioral advertising”).'
+        + '<br><br>'
+        + 'otay urntay offyay ethay ehavioralbay advertisingyay ookiescay andyay ackerstray onyay isthay ebsiteway , oggletay “targeting / advertisingyay cookies” otay “off” andyay ickclay “save ettingssay . ” ifyay ethay oggletay isyay alreadyyay etsay otay “off” - ouyay aymay avehay alreadyyay updatedyay ouryay ookiecay ettingssay , oryay ethay obalglay ivacypray ontrolcay (“gpc”) ignalsay aymay ebay enabledyay inyay ouryay owserbray.'
+        + '<br><br>'
+        + 'inyay ostmay asescay , ouryay opt-outyay eferencepray illway ebay ackedtray iavay ayay ookiecay , ichwhay eansmay ouryay electionsay isyay imitedlay otay ethay ecificspay eviceday andyay owserbray ouyay areyay usingyay uringday isthay isitvay otay ouryay ebsiteway . ifyay ouyay isitvay isthay ebsiteway omfray ayay ifferentday eviceday oryay owserbray , angechay ouryay owserbray ettingssay , oryay ifyay ouyay earclay ouryay ookiescay , ouyay aymay eednay otay optyay outyay againyay.'
+        + '<br><br>'
+        + 'Iifyay ouyay ouldway ikelay otay updateyay otheryay ookie-relatedcay eferencespray isitvay ethay "cookie settings" inklay inyay ethay ooterfay ofyay isthay ebpageway.';
+}
+
+function getLanguageString(strName)
+{
+    if (stringMap[strName]) {
+        return stringMap[strName];
+    }
+    return strName;
+}
+
+
+/***/ }),
+
+/***/ 115:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _language_support__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(401);
 // / /////////////////////////////////////////////
 //  Do Not Share script part two
 // / /////////////////////////////////////////////
+
 
 // Define variables
 let otDataSubjectId;
@@ -125,7 +206,7 @@ function doNotShareUI() {
     const pcCatTitle = document.getElementById('ot-category-title');
     const catDescription = document.getElementById('ot-desc-id-C0004');
     const pcTitle = document.getElementById('ot-pc-title');
-    pcTitle.textContent = 'Privacy Choices';
+    pcTitle.textContent = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Privacy Choices');
 
     stockText.style.display = 'none';
     dnsText.style.display = 'block';
@@ -254,36 +335,6 @@ function dnsCheck() {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/create fake namespace object */
-/******/ 	(() => {
-/******/ 		var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
-/******/ 		var leafPrototypes;
-/******/ 		// create a fake namespace object
-/******/ 		// mode & 1: value is a module id, require it
-/******/ 		// mode & 2: merge all properties of value into the ns
-/******/ 		// mode & 4: return value when already ns object
-/******/ 		// mode & 16: return value when it's Promise-like
-/******/ 		// mode & 8|1: behave like require
-/******/ 		__webpack_require__.t = function(value, mode) {
-/******/ 			if(mode & 1) value = this(value);
-/******/ 			if(mode & 8) return value;
-/******/ 			if(typeof value === 'object' && value) {
-/******/ 				if((mode & 4) && value.__esModule) return value;
-/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
-/******/ 			}
-/******/ 			var ns = Object.create(null);
-/******/ 			__webpack_require__.r(ns);
-/******/ 			var def = {};
-/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
-/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
-/******/ 				Object.getOwnPropertyNames(current).forEach((key) => (def[key] = () => (value[key])));
-/******/ 			}
-/******/ 			def['default'] = () => (value);
-/******/ 			__webpack_require__.d(ns, def);
-/******/ 			return ns;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -316,6 +367,11 @@ function dnsCheck() {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
+/* harmony import */ var _language_support__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(401);
+// load language support & determine lang based on url
+
+
+
 let dsIdSet = false;
 async function OptanonWrapperLocal() {
     window.dataLayer.push({
@@ -324,60 +380,42 @@ async function OptanonWrapperLocal() {
     });
 
     if (dsIdSet == false) {
+        const emailTitle = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Behavioral Advertising Linked To Your Email Address:');
+        const emailBlock = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('emailTextBlock');
+        const emailLabel = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Email:');
+        const submit = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Submit');
+        const emailInstructions = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Once you have made all of your elections, click “Save Settings” to save your settings and close the window.');
+
         let otEmailHTML = '<hr />';
         otEmailHTML += '<div id="ot-email-text" style="display: none">';
-        otEmailHTML += '<h3 style="font-size: inherit;">Behavioral Advertising Linked To Your Email Address:</h3>';
+        otEmailHTML += `<h3 style="font-size: inherit;">${emailTitle}</h3>`;
         otEmailHTML += '<br />';
-        otEmailHTML +=
-            'You may have previously provided your email address to us. In some cases, we use email addresses or other ';
-        otEmailHTML +=
-            'non-cookie personal information to deliver behavioral advertising to consumers on third party platforms like ';
-        otEmailHTML +=
-            'Facebook and Google. To request that your personal information is not shared for these purposes, please ';
-        otEmailHTML += 'enter your email address below:';
+        otEmailHTML += emailBlock;
         otEmailHTML += '<form id="ot-email-submit" onsubmit="return false;">';
-        otEmailHTML += '<label for="ot-email">Email: ';
+        otEmailHTML += `<label for="ot-email">${emailLabel} `;
         otEmailHTML += '<input type="email" id="ot-email" name="ot-email" required>';
-        otEmailHTML += '<input type="submit" id="ot-dns-submit" value="Submit">';
+        otEmailHTML += `<input type="submit" id="ot-dns-submit" value="${submit}">`;
         otEmailHTML += '</label></form><br>';
-        otEmailHTML +=
-            'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.<br><br>';
+        otEmailHTML += emailInstructions + '<br><br>';
         otEmailHTML += '<hr />';
 
-        otEmailHTML += '<h3 style="font-size: inherit;">Deletion, Access, Or Correction Requests</h3>';
+        const deletionRequests = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Deletion, Access, Or Correction Requests');
+        const deletionTextBlock1 = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('deletionTextBlock1');
+        const deletionTextBlock2 = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('deletionTextBlock2');
+        otEmailHTML += `<h3 style="font-size: inherit;">${deletionRequests}</h3>`;
 
         otEmailHTML += '<br />';
-        otEmailHTML += 'If you are a U.S. consumer and would like to exercise other privacy rights,';
-        otEmailHTML +=
-            'such as a deletion, access, or correction request, please visit our <a target="_blank" href="//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23">U.S. Data Subject Request</a> page.';
+        otEmailHTML += deletionTextBlock1;
         otEmailHTML += '<br /><br />';
-        otEmailHTML +=
-            'For more information about additional privacy practices and choices available to you, please visit our <a target="_blank" href="//thecloroxcompany.com/privacy/">Privacy Policy</a>.';
+        otEmailHTML += deletionTextBlock2;
         otEmailHTML += '</div>';
 
+        const targetedAdsTitle = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Do Not Sell or Share for Targeted Advertising');
+        const targetedAdsTextBlock = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('targetedAdsTextBlock');
         let dnsCustomText = '<div id="dns-custom-text" style="display: none">';
-        dnsCustomText += '<h3 style="font-size: inherit;">Do Not Sell or Share for Targeted Advertising</h3>';
+        dnsCustomText += `<h3 style="font-size: inherit;">${targetedAdsTitle}</h3>`;
         dnsCustomText += '<br />';
-        dnsCustomText +=
-            'Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context ';
-        dnsCustomText +=
-            'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>';
-        dnsCustomText +=
-            'To turn off the  behavioral advertising cookies and trackers on this website, toggle “Targeting / Advertising ';
-        dnsCustomText +=
-            'Cookies” to “off” and click “Save Settings.” If the toggle is already set to “off” - you may have already updated ';
-        dnsCustomText +=
-            'your cookie settings, or the Global Privacy Control (“GPC”) signal may be enabled in your browser.';
-        dnsCustomText += '<br><br>';
-        dnsCustomText +=
-            'In most cases, your opt-out preference will be tracked via a cookie, which means your selection is limited to the ';
-        dnsCustomText +=
-            'specific device and browser you are using during this visit to our website. If you visit this website from a ';
-        dnsCustomText +=
-            'different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.';
-        dnsCustomText += '<br><br>';
-        dnsCustomText +=
-            'If you would like to update other cookie-related preferences visit the "Cookie Settings" link in the footer of this webpage.';
+        dnsCustomText += targetedAdsTextBlock;
 
         const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
         otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
@@ -395,11 +433,14 @@ async function OptanonWrapperLocal() {
         dsIdSet = true;
 
         // import 2nd js file
-        await Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 115, 23));
+        await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 115));
     }
 
     // Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
+
+
+
 
 // removed global callback from ot library
 
