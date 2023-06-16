@@ -1,6 +1,7 @@
 // / /////////////////////////////////////////////
 //  Do Not Share script part two
 // / /////////////////////////////////////////////
+import {getLanguageString} from "./language-support";
 
 // Define variables
 let otDataSubjectId;
@@ -118,7 +119,7 @@ function doNotShareUI() {
     const pcCatTitle = document.getElementById('ot-category-title');
     const catDescription = document.getElementById('ot-desc-id-C0004');
     const pcTitle = document.getElementById('ot-pc-title');
-    pcTitle.textContent = 'Privacy Choices';
+    pcTitle.textContent = getLanguageString('Privacy Choices');
 
     stockText.style.display = 'none';
     dnsText.style.display = 'block';
