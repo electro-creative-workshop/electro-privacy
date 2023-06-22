@@ -46,6 +46,10 @@ if (testList.some(testString => url.includes(testString))) {
     // use Espanol
     stringMap['Privacy Choices'] = 'ivacypray oiceschay';
 
+    stringMap['Please enter a valid email.'] = 'easeplay enteryay ayay alidvay emailyay';
+    stringMap['On'] = 'Onyay';
+    stringMap['Off'] = 'Offyay';
+
     stringMap['Behavioral Advertising Linked To Your Email Address:'] = 'ehavioralbay advertisingyay inkedlay otay ouryay emailyay address:';
     stringMap['emailTextBlock'] = 'ouyay aymay avehay eviouslypray ovidedpray ouryay emailyay addressyay otay usyay . inyay omesay asescay , eway useyay emailyay addressesyay oryay otheryay on-cookienay ersonalpay informationyay otay eliverday ehavioralbay advertisingyay otay onsumerscay onyay irdthay artypay atformsplay ikelay acebookfay andyay ooglegay . otay equestray atthay ouryay ersonalpay informationyay isyay otnay aredshay orfay esethay urposespay , easeplay enteryay ouryay emailyay addressyay below:';
     stringMap['Email:'] = 'Correo electrónico:';
@@ -269,7 +273,7 @@ function dnsCheck() {
     if (document.getElementById('do-not-share') != null) {
         // add pattern to email input
         document.getElementById('ot-email').pattern = re;
-        document.getElementById('ot-email').setCustomValidity('Please enter a valid email.');
+        document.getElementById('ot-email').setCustomValidity((0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Please enter a valid email.'));
 
         document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
         document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
@@ -297,7 +301,7 @@ function dnsCheck() {
 
         // listen for styled checkbox state
         document.querySelectorAll('#ot-group-id-C0004')[0].addEventListener('change', function () {
-            document.getElementById('ot-checkbox-status').textContent = this.checked ? 'On' : 'Off';
+            document.getElementById('ot-checkbox-status').textContent = this.checked ? (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('On') : (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Off');
         });
 
         clearInterval(domCheckInterval);
