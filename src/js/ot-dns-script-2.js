@@ -182,7 +182,7 @@ function dnsCheck() {
     if (document.getElementById('do-not-share') != null) {
         // add pattern to email input
         document.getElementById('ot-email').pattern = re;
-        document.getElementById('ot-email').setCustomValidity('Please enter a valid email.');
+        document.getElementById('ot-email').setCustomValidity(getLanguageString('Please enter a valid email.'));
 
         document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
         document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
@@ -210,7 +210,7 @@ function dnsCheck() {
 
         // listen for styled checkbox state
         document.querySelectorAll('#ot-group-id-C0004')[0].addEventListener('change', function () {
-            document.getElementById('ot-checkbox-status').textContent = this.checked ? 'On' : 'Off';
+            document.getElementById('ot-checkbox-status').textContent = this.checked ? getLanguageString('On') : getLanguageString('Off');
         });
 
         clearInterval(domCheckInterval);
