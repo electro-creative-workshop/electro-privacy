@@ -1,4 +1,4 @@
-# Clorox OneTrust "Your Privacy Options" Integration
+# Clorox OneTrust "Your Privacy Choices" Integration
 
 This code is to simplify the integration of the second OneTrust modal into WordPress and NextJS sites.
 
@@ -18,7 +18,7 @@ This code is to simplify the integration of the second OneTrust modal into WordP
 
 3. Add to the footer near the "Cookie Settings" button:
 
-    - `<button id="do-not-share" onclick="OneTrust.ToggleInfoDisplay()">Your Privacy Options</button>`
+    - `<button id="do-not-share" onclick="OneTrust.ToggleInfoDisplay()">Your Privacy Choices</button>`
     - Add the "opt out" icon here next to the text: https://oag.ca.gov/privacy/ccpa/icons-download
 
 4. In footer.scss, add the `#do-not-share` to the `#ot-sdk-btn` rule to style "Your Privacy Choices" button the same way as "Cookie Settings". For example:
