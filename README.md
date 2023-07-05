@@ -21,7 +21,7 @@ This code is to simplify the integration of the second OneTrust modal into WordP
     - `<button id="do-not-share" onclick="OneTrust.ToggleInfoDisplay()">Your Privacy Options</button>`
     - Add the "opt out" icon here next to the text: https://oag.ca.gov/privacy/ccpa/icons-download
 
-4. In footer.scss, add the `#do-not-share` to the `#ot-sdk-btn` rule to style "Your Privacy Options" button the same way as "Cookie Settings". For example:
+4. In footer.scss, add the `#do-not-share` to the `#ot-sdk-btn` rule to style "Your Privacy Choices" button the same way as "Cookie Settings". For example:
 
     ```
     #ot-sdk-btn, #do-not-share {
