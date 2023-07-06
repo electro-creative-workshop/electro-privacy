@@ -77,3 +77,25 @@ This will change the following values to the non-production values:
 -   url
 -   token
 -   ID
+
+
+## Language Support
+
+The default implementation supports English & Spanish based on the lang attribute in the html tag:
+
+    <html lang="es-US">
+
+Other languages will be supported as needed, but the using site will need to load the appropriate strings into a global array used by electro-privacy:
+
+    /**
+    * Add language support to electro-privacy module
+    *   This code needs to be executed before importing
+        electro-privacy
+    */
+
+    window.ElectroPrivacyLanguageMap = {
+    'zz-US': require('../../..
+      /node_modules/electro-privacy/dist/lang/zz-US.json'),
+    };
+
+NOE: This needs to be setup before electro-privacy is included by the client. The mapping needs to the lang value for the html tag for the site.

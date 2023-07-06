@@ -11,66 +11,34 @@
 /* harmony export */ });
 /**
  * support for handling langs
+ *   English & Spanish by default
+ *   Others need to be setup by client in window.ElectroPrivacyLanguageMap
  */
 
+const englishMap = __webpack_require__(752);
+const spanishMap = __webpack_require__(984);
 
-let stringMap = {
-    emailTextBlock: 'You may have previously provided your email address to us. In some cases, we use email addresses or other non-cookie personal information to deliver behavioral advertising to consumers on third party platforms like Facebook and Google. To request that your personal information is not shared for these purposes, please enter your email address below:',
-
-    deletionTextBlock1: 'If you are a U.S. consumer and would like to exercise other privacy rights, '
-        + 'such as a deletion, access, or correction request, '
-        + 'please visit our <a target="_blank" href="//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23">U.S. Data Subject Request</a> page.',
-    deletionTextBlock2: 'For more information about additional privacy practices and choices available to you, please visit our '
-        + '<a target="_blank" href="//thecloroxcompany.com/privacy/">Privacy Policy</a>.',
-
-    targetedAdsTextBlock: 'Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context '
-        + 'behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).'
-        + '<br><br>'
-        + 'To turn off the  behavioral advertising cookies and trackers on this website, toggle “Targeting / Advertising '
-        + 'Cookies” to “off” and click “Save Settings.” If the toggle is already set to “off” - you may have already updated '
-        + 'your cookie settings, or the Global Privacy Control (“GPC”) signal may be enabled in your browser.'
-        + '<br><br>'
-        + 'In most cases, your opt-out preference will be tracked via a cookie, which means your selection is limited to the '
-        + 'specific device and browser you are using during this visit to our website. If you visit this website from a '
-        + 'different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.'
-        + '<br><br>'
-        + 'If you would like to update other cookie-related preferences visit the "Cookie Settings" link in the footer of this webpage.',
+window.ElectroPrivacyLanguageMap = {
+    ...window.ElectroPrivacyLanguageMap,
+    en: englishMap,
+    es: spanishMap,
 };
 
-const testList = [
-    'espanol',
-    'lndo.site/es/',
-];
-const url = location.hostname + location.pathname;
-if (testList.some(testString => url.includes(testString))) {
-    // use Espanol
-    stringMap['Privacy Choices'] = 'ivacypray oiceschay';
+// console.log('languageMap keys', Object.keys(window.ElectroPrivacyLanguageMap));
 
-    stringMap['Please enter a valid email.'] = 'easeplay enteryay ayay alidvay emailyay';
-    stringMap['On'] = 'Onyay';
-    stringMap['Off'] = 'Offyay';
+let stringMap = window.ElectroPrivacyLanguageMap['en'];
 
-    stringMap['Behavioral Advertising Linked To Your Email Address:'] = 'ehavioralbay advertisingyay inkedlay otay ouryay emailyay address:';
-    stringMap['emailTextBlock'] = 'ouyay aymay avehay eviouslypray ovidedpray ouryay emailyay addressyay otay usyay . inyay omesay asescay , eway useyay emailyay addressesyay oryay otheryay on-cookienay ersonalpay informationyay otay eliverday ehavioralbay advertisingyay otay onsumerscay onyay irdthay artypay atformsplay ikelay acebookfay andyay ooglegay . otay equestray atthay ouryay ersonalpay informationyay isyay otnay aredshay orfay esethay urposespay , easeplay enteryay ouryay emailyay addressyay below:';
-    stringMap['Email:'] = 'Correo electrónico:';
-    stringMap['Submit'] = 'Entregar';
-    stringMap['Once you have made all of your elections, click “Save Settings” to save your settings and close the window.'] =
-        'onceyay ouyay avehay ademay allyay ofyay ouryay electionsyay , ickclay “save settings” otay avesay ouryay ettingssay andyay oseclay ethay indowway.';
-
-    stringMap['Deletion, Access, Or Correction Requests'] = 'eletionday , accessyay , oryay orrectioncay equestsray';
-    stringMap['deletionTextBlock1'] = 'ifyay ouyay areyay ayay U.S> onsumercay andyay ouldway ikelay otay exerciseyay otheryay ivacypray ightsray , uchsay asyay ayay eletionday , accessyay , oryay orrectioncay equestray , easeplay isitvay our '
-        + '<a target="_blank" href="//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23">U.S. ataday ubjectsay equestray agepay.</a> page.',
-    stringMap['deletionTextBlock2'] = 'orfay oremay informationyay aboutyay additionalyay ivacypray acticespray andyay oiceschay availableyay otay ouyay , easeplay isitvay ouryay'
-        + '<a target="_blank" href="//thecloroxcompany.com/privacy/es-privacy/">ivacypray olicypay</a>.',
-
-    stringMap['Do Not Sell or Share for Targeted Advertising'] = 'oday otnay ellsay oryay areshay orfay argetedtay advertisingyay';
-    stringMap['targetedAdsTextBlock'] = 'underyay omesay atestay awslay ouyay avehay ethay ightray otay optyay outyay ofyay ethay ellingsay oryay aringshay ofyay ouryay informationyay orfay oss-contextcray ehavioralbay advertisingyay and/or ertaincay estypay ofyay argetedtay advertisingyay (“behavioral advertising”).'
-        + '<br><br>'
-        + 'otay urntay offyay ethay ehavioralbay advertisingyay ookiescay andyay ackerstray onyay isthay ebsiteway , oggletay “targeting / advertisingyay cookies” otay “off” andyay ickclay “save ettingssay . ” ifyay ethay oggletay isyay alreadyyay etsay otay “off” - ouyay aymay avehay alreadyyay updatedyay ouryay ookiecay ettingssay , oryay ethay obalglay ivacypray ontrolcay (“gpc”) ignalsay aymay ebay enabledyay inyay ouryay owserbray.'
-        + '<br><br>'
-        + 'inyay ostmay asescay , ouryay opt-outyay eferencepray illway ebay ackedtray iavay ayay ookiecay , ichwhay eansmay ouryay electionsay isyay imitedlay otay ethay ecificspay eviceday andyay owserbray ouyay areyay usingyay uringday isthay isitvay otay ouryay ebsiteway . ifyay ouyay isitvay isthay ebsiteway omfray ayay ifferentday eviceday oryay owserbray , angechay ouryay owserbray ettingssay , oryay ifyay ouyay earclay ouryay ookiescay , ouyay aymay eednay otay optyay outyay againyay.'
-        + '<br><br>'
-        + 'Iifyay ouyay ouldway ikelay otay updateyay otheryay ookie-relatedcay eferencespray isitvay ethay "cookie settings" inklay inyay ethay ooterfay ofyay isthay ebpageway.';
+// use html lang attribute to determine strings to use
+const languageAttribute = document.documentElement.getAttribute('lang');
+if (languageAttribute) {
+    if (window.ElectroPrivacyLanguageMap[languageAttribute]) {
+        stringMap = window.ElectroPrivacyLanguageMap[languageAttribute];
+    } else {
+        const language = languageAttribute.split('-')[0];
+        if (window.ElectroPrivacyLanguageMap[language]) {
+            stringMap = window.ElectroPrivacyLanguageMap[language];
+        }
+    }
 }
 
 function getLanguageString(strName)
@@ -309,6 +277,20 @@ function dnsCheck() {
     }
 }
 
+
+/***/ }),
+
+/***/ 752:
+/***/ ((module) => {
+
+module.exports = JSON.parse('{"emailTextBlock":"You may have previously provided your email address to us. In some cases, we use email addresses or other non-cookie personal information to deliver behavioral advertising to consumers on third party platforms like Facebook and Google. To request that your personal information is not shared for these purposes, please enter your email address below:","deletionTextBlock1":"If you are a U.S. consumer and would like to exercise other privacy rights, such as a deletion, access, or correction request, please visit our <a target=\\"_blank\\" href=\\"//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23\\">U.S. Data Subject Request</a> page.","deletionTextBlock2":"For more information about additional privacy practices and choices available to you, please visit our <a target=\\"_blank\\" href=\\"//thecloroxcompany.com/privacy/\\">Privacy Policy</a>.","targetedAdsTextBlock":"Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>To turn off the  behavioral advertising cookies and trackers on this website, toggle “Targeting / Advertising Cookies” to “off” and click “Save Settings.” If the toggle is already set to “off” - you may have already updated your cookie settings, or the Global Privacy Control (“GPC”) signal may be enabled in your browser.<br><br>In most cases, your opt-out preference will be tracked via a cookie, which means your selection is limited to the specific device and browser you are using during this visit to our website. If you visit this website from a different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.<br><br>If you would like to update other cookie-related preferences visit the \\"Cookie Settings\\" link in the footer of this webpage.","Privacy Choices":"Privacy Choices","Please enter a valid email.":"Please enter a valid email.","On":"On","Off":"Off","Behavioral Advertising Linked To Your Email Address:":"Behavioral Advertising Linked To Your Email Address:","Email:":"Email:","Submit":"Submit","Once you have made all of your elections, click “Save Settings” to save your settings and close the window.":"Once you have made all of your elections, click “Save Settings” to save your settings and close the window.","Deletion, Access, Or Correction Requests":"Deletion, Access, Or Correction Requests","Do Not Sell or Share for Targeted Advertising":"Do Not Sell or Share for Targeted Advertising"}');
+
+/***/ }),
+
+/***/ 984:
+/***/ ((module) => {
+
+module.exports = JSON.parse('{"emailTextBlock":"Es posible que nos haya proporcionado previamente su dirección de correo electrónico. En algunos casos, utilizamos direcciones de correo electrónico u otra información personal que no sea de cookies para entregar publicidad conductual a los consumidores en plataformas de terceros como Facebook y Google. Para solicitar que su información personal no se comparta para estos fines, ingrese su dirección de correo electrónico a continuación:","deletionTextBlock1":"Si usted es un consumidor estadounidense y desea ejercer otros derechos de privacidad, como una solicitud de eliminación, acceso o corrección, visite nuestra página de <a target=\\"_blank\\" href=\\"//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23\\">Solicitud del sujeto de datos de EE. UU.</a>","deletionTextBlock2":"Para obtener más información sobre las prácticas de privacidad adicionales y las opciones disponibles para usted, visite nuestra <a target=\\"_blank\\" href=\\"//thecloroxcompany.com/privacy/es-privacy/\\">Política de privacidad.</a>","targetedAdsTextBlock":"En virtud de algunas leyes estatales, usted tiene derecho a excluirse de la venta o el intercambio de su información para publicidad conductual entre contextos y/o ciertos tipos de publicidad dirigida (“publicidad conductual”).<br><br>Para desactivar las cookies de publicidad conductual y los rastreadores en este sitio web, cambie “Cookies de publicidad/dirigidas” a “desactivado” y haga clic en “Guardar configuración”. Si el conmutador ya está configurado en “desactivado”, es posible que ya haya actualizado su configuración de cookies o que la señal de Control de Privacidad Global (Global Privacy Control, “GPC”) esté habilitada en su navegador.<br><br>En la mayoría de los casos, se hará un seguimiento de su preferencia de exclusión mediante una cookie, lo que significa que su selección se limita al dispositivo y navegador específicos que está utilizando durante esta visita a nuestro sitio web. Si visita este sitio web desde un dispositivo o navegador diferente, cambia la configuración de su navegador o si borra sus cookies, es posible que deba excluirse nuevamente.<br><br>Si desea actualizar otras preferencias relacionadas con cookies, visite el enlace \\"Configuración de cookies\\" en el pie de página de esta página web.","Privacy Choices":"Opciones de privacidad","Please enter a valid email.":"easeplay enteryay ayay alidvay emailyay","On":"Encendido","Off":"Offyay","Behavioral Advertising Linked To Your Email Address:":"Publicidad conductual vinculada a su dirección de correo electrónico:","Email:":"Correo electrónico:","Submit":"Entregar","Once you have made all of your elections, click “Save Settings” to save your settings and close the window.":"Una vez que haya realizado todas sus elecciones, haga clic en “Guardar configuración” para guardar su configuración y cerrar la ventana.","Deletion, Access, Or Correction Requests":"Solicitudes de eliminación, acceso o corrección","Do Not Sell or Share for Targeted Advertising":"No vender ni compartir para publicidad dirigida"}');
 
 /***/ })
 
