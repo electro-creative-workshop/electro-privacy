@@ -290,7 +290,7 @@ module.exports = JSON.parse('{"emailTextBlock":"You may have previously provided
 /***/ 984:
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"emailTextBlock":"Es posible que nos haya proporcionado previamente su dirección de correo electrónico. En algunos casos, utilizamos direcciones de correo electrónico u otra información personal que no sea de cookies para entregar publicidad conductual a los consumidores en plataformas de terceros como Facebook y Google. Para solicitar que su información personal no se comparta para estos fines, ingrese su dirección de correo electrónico a continuación:","deletionTextBlock1":"Si usted es un consumidor estadounidense y desea ejercer otros derechos de privacidad, como una solicitud de eliminación, acceso o corrección, visite nuestra página de <a target=\\"_blank\\" href=\\"//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23\\">Solicitud del sujeto de datos de EE. UU.</a>","deletionTextBlock2":"Para obtener más información sobre las prácticas de privacidad adicionales y las opciones disponibles para usted, visite nuestra <a target=\\"_blank\\" href=\\"//thecloroxcompany.com/privacy/es-privacy/\\">Política de privacidad.</a>","targetedAdsTextBlock":"En virtud de algunas leyes estatales, usted tiene derecho a excluirse de la venta o el intercambio de su información para publicidad conductual entre contextos y/o ciertos tipos de publicidad dirigida (“publicidad conductual”).<br><br>Para desactivar las cookies de publicidad conductual y los rastreadores en este sitio web, cambie “Cookies de publicidad/dirigidas” a “desactivado” y haga clic en “Guardar configuración”. Si el conmutador ya está configurado en “desactivado”, es posible que ya haya actualizado su configuración de cookies o que la señal de Control de Privacidad Global (Global Privacy Control, “GPC”) esté habilitada en su navegador.<br><br>En la mayoría de los casos, se hará un seguimiento de su preferencia de exclusión mediante una cookie, lo que significa que su selección se limita al dispositivo y navegador específicos que está utilizando durante esta visita a nuestro sitio web. Si visita este sitio web desde un dispositivo o navegador diferente, cambia la configuración de su navegador o si borra sus cookies, es posible que deba excluirse nuevamente.<br><br>Si desea actualizar otras preferencias relacionadas con cookies, visite el enlace \\"Configuración de cookies\\" en el pie de página de esta página web.","Privacy Choices":"Opciones de privacidad","Please enter a valid email.":"easeplay enteryay ayay alidvay emailyay","On":"Encendido","Off":"Offyay","Behavioral Advertising Linked To Your Email Address:":"Publicidad conductual vinculada a su dirección de correo electrónico:","Email:":"Correo electrónico:","Submit":"Entregar","Once you have made all of your elections, click “Save Settings” to save your settings and close the window.":"Una vez que haya realizado todas sus elecciones, haga clic en “Guardar configuración” para guardar su configuración y cerrar la ventana.","Deletion, Access, Or Correction Requests":"Solicitudes de eliminación, acceso o corrección","Do Not Sell or Share for Targeted Advertising":"No vender ni compartir para publicidad dirigida"}');
+module.exports = JSON.parse('{"emailTextBlock":"Es posible que nos haya proporcionado previamente su dirección de correo electrónico. En algunos casos, utilizamos direcciones de correo electrónico u otra información personal que no sea de cookies para entregar publicidad conductual a los consumidores en plataformas de terceros como Facebook y Google. Para solicitar que su información personal no se comparta para estos fines, ingrese su dirección de correo electrónico a continuación:","deletionTextBlock1":"Si usted es un consumidor estadounidense y desea ejercer otros derechos de privacidad, como una solicitud de eliminación, acceso o corrección, visite nuestra página de <a target=\\"_blank\\" href=\\"//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23\\">Solicitud del sujeto de datos de EE. UU.</a>","deletionTextBlock2":"Para obtener más información sobre las prácticas de privacidad adicionales y las opciones disponibles para usted, visite nuestra <a target=\\"_blank\\" href=\\"//thecloroxcompany.com/privacy/es-privacy/\\">Política de privacidad.</a>","targetedAdsTextBlock":"En virtud de algunas leyes estatales, usted tiene derecho a excluirse de la venta o el intercambio de su información para publicidad conductual entre contextos y/o ciertos tipos de publicidad dirigida (“publicidad conductual”).<br><br>Para desactivar las cookies de publicidad conductual y los rastreadores en este sitio web, cambie “Cookies de publicidad/dirigidas” a “desactivado” y haga clic en “Guardar configuración”. Si el conmutador ya está configurado en “desactivado”, es posible que ya haya actualizado su configuración de cookies o que la señal de Control de Privacidad Global (Global Privacy Control, “GPC”) esté habilitada en su navegador.<br><br>En la mayoría de los casos, se hará un seguimiento de su preferencia de exclusión mediante una cookie, lo que significa que su selección se limita al dispositivo y navegador específicos que está utilizando durante esta visita a nuestro sitio web. Si visita este sitio web desde un dispositivo o navegador diferente, cambia la configuración de su navegador o si borra sus cookies, es posible que deba excluirse nuevamente.<br><br>Si desea actualizar otras preferencias relacionadas con cookies, visite el enlace \\"Configuración de cookies\\" en el pie de página de esta página web.","Privacy Choices":"Sus opciones de privacidad","Please enter a valid email.":"Ingrese un correo electrónico válido","On":"Deshabilitadas","Off":"Enviar","Behavioral Advertising Linked To Your Email Address:":"Publicidad conductual vinculada a su dirección de correo electrónico:","Email:":"Correo electrónico:","Submit":"Habilitadas","Once you have made all of your elections, click “Save Settings” to save your settings and close the window.":"Una vez que haya realizado todas sus elecciones, haga clic en “Guardar configuración” para guardar su configuración y cerrar la ventana.","Deletion, Access, Or Correction Requests":"Solicitudes de eliminación, acceso o corrección","Do Not Sell or Share for Targeted Advertising":"No vender ni compartir para publicidad dirigida"}');
 
 /***/ })
 
@@ -372,36 +372,45 @@ async function OptanonWrapperLocal() {
         const submit = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Submit');
         const emailInstructions = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Once you have made all of your elections, click “Save Settings” to save your settings and close the window.');
 
-        let otEmailHTML = '<hr />';
-        otEmailHTML += '<div id="ot-email-text" style="display: none">';
-        otEmailHTML += `<h3 style="font-size: inherit;">${emailTitle}</h3>`;
-        otEmailHTML += '<br />';
-        otEmailHTML += emailBlock;
-        otEmailHTML += '<form id="ot-email-submit" onsubmit="return false;">';
-        otEmailHTML += `<label for="ot-email">${emailLabel} `;
-        otEmailHTML += '<input type="email" id="ot-email" name="ot-email" required>';
-        otEmailHTML += `<input type="submit" id="ot-dns-submit" value="${submit}">`;
-        otEmailHTML += '</label></form><br>';
-        otEmailHTML += emailInstructions + '<br><br>';
-        otEmailHTML += '<hr />';
-
         const deletionRequests = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Deletion, Access, Or Correction Requests');
         const deletionTextBlock1 = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('deletionTextBlock1');
         const deletionTextBlock2 = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('deletionTextBlock2');
-        otEmailHTML += `<h3 style="font-size: inherit;">${deletionRequests}</h3>`;
 
-        otEmailHTML += '<br />';
-        otEmailHTML += deletionTextBlock1;
-        otEmailHTML += '<br /><br />';
-        otEmailHTML += deletionTextBlock2;
-        otEmailHTML += '</div>';
+        const otEmailHTML = `
+            <hr/>
+            <div id="ot-email-text" style="display: none">';
+                <h3 style="font-size: inherit;">${emailTitle}</h3>
+                <br/>
+                ${emailBlock}
+                <form id="ot-email-submit" onsubmit="return false;">
+                    <label for="ot-email">${emailLabel}
+                        <input type="email" id="ot-email" name="ot-email" required>
+                        <input type="submit" id="ot-dns-submit" value="${submit}">
+                    </label>
+                </form>
+                <br/>
+                ${emailInstructions}
+                 <br/><br/>
+                <hr />
+                <h3 style="font-size: inherit;">${deletionRequests}</h3>
+                <br />
+                ${deletionTextBlock1}
+                <br />
+                <br />
+                ${deletionTextBlock2}
+            </div>
+        `;
 
         const targetedAdsTitle = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Do Not Sell or Share for Targeted Advertising');
         const targetedAdsTextBlock = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('targetedAdsTextBlock');
-        let dnsCustomText = '<div id="dns-custom-text" style="display: none">';
-        dnsCustomText += `<h3 style="font-size: inherit;">${targetedAdsTitle}</h3>`;
-        dnsCustomText += '<br />';
-        dnsCustomText += targetedAdsTextBlock;
+
+        const dnsCustomText = `
+            <div id="dns-custom-text" style="display: none">
+                <h3 style="font-size: inherit;">${targetedAdsTitle}</h3>
+                <br />
+                ${targetedAdsTextBlock}
+            </div>
+        `;
 
         const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
         otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
