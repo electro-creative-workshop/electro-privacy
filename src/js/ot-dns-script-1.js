@@ -16,36 +16,45 @@ async function OptanonWrapperLocal() {
         const submit = getLanguageString('Submit');
         const emailInstructions = getLanguageString('Once you have made all of your elections, click “Save Settings” to save your settings and close the window.');
 
-        let otEmailHTML = '<hr />';
-        otEmailHTML += '<div id="ot-email-text" style="display: none">';
-        otEmailHTML += `<h3 style="font-size: inherit;">${emailTitle}</h3>`;
-        otEmailHTML += '<br />';
-        otEmailHTML += emailBlock;
-        otEmailHTML += '<form id="ot-email-submit" onsubmit="return false;">';
-        otEmailHTML += `<label for="ot-email">${emailLabel} `;
-        otEmailHTML += '<input type="email" id="ot-email" name="ot-email" required>';
-        otEmailHTML += `<input type="submit" id="ot-dns-submit" value="${submit}">`;
-        otEmailHTML += '</label></form><br>';
-        otEmailHTML += emailInstructions + '<br><br>';
-        otEmailHTML += '<hr />';
-
         const deletionRequests = getLanguageString('Deletion, Access, Or Correction Requests');
         const deletionTextBlock1 = getLanguageString('deletionTextBlock1');
         const deletionTextBlock2 = getLanguageString('deletionTextBlock2');
-        otEmailHTML += `<h3 style="font-size: inherit;">${deletionRequests}</h3>`;
 
-        otEmailHTML += '<br />';
-        otEmailHTML += deletionTextBlock1;
-        otEmailHTML += '<br /><br />';
-        otEmailHTML += deletionTextBlock2;
-        otEmailHTML += '</div>';
+        const otEmailHTML = `
+            <hr/>
+            <div id="ot-email-text" style="display: none">';
+                <h3 style="font-size: inherit;">${emailTitle}</h3>
+                <br/>
+                ${emailBlock}
+                <form id="ot-email-submit" onsubmit="return false;">
+                    <label for="ot-email">${emailLabel}
+                        <input type="email" id="ot-email" name="ot-email" required>
+                        <input type="submit" id="ot-dns-submit" value="${submit}">
+                    </label>
+                </form>
+                <br/>
+                ${emailInstructions}
+                 <br/><br/>
+                <hr />
+                <h3 style="font-size: inherit;">${deletionRequests}</h3>
+                <br />
+                ${deletionTextBlock1}
+                <br />
+                <br />
+                ${deletionTextBlock2}
+            </div>
+        `;
 
         const targetedAdsTitle = getLanguageString('Do Not Sell or Share for Targeted Advertising');
         const targetedAdsTextBlock = getLanguageString('targetedAdsTextBlock');
-        let dnsCustomText = '<div id="dns-custom-text" style="display: none">';
-        dnsCustomText += `<h3 style="font-size: inherit;">${targetedAdsTitle}</h3>`;
-        dnsCustomText += '<br />';
-        dnsCustomText += targetedAdsTextBlock;
+
+        const dnsCustomText = `
+            <div id="dns-custom-text" style="display: none">
+                <h3 style="font-size: inherit;">${targetedAdsTitle}</h3>
+                <br />
+                ${targetedAdsTextBlock}
+            </div>
+        `;
 
         const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
         otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
