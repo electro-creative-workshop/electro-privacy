@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const VersionFile = require('webpack-version-file');
 const packageJSON = require('./package.json');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: 'production',
@@ -10,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        clean: false,
+        clean: true,
     },
     optimization: {
         minimize: false,
@@ -20,6 +21,11 @@ module.exports = {
             banner: (version) => {
                 return `version: ${packageJSON.version}`;
             },
+        }),
+        new CopyPlugin({
+            patterns: [
+                { from: "src/language", to: "lang" },
+            ],
         }),
     ],
 };
