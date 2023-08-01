@@ -15,8 +15,8 @@
  *   Others need to be setup by client in window.ElectroPrivacyLanguageMap
  */
 
-const englishMap = __webpack_require__(752);
-const spanishMap = __webpack_require__(984);
+const englishMap = __webpack_require__(67);
+const spanishMap = __webpack_require__(296);
 
 window.ElectroPrivacyLanguageMap = {
     ...window.ElectroPrivacyLanguageMap,
@@ -280,14 +280,14 @@ function dnsCheck() {
 
 /***/ }),
 
-/***/ 752:
+/***/ 67:
 /***/ ((module) => {
 
 module.exports = JSON.parse('{"emailTextBlock":"You may have previously provided your email address to us. In some cases, we use email addresses or other non-cookie personal information to deliver behavioral advertising to consumers on third party platforms like Facebook and Google. To request that your personal information is not shared for these purposes, please enter your email address below:","deletionTextBlock1":"If you are a U.S. consumer and would like to exercise other privacy rights, such as a deletion, access, or correction request, please visit our <a target=\\"_blank\\" href=\\"//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23\\">U.S. Data Subject Request</a> page.","deletionTextBlock2":"For more information about additional privacy practices and choices available to you, please visit our <a target=\\"_blank\\" href=\\"//thecloroxcompany.com/privacy/\\">Privacy Policy</a>.","targetedAdsTextBlock":"Under some state laws you have the right to opt out of the selling or sharing of your information for cross-context behavioral advertising and/or certain types of targeted advertising (“behavioral advertising”).<br><br>To turn off the  behavioral advertising cookies and trackers on this website, toggle “Targeting / Advertising Cookies” to “off” and click “Save Settings.” If the toggle is already set to “off” - you may have already updated your cookie settings, or the Global Privacy Control (“GPC”) signal may be enabled in your browser.<br><br>In most cases, your opt-out preference will be tracked via a cookie, which means your selection is limited to the specific device and browser you are using during this visit to our website. If you visit this website from a different device or browser, change your browser settings, or if you clear your cookies, you may need to opt out again.<br><br>If you would like to update other cookie-related preferences visit the \\"Cookie Settings\\" link in the footer of this webpage.","Privacy Choices":"Privacy Choices","Please enter a valid email.":"Please enter a valid email.","On":"On","Off":"Off","Behavioral Advertising Linked To Your Email Address:":"Behavioral Advertising Linked To Your Email Address:","Email:":"Email:","Submit":"Submit","Once you have made all of your elections, click “Save Settings” to save your settings and close the window.":"Once you have made all of your elections, click “Save Settings” to save your settings and close the window.","Deletion, Access, Or Correction Requests":"Deletion, Access, Or Correction Requests","Do Not Sell or Share for Targeted Advertising":"Do Not Sell or Share for Targeted Advertising"}');
 
 /***/ }),
 
-/***/ 984:
+/***/ 296:
 /***/ ((module) => {
 
 module.exports = JSON.parse('{"emailTextBlock":"Es posible que nos haya proporcionado previamente su dirección de correo electrónico. En algunos casos, utilizamos direcciones de correo electrónico u otra información personal que no sea de cookies para entregar publicidad conductual a los consumidores en plataformas de terceros como Facebook y Google. Para solicitar que su información personal no se comparta para estos fines, ingrese su dirección de correo electrónico a continuación:","deletionTextBlock1":"Si usted es un consumidor estadounidense y desea ejercer otros derechos de privacidad, como una solicitud de eliminación, acceso o corrección, visite nuestra página de <a target=\\"_blank\\" href=\\"//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23\\">Solicitud del sujeto de datos de EE. UU.</a>","deletionTextBlock2":"Para obtener más información sobre las prácticas de privacidad adicionales y las opciones disponibles para usted, visite nuestra <a target=\\"_blank\\" href=\\"//thecloroxcompany.com/privacy/es-privacy/\\">Política de privacidad.</a>","targetedAdsTextBlock":"En virtud de algunas leyes estatales, usted tiene derecho a excluirse de la venta o el intercambio de su información para publicidad conductual entre contextos y/o ciertos tipos de publicidad dirigida (“publicidad conductual”).<br><br>Para desactivar las cookies de publicidad conductual y los rastreadores en este sitio web, cambie “Cookies de publicidad/dirigidas” a “desactivado” y haga clic en “Guardar configuración”. Si el conmutador ya está configurado en “desactivado”, es posible que ya haya actualizado su configuración de cookies o que la señal de Control de Privacidad Global (Global Privacy Control, “GPC”) esté habilitada en su navegador.<br><br>En la mayoría de los casos, se hará un seguimiento de su preferencia de exclusión mediante una cookie, lo que significa que su selección se limita al dispositivo y navegador específicos que está utilizando durante esta visita a nuestro sitio web. Si visita este sitio web desde un dispositivo o navegador diferente, cambia la configuración de su navegador o si borra sus cookies, es posible que deba excluirse nuevamente.<br><br>Si desea actualizar otras preferencias relacionadas con cookies, visite el enlace \\"Configuración de cookies\\" en el pie de página de esta página web.","Privacy Choices":"Sus opciones de privacidad","Please enter a valid email.":"Ingrese un correo electrónico válido","On":"Deshabilitadas","Off":"Enviar","Behavioral Advertising Linked To Your Email Address:":"Publicidad conductual vinculada a su dirección de correo electrónico:","Email:":"Correo electrónico:","Submit":"Habilitadas","Once you have made all of your elections, click “Save Settings” to save your settings and close the window.":"Una vez que haya realizado todas sus elecciones, haga clic en “Guardar configuración” para guardar su configuración y cerrar la ventana.","Deletion, Access, Or Correction Requests":"Solicitudes de eliminación, acceso o corrección","Do Not Sell or Share for Targeted Advertising":"No vender ni compartir para publicidad dirigida"}');
@@ -430,8 +430,6 @@ async function OptanonWrapperLocal() {
         // import 2nd js file
         await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 115));
     }
-
-    // Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
 
 

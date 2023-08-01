@@ -74,8 +74,6 @@ async function OptanonWrapperLocal() {
         // import 2nd js file
         await import(/* webpackMode: "eager" */ './ot-dns-script-2');
     }
-
-    // Optanon.InsertScript('otDnsScript2.js', 'body', null, null, 'C0001', true);
 }
 
 

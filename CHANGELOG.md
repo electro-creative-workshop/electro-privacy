@@ -61,5 +61,6 @@
 - HTML pattern attribute change to use regex v flag (needs more chars escaped in character classes)
 - https://groups.google.com/a/chromium.org/g/blink-dev/c/gIyvMw0n2qw
 
-## 1.3.0 Add support for Spanish UI
-- Placeholder text only
+## 1.3.0 Add support for Translation
+- add Spanish (US) language file
+- add Arabic language file

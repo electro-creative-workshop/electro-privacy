@@ -4,8 +4,8 @@
  *   Others need to be setup by client in window.ElectroPrivacyLanguageMap
  */
 
-const englishMap = require('../../dist/lang/en-US.json');
-const spanishMap = require('../../dist/lang/es-US.json');
+const englishMap = require('../language/en-US.json');
+const spanishMap = require('../language/es-US.json');
 
 window.ElectroPrivacyLanguageMap = {
     ...window.ElectroPrivacyLanguageMap,
