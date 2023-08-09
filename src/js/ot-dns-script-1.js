@@ -22,7 +22,7 @@ async function OptanonWrapperLocal() {
 
         const otEmailHTML = `
             <hr/>
-            <div id="ot-email-text" style="display: none">';
+            <div id="ot-email-text" style="display: none">
                 <h3 style="font-size: inherit;">${emailTitle}</h3>
                 <br/>
                 ${emailBlock}

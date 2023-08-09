@@ -64,3 +64,6 @@
 ## 1.3.0 Add support for Translation
 - add Spanish (US) language file
 - add Arabic language file
+
+## 1.3.1 Bug Fix
+- Remove stray ';
