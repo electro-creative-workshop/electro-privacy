@@ -1,4 +1,4 @@
-/*! version: 1.3.0 */
+/*! version: 1.3.1 */
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -378,7 +378,7 @@ async function OptanonWrapperLocal() {
 
         const otEmailHTML = `
             <hr/>
-            <div id="ot-email-text" style="display: none">';
+            <div id="ot-email-text" style="display: none">
                 <h3 style="font-size: inherit;">${emailTitle}</h3>
                 <br/>
                 ${emailBlock}
