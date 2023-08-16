@@ -1,0 +1,16 @@
+{
+    "emailTextBlock": "您可能早先已將您的電子郵件地址提供給我們。在某些情況下，我們會使用電子郵件地址或其他非 Cookie 的個人資料，在 Facebook 和 Google 等第三方平台上為消費者提供行為式廣告。如需申請不就這些目的而分享您的個人資料，請在下方輸入您的電子郵件地址：",
+    "deletionTextBlock1": "如果您是美國消費者，並想行使其他的私隱權，例如刪除、存取或更正申請，請造訪我們的美國數據當事人申請<a target=\"_blank\" href=\"//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23\">（U.S. Data Subject Request）</a>頁面。",
+    "deletionTextBlock2": "如需有關其他私隱權實務和可用選項的更多資料，請造訪我們的私隱權政策<a target=\"_blank\" href=\"//thecloroxcompany.com/privacy/\">（Privacy Policy）</a>。",
+    "targetedAdsTextBlock": "根據某些州法，您有權選擇不銷售或分享您的資料，用於跨背景的行為式廣告和/或特定類型的目標性廣告（行為式廣告）。<br><br>要關閉本網站上的行為式廣告 Cookie 和追蹤器，請切換「目標/廣告 Cookie」（Targeting / Advertising Cookies）為「關閉」（off）並點擊「保存設定」（Save Settings）。如果已切換為「關閉」- 您可能已更新您的 Cookie 設定，或可能已在瀏覽器中啟用全球私隱控制（GPC）訊號。<br><br>在大多數的情況下，您選擇退出的偏好設定將由 Cookie 進行追蹤，這表示您的選擇僅限於您此次造訪我們網站時所使用的特定裝置和瀏覽器。如果您從其他裝置或瀏覽器造訪本網站、變更了您的瀏覽器設定，或清除了您的 Cookie，您可能需要再次選擇退出。<br><br>如果您想更新其他 Cookie 的相關偏好設定，請造訪本網頁頁尾的「Cookie 設定」（Cookie Settings）連結。",
+    "Privacy Choices": "私隱權選項",
+    "Please enter a valid email.": "請輸入有效的電子郵件地址。",
+    "On": "開啟",
+    "Off": "關閉",
+    "Behavioral Advertising Linked To Your Email Address:": "連結至您電子郵件地址的行為式廣告：",
+    "Email:": "電子郵件：",
+    "Submit": "提交",
+    "Once you have made all of your elections, click “Save Settings” to save your settings and close the window.": "當您完成所有選擇後，點擊「保存設定」（Save Settings）來保存您的設定並關閉視窗。",
+    "Deletion, Access, Or Correction Requests": "刪除、存取或更正申請",
+    "Do Not Sell or Share for Targeted Advertising": "請勿為了目標性廣告而銷售或分享"
+}

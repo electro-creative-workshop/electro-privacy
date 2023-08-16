@@ -1,0 +1,16 @@
+{
+    "emailTextBlock": "您之前可能已经向我们提供了您的电子邮件地址。在某些情况下，我们使用电子邮件地址或其他非 Cookie 个人信息在 Facebook 和 Google 等第三方平台上向消费者投放行为广告。如需拒绝分享您的信息用于这些目的，请在下面输入您的电子邮件地址：",
+    "deletionTextBlock1": "如果您是美国消费者，希望行使其他隐私权，如删除、访问或更正请求，请访问我们的<a target=\"_blank\" href=\"//privacyportal.onetrust.com/webform/65ca6b46-70b1-4ee1-9074-7a63e800ea4c/7baf0e2e-4724-44fe-af48-4138faca9d23\">U.S. Data Subject Request</a>（美国数据主体请求）页面。",
+    "deletionTextBlock2": "有关其他隐私做法和选择的更多信息，请参阅我们的<a target=\"_blank\" href=\"//thecloroxcompany.com/privacy/\">隐私政策</a>。",
+    "targetedAdsTextBlock": "根据一些州的法律，您有权选择不出售或分享信息用于跨场景行为广告和/或某些类型的定向广告（“行为广告”）。<br><br>要关闭本网站上的行为广告 Cookie 和跟踪器，请将“定向/广告 Cookies”切换为“off（关闭）”，然后点击“Save Settings（保存设置）”。如果已切换为“off（关闭）”，则您可能已经更新了 Cookie 设置，或您的浏览器可能启用了全局隐私控制（“GPC”）信号。<br><br>在大多数情况下，您的关闭偏好设置将通过 Cookie 进行跟踪，这意味着您的选择仅在您访问我们网站期间使用的特定设备和浏览器上有效。如果您从其他设备或浏览器访问本网站，或更改了浏览器设置，或清除了 Cookie，您可能需要再次选择关闭。<br><br>如果您想更新其他与 Cookie 相关的偏好设置，请访问本网页页脚的“Cookie Settings（Cookie 设置）”链接。",
+    "Privacy Choices": "隐私选择",
+    "Please enter a valid email.": "请输入有效的电子邮件。",
+    "On": "打开",
+    "Off": "关闭",
+    "Behavioral Advertising Linked To Your Email Address:": "链接到您电子邮件地址的行为广告：",
+    "Email:": "电子邮箱：",
+    "Submit": "提交",
+    "Once you have made all of your elections, click “Save Settings” to save your settings and close the window.": "完成所有选择后，点击“Save Settings（保存设置）”以保存您的设置并关闭窗口。",
+    "Deletion, Access, Or Correction Requests": "删除、访问或更正请求",
+    "Do Not Sell or Share for Targeted Advertising": "不出售或分享信息用于定向广告"
+}
