@@ -185,10 +185,22 @@ function dnsCheck() {
         document.getElementById('ot-email').setCustomValidity(getLanguageString('Please enter a valid email.'));
 
         document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
-        document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
 
-        // footer link
+        // add handling for buttons being recreated (dtc shop)
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'ot-sdk-btn') {
+                hideDnsUI();
+            } else if (e.target && e.target.id === 'do-not-share') {
+                doNotShareUI();
+            }
+        }, {
+            capture: true
+        })
+
+        /*
+        document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
         document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
+         */
 
         // ot banner link
         if (document.getElementById('onetrust-pc-btn-handler')) {

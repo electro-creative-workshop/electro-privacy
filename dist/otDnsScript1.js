@@ -1,4 +1,4 @@
-/*! version: 1.3.1 */
+/*! version: 1.4.0 */
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -244,10 +244,22 @@ function dnsCheck() {
         document.getElementById('ot-email').setCustomValidity((0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ ._)('Please enter a valid email.'));
 
         document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
-        document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
 
-        // footer link
+        // add handling for buttons being recreated (dtc shop)
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'ot-sdk-btn') {
+                hideDnsUI();
+            } else if (e.target && e.target.id === 'do-not-share') {
+                doNotShareUI();
+            }
+        }, {
+            capture: true
+        })
+
+        /*
+        document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
         document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
+         */
 
         // ot banner link
         if (document.getElementById('onetrust-pc-btn-handler')) {
