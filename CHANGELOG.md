@@ -67,3 +67,6 @@
 
 ## 1.3.1 Bug Fix
 - Remove stray ';
+
+## 1.4.0 Handle dynamic buttons for cookies & DNS
+- use document level capture event handlers to handle dynamic buttons being recreated (dtc shops)
