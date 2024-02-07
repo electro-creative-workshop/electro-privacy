@@ -70,3 +70,6 @@
 
 ## 1.4.0 Handle dynamic buttons for cookies & DNS
 - use document level capture event handlers to handle dynamic buttons being recreated (dtc shops)
+
+## 1.4.1 bug fix
+- look for buttons as event targets or a child of button

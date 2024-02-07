@@ -1,4 +1,4 @@
-/*! version: 1.4.0 */
+/*! version: 1.4.1 */
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -247,9 +247,11 @@ function dnsCheck() {
 
         // add handling for buttons being recreated (dtc shop)
         document.addEventListener('click', function(e) {
-            if (e.target && e.target.id === 'ot-sdk-btn') {
+            const sdkButton = document.getElementById('ot-sdk-btn');
+            const dnsButton = document.getElementById('do-not-share');
+            if (e.target && e.target.id === 'ot-sdk-btn' || sdkButton && sdkButton.contains(e.target)) {
                 hideDnsUI();
-            } else if (e.target && e.target.id === 'do-not-share') {
+            } else if (e.target && e.target.id === 'do-not-share' || dnsButton && dnsButton.contains(e.target)) {
                 doNotShareUI();
             }
         }, {
