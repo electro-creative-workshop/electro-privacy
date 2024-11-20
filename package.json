@@ -1,6 +1,6 @@
 {
     "name": "electro-privacy",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "description": "Loads OneTrust Do Not Share JavaScript and CSS",
     "main": "dist/otDnsScript1.js",
     "repository": {
