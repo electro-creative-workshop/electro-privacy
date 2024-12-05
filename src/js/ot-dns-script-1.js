@@ -65,7 +65,7 @@ async function OptanonWrapperLocal() {
         // show "on/off" text near the toggle
         const toggleTextContainer = document.createElement('div');
         toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
-        toggleTextContainer.setAttribute('style', 'display: flex; justify-content: flex-end; width: 100%;');
+        toggleTextContainer.setAttribute('style', 'position: relative; bottom: 50px; right: 50px;');
         const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
         insertAfterThis.append(toggleTextContainer);
 
