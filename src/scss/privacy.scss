@@ -42,3 +42,10 @@ form#ot-email-submit {
 div#ot-email-text {
     margin-top: 20px;
 }
+
+// align the toggle text near the toggle switch
+#ot-checkbox-status {
+    position: relative;
+    bottom: 50px; 
+    right: 50px;
+}
