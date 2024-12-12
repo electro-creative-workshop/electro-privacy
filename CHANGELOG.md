@@ -79,4 +79,7 @@
 
 ## 1.4.4 bug fix - Dec 6, 2024
 - Move "on"/"off" text to be closer the slider
-- Legal requested text changes
+- Legal requested copy changes
+
+## 1.4.5 bug fix - Dec 12, 2024
+- CSS fixes

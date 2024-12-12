@@ -17,6 +17,7 @@
 }
 #onetrust-pc-sdk #ot-dns-submit {
     cursor: pointer;
+    border: 1px solid #000 !important;
 }
 #onetrust-pc-sdk input:disabled {
     cursor: not-allowed !important;
@@ -29,16 +30,27 @@ div#dns-custom-text,
 div#ot-email-text {
     clear: both;
     width: 100%;
-    font-size: 0.812em;
+    font-size: 13px !important;
     line-height: 1.5;
     margin-bottom: 25px;
 }
 form#ot-email-submit {
-    margin-top: 20px;
+    padding-top: 20px;
 }
 #onetrust-pc-sdk #accept-recommended-btn-handler {
     display: none !important;
 }
 div#ot-email-text {
-    margin-top: 20px;
+    padding-top: 20px;
+}
+
+#ot-email {
+    border: 1px solid #000 !important;
+}
+
+#ot-checkbox-status {
+    position: relative;
+    width: 30px;
+    bottom: 20px;
+    left: 85%;
 }
