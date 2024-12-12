@@ -67,7 +67,8 @@ async function OptanonWrapperLocal() {
         toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
         toggleTextContainer.setAttribute('style', 'position: absolute; width: 30px; top: 5px; left: 85%;');
         const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
-        insertAfterThis.append(toggleTextContainer);
+        const toggleContainer = insertAfterThis.querySelector('.ot-tgl');
+        toggleContainer.appendChild(toggleTextContainer);
 
         dsIdSet = true;
 
