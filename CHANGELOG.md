@@ -82,4 +82,4 @@
 - Legal requested copy changes
 
 ## 1.4.5 bug fix - Dec 12, 2024
-- CSS fixes
+- CSS fixes: moved most styles to be inline instead of competing with OneTrust styles
