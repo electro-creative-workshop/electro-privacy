@@ -134,7 +134,7 @@ function doNotShareUI() {
 
     // make sure On/Off text is displayed properly
     document.querySelectorAll('#ot-group-id-C0004')[0].dispatchEvent(new Event('change'))
-    document.getElementById('ot-checkbox-status').style.display = 'position: absolute; width: 30px; top: 5px; left: 85%;';
+    document.getElementById('ot-checkbox-status').style.display = 'position: relative; width: 30px; display: inline-block; margin-left: 5px;';
 
     dnsUI = true;
 }
