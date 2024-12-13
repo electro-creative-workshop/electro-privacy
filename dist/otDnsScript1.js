@@ -193,7 +193,7 @@ function doNotShareUI() {
 
     // make sure On/Off text is displayed properly
     document.querySelectorAll('#ot-group-id-C0004')[0].dispatchEvent(new Event('change'))
-    document.getElementById('ot-checkbox-status').style.display = 'position: relative; width: 30px; display: inline-block; margin-left: 5px;';
+    document.getElementById('ot-checkbox-status').style.display = 'position: relative; top: -5px; width: 30px; display: inline-block; margin-left: 5px;';
 
     dnsUI = true;
 }
@@ -391,7 +391,7 @@ async function OptanonWrapperLocal() {
         const otEmailHTML = `
             <hr/>
             <div id="ot-email-text" style="padding-top: 20px; font-size: 13px !important;display: none">
-                <h3 style="font-size: 16px !important;">${emailTitle}</h3>
+                <h3 style="font-size: 15px !important;">${emailTitle}</h3>
                 <br/>
                 ${emailBlock}
                 <form id="ot-email-submit" style="padding-top: 20px;" onsubmit="return false;">
@@ -418,7 +418,7 @@ async function OptanonWrapperLocal() {
 
         const dnsCustomText = `
             <div id="dns-custom-text" style="display: none">
-                <h3 style="padding-top: 20px; font-size: 16px !important;">${targetedAdsTitle}</h3>
+                <h3 style="padding-top: 20px; font-size: 15px !important;">${targetedAdsTitle}</h3>
                 <br />
                 ${targetedAdsTextBlock}
             </div>
@@ -433,7 +433,7 @@ async function OptanonWrapperLocal() {
         // show "on/off" text near the toggle
         const toggleTextContainer = document.createElement('div');
         toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
-        toggleTextContainer.setAttribute('style', 'position: relative; width: 30px; display: inline-block; margin-left: 5px;');
+        toggleTextContainer.setAttribute('style', 'position: relative; width: 30px; top: -5px; display: inline-block; margin-left: 5px;');
         const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
         const toggleContainer = insertAfterThis.querySelector('.ot-tgl');
         toggleContainer.appendChild(toggleTextContainer);
