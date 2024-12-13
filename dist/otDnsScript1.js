@@ -193,7 +193,7 @@ function doNotShareUI() {
 
     // make sure On/Off text is displayed properly
     document.querySelectorAll('#ot-group-id-C0004')[0].dispatchEvent(new Event('change'))
-    document.getElementById('ot-checkbox-status').style.display = 'position: relative; top: -5px; width: 30px; display: inline-block; margin-left: 5px;';
+    document.getElementById('ot-checkbox-status').style.display = 'position: relative; top: -5px; display: inline-block; margin-left: 5px;';
 
     dnsUI = true;
 }
@@ -433,7 +433,7 @@ async function OptanonWrapperLocal() {
         // show "on/off" text near the toggle
         const toggleTextContainer = document.createElement('div');
         toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
-        toggleTextContainer.setAttribute('style', 'position: relative; width: 30px; top: -5px; display: inline-block; margin-left: 5px;');
+        toggleTextContainer.setAttribute('style', 'position: relative; top: -5px; display: inline-block; margin-left: 5px;');
         const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
         const toggleContainer = insertAfterThis.querySelector('.ot-tgl');
         toggleContainer.appendChild(toggleTextContainer);
