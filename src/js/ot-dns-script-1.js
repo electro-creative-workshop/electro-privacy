@@ -36,7 +36,7 @@ async function OptanonWrapperLocal() {
                 <p>${emailInstructions}</p>
                  <br/><br/>
                 <hr />
-                <h3 style="font-size: inherit;">${deletionRequests}</h3>
+                <h3 style="style="padding-top: 20px; font-size: 15px !important;">${deletionRequests}</h3>
                 <br />
                 <p>${deletionTextBlock1}</p>
                 <br />
