@@ -32,9 +32,9 @@ div#ot-email-text {
     margin-bottom: 25px;
 }
 
-#dns-custom-text :not(h3),
-#ot-email-text :not(h3) {
-    border: 1px solid red;
+div#dns-custom-text :not(h3) *,
+div#ot-email-text :not(h3) *{
+    background-color: #eee;
     font-size: 14px !important;
 }
 
