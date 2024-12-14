@@ -25,7 +25,7 @@ async function OptanonWrapperLocal() {
             <div id="ot-email-text" style="padding-top: 20px; display: none">
                 <h3 style="font-size: 15px !important;">${emailTitle}</h3>
                 <br/>
-                ${emailBlock}
+                <p>${emailBlock}</p>
                 <form id="ot-email-submit" style="padding-top: 20px;" onsubmit="return false;">
                     <label for="ot-email">${emailLabel}
                         <input type="email" style="border: 1px solid #000 !important;" id="ot-email" name="ot-email" required>
@@ -33,15 +33,15 @@ async function OptanonWrapperLocal() {
                     </label>
                 </form>
                 <br/>
-                ${emailInstructions}
+                <p>${emailInstructions}</p>
                  <br/><br/>
                 <hr />
                 <h3 style="font-size: inherit;">${deletionRequests}</h3>
                 <br />
-                ${deletionTextBlock1}
+                <p>${deletionTextBlock1}</p>
                 <br />
                 <br />
-                ${deletionTextBlock2}
+                <p>${deletionTextBlock2}</p>
             </div>
         `;
 
@@ -52,7 +52,7 @@ async function OptanonWrapperLocal() {
             <div id="dns-custom-text" style="display: none">
                 <h3 style="padding-top: 20px; font-size: 15px !important;">${targetedAdsTitle}</h3>
                 <br />
-                ${targetedAdsTextBlock}
+                <p>${targetedAdsTextBlock}</p>
             </div>
         `;
 

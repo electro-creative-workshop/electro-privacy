@@ -32,10 +32,10 @@ div#ot-email-text {
     margin-bottom: 25px;
 }
 
-div#dns-custom-text :not(h3) *,
-div#ot-email-text :not(h3) *{
-    background-color: #eee;
-    font-size: 14px !important;
+div#dns-custom-text p,
+div#ot-email-text p{
+border: 1px solid red;
+    font-size: inherit !important;
 }
 
 form#ot-email-submit {
