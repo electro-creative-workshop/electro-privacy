@@ -15,7 +15,6 @@ async function OptanonWrapperLocal() {
         const emailLabel = getLanguageString('Email:');
         const submit = getLanguageString('Submit');
         const emailInstructions = getLanguageString('Once you have made all of your elections, click “Save Settings” to save your settings and close the window.');
-
         const deletionRequests = getLanguageString('Deletion, Access, Or Correction Requests');
         const deletionTextBlock1 = getLanguageString('deletionTextBlock1');
         const deletionTextBlock2 = getLanguageString('deletionTextBlock2');
