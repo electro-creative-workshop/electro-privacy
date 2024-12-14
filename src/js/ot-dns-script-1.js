@@ -40,7 +40,6 @@ async function OptanonWrapperLocal() {
                 <br />
                 <p>${deletionTextBlock1}</p>
                 <br />
-                <br />
                 <p>${deletionTextBlock2}</p>
             </div>
         `;
