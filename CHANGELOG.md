@@ -81,5 +81,7 @@
 - Move "on"/"off" text to be closer the slider
 - Legal requested copy changes
 
-## 1.4.5 bug fix - Dec 12, 2024
+## 1.4.6 bug fix - Dec 16, 2024
 - CSS fixes: moved most styles to be inline instead of competing with OneTrust styles
+- Spanish updates
+- Markup changes to target text size
