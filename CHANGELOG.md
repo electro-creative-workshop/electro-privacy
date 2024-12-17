@@ -85,3 +85,6 @@
 - CSS fixes: moved most styles to be inline instead of competing with OneTrust styles
 - Spanish updates
 - Markup changes to target text size
+
+## 1.4.7 bug fix - Dec 16, 2024
+- Minor HR spacing fix
