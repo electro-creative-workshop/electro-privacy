@@ -179,54 +179,61 @@ function hideDnsUI() {
 // adding click event listeners to email submit button in DNS UI and CTAs
 let domCheckInterval = setInterval(dnsCheck, 100);
 function dnsCheck() {
-    if (document.getElementById('do-not-share') != null) {
-        // add pattern to email input
-        document.getElementById('ot-email').pattern = re;
-        document.getElementById('ot-email').setCustomValidity(getLanguageString('Please enter a valid email.'));
+    try {
+        // verify UI has been added to document
+        if (document.getElementById('do-not-share') && document.getElementById('ot-email') && document.getElementById('ot-dns-submit')) {
+            // add pattern to email input
+            document.getElementById('ot-email').pattern = re;
+            document.getElementById('ot-email').setCustomValidity(getLanguageString('Please enter a valid email.'));
 
-        document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
+            document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
 
-        // add handling for buttons being recreated (dtc shop)
-        document.addEventListener('click', function(e) {
-            const sdkButton = document.getElementById('ot-sdk-btn');
-            const dnsButton = document.getElementById('do-not-share');
-            if (e.target && e.target.id === 'ot-sdk-btn' || sdkButton && sdkButton.contains(e.target)) {
-                hideDnsUI();
-            } else if (e.target && e.target.id === 'do-not-share' || dnsButton && dnsButton.contains(e.target)) {
-                doNotShareUI();
-            }
-        }, {
-            capture: true
-        })
-
-        /*
-        document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
-        document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
-         */
-
-        // ot banner link
-        if (document.getElementById('onetrust-pc-btn-handler')) {
-            document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
-        }
-
-        // ESC key handling to close
-        //  Needed with onetrust-banner-sdk changes in
-        //  v202304.1.0 - which can remove keyboard handler when cookies popup closes
-        document.addEventListener('keydown', function(e) {
-            if ('Escape' === e.code) {
-                // click dialog close button
-                const close = document.getElementById('close-pc-btn-handler');
-                if (close) {
-                    close.click();
+            // add handling for buttons being recreated (dtc shop)
+            document.addEventListener('click', function (e) {
+                const sdkButton = document.getElementById('ot-sdk-btn');
+                const dnsButton = document.getElementById('do-not-share');
+                if (e.target && e.target.id === 'ot-sdk-btn' || sdkButton && sdkButton.contains(e.target)) {
+                    hideDnsUI();
+                } else if (e.target && e.target.id === 'do-not-share' || dnsButton && dnsButton.contains(e.target)) {
+                    doNotShareUI();
                 }
+            }, {
+                capture: true
+            })
+
+            /*
+            document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
+            document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
+             */
+
+            // ot banner link
+            if (document.getElementById('onetrust-pc-btn-handler')) {
+                document.getElementById('onetrust-pc-btn-handler').addEventListener('click', hideDnsUI);
             }
-        });
 
-        // listen for styled checkbox state
-        document.querySelectorAll('#ot-group-id-C0004')[0].addEventListener('change', function () {
-            document.getElementById('ot-checkbox-status').textContent = this.checked ? getLanguageString('On') : getLanguageString('Off');
-        });
+            // ESC key handling to close
+            //  Needed with onetrust-banner-sdk changes in
+            //  v202304.1.0 - which can remove keyboard handler when cookies popup closes
+            document.addEventListener('keydown', function (e) {
+                if ('Escape' === e.code) {
+                    // click dialog close button
+                    const close = document.getElementById('close-pc-btn-handler');
+                    if (close) {
+                        close.click();
+                    }
+                }
+            });
 
+            // listen for styled checkbox state
+            document.querySelectorAll('#ot-group-id-C0004')[0].addEventListener('change', function () {
+                document.getElementById('ot-checkbox-status').textContent = this.checked ? getLanguageString('On') : getLanguageString('Off');
+            });
+
+            clearInterval(domCheckInterval);
+            domCheckInterval = null;
+        }
+    } catch (error) {
+        console.error("failure to init electro-privacy", error);
         clearInterval(domCheckInterval);
         domCheckInterval = null;
     }
