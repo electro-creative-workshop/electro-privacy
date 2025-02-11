@@ -88,3 +88,8 @@
 
 ## 1.4.7 bug fix - Dec 16, 2024
 - Minor HR spacing fix
+
+## 1.4.8 bug fix - Feb 11, 2025
+- Fix JS error "document.getElementById('ot-email') is null"
+- Fix race condition with adding dns ui & js manipulating controls
+- Fix endless interval loop when dnsCheck fn has error
