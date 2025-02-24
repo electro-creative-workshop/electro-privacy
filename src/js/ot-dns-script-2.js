@@ -64,10 +64,8 @@ function validateEmail(email) {
 
 // if email input is valid, trigger submitPreferences function and disable text input field and submit button
 function inputValidation() {
-    const emailInputValue = document.getElementById('ot-email').value;
     const textInput = document.getElementById('ot-email');
-
-    if (validateEmail(emailInputValue)) {
+    if (textInput && validateEmail(textInput.value)) {
         // console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
         submitPreferences();
         textInput.disabled = true;
@@ -86,9 +84,10 @@ function inputValidation() {
 // grab email input value and trigger API POST
 function submitPreferences() {
     // grab value from email form field
-    otDataSubjectId = document.getElementById('ot-email').value;
+    // Value is Data Subject ID
+    const textInput = document.getElementById('ot-email');
 
-    if (otDataSubjectId === '') {
+    if (!textInput || textInput.value === '') {
         console.error('Identifier Not Set');
     }
     // else if(OnetrustActiveGroups === ",," && saveButtonClicked === false){
@@ -96,7 +95,7 @@ function submitPreferences() {
     //    setTimeout(setPreferences,100);
     // }
     else {
-        setTimeout(setPreferences(otDataSubjectId), 100);
+        setTimeout(setPreferences(textInput.value), 100);
     }
 }
 
@@ -119,6 +118,18 @@ function doNotShareUI() {
     const pcCatTitle = document.getElementById('ot-category-title');
     const catDescription = document.getElementById('ot-desc-id-C0004');
     const pcTitle = document.getElementById('ot-pc-title');
+    const trackingCat = document.querySelectorAll('#ot-group-id-C0004')[0];
+    const checkboxStatus = document.getElementById('ot-checkbox-status');
+
+    // Make sure all referenced elements were found
+    if (!stockText || !dnsText || !essentialCat || !performanceCat || !functionalCat || 
+        !closeBtn || !paidMarketingText || !emailInput || !pcCatTitle || !catDescription || 
+        !pcTitle || !checkboxStatus || !trackingCat
+    ) {
+        console.error('doNotShareUI: One or more elements not found');
+        return;
+    }
+
     pcTitle.textContent = getLanguageString('Privacy Choices');
 
     stockText.style.display = 'none';
@@ -133,8 +144,8 @@ function doNotShareUI() {
     catDescription.style.display = 'none';
 
     // make sure On/Off text is displayed properly
-    document.querySelectorAll('#ot-group-id-C0004')[0].dispatchEvent(new Event('change'))
-    document.getElementById('ot-checkbox-status').style.display = 'position: relative; top: -5px; display: inline-block; margin-left: 5px;';
+    trackingCat.dispatchEvent(new Event('change'))
+    checkboxStatus.style.display = 'position: relative; top: -5px; display: inline-block; margin-left: 5px;';
 
     dnsUI = true;
 }
@@ -156,8 +167,17 @@ function hideDnsUI() {
         const pcCatTitle = document.getElementById('ot-category-title');
         const catDescription = document.getElementById('ot-desc-id-C0004');
         const pcTitle = document.getElementById('ot-pc-title');
-
         const toggleTextContainer = document.getElementById('ot-checkbox-status');
+
+        // Make sure all referenced elements were found
+        if (!stockText || !dnsText || !essentialCat || !performanceCat || !functionalCat || 
+            !closeBtn || !paidMarketingText || !emailInput || !pcCatTitle || !catDescription || 
+            !pcTitle || !toggleTextContainer
+        ) {
+            console.error('hideDnsUI: One or more elements not found');
+            return;
+        }
+
         toggleTextContainer.style.display = 'none';
 
         pcTitle.style.textAlign = 'center';
