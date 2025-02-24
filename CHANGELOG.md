@@ -93,3 +93,7 @@
 - Fix JS error "document.getElementById('ot-email') is null"
 - Fix race condition with adding dns ui & js manipulating controls
 - Fix endless interval loop when dnsCheck fn has error
+
+## 1.4.9 bug fix - Feb 25, 2025
+- Add source map for Sentry debugging
+- Update dependencies
