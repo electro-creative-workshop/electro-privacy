@@ -97,3 +97,4 @@
 ## 1.4.9 bug fix - Feb 25, 2025
 - Add source map for Sentry debugging
 - Update dependencies
+- Defensive programming
