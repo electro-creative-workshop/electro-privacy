@@ -2,12 +2,32 @@
 
 This code is to simplify the integration of the second OneTrust modal into WordPress and NextJS sites.
 
+## Adding the dependency
+
+There are two options.
+
+1. Pull from git directly, in which case you must add a line to your package.json.
+`"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x",`
+where x.x.x is the exact version desired. To update later, edit package.json file by hand.
+
+2. Use Github's npm repo.
+`npm install @electro-creative-workshop/electro-privacy-module`
+which gives you the most recent version and will update later as new versions
+are released.
+
+In order to use Github's repo, you must generate a token that has read:packages in scope
+[Token](https://github.com/settings/tokens/new)
+Then run the following command in the repository. You will be prompted for your
+GitHub username, and a password, which is the token's value.
+
+```bash
+npm login --scope=@electro-creative-workshop --auth-type=legacy --registry=https://npm.pkg.github.com
+```
+
+
 ## WordPress Sites
 
 1. Add this package as a project dependency in `package.json`
-
-    - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x",`
-    - Note: where ^x.x.x is the latest version. See https://github.com/electro-creative-workshop/electro-privacy/tags
 
 2. Load required JS & CSS from this package
 
@@ -38,8 +58,6 @@ This code is to simplify the integration of the second OneTrust modal into WordP
 ### Your NextJS site may differ slightly, but this is the general flavor of the changes
 
 1. Add this package as a project dependency in `package.json`
-
-    - `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x",`
 
 2. in `src/pages/\_app.js`
 
@@ -99,3 +117,20 @@ Other languages will be supported as needed, but the using site will need to loa
     };
 
 NOE: This needs to be setup before electro-privacy is included by the client. The mapping needs to the lang value for the html tag for the site.
+
+## Publishing a new version
+
+- Update the version number in package.json
+- Commit, tag (e.g. git tag v1.2.3), push, and push tags
+- (one time only) Generate a token in GitHub that has write:packages in scope. [Token](https://github.com/settings/tokens/new)
+- (one time only) Create a .npmrc file in your user root directory:
+
+//npm.pkg.github.com/:\_authToken={your write-packages token here}
+@electro-creative-workshop:registry=https://npm.pkg.github.com/
+
+- From the root directory of this repository, run:
+
+```bash
+npm run build
+npm publish
+```

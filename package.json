@@ -1,11 +1,15 @@
 {
-    "name": "electro-privacy",
-    "version": "1.4.9",
+    "name": "@electro-creative-workshop/electro-privacy",
+    "version": "1.5.0",
     "description": "Loads OneTrust Do Not Share JavaScript and CSS",
     "main": "dist/otDnsScript1.js",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/electro-creative-workshop/electro-privacy.git"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com",
+        "access": "restricted"
     },
     "author": "",
     "license": "ISC",
