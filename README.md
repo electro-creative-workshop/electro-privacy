@@ -16,14 +16,20 @@ which gives you the most recent version and will update later as new versions
 are released.
 
 In order to use Github's repo, you must generate a token that has read:packages in scope
-[Token](https://github.com/settings/tokens/new)
+[New Token](https://github.com/settings/tokens/new)
 Then run the following command in the repository. You will be prompted for your
 GitHub username, and a password, which is the token's value.
 
 ```bash
 npm login --scope=@electro-creative-workshop --auth-type=legacy --registry=https://npm.pkg.github.com
 ```
+On Vercel, you need to set up a `NPM_RC` environment variable like so:
 
+    registry=https://registry.npmjs.org
+    //npm.pkg.github.com/:\_authToken={your read-only token here}
+    @electro-creative-workshop:registry=https://npm.pkg.github.com/
+
+For more information, see [Using Private Dependendies with Vercel](https://vercel.com/guides/using-private-dependencies-with-vercel)
 
 ## WordPress Sites
 
