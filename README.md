@@ -6,14 +6,35 @@ This code is to simplify the integration of the second OneTrust modal into WordP
 
 There are two options.
 
-1. Pull from git directly, in which case you must add a line to your package.json.
+1. Legacy Github: Pull from git directly, in which case you must add a line to your package.json.
 `"electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x",`
-where x.x.x is the exact version desired. To update later, edit package.json file by hand.
+where x.x.x is the exact version desired. 
 
-2. Use Github's npm repo.
+To update the version, edit package.json file by hand.
+
+Load required JS & CSS from this package
+
+    - in `main.js`:
+        - `import 'electro-privacy'`
+    - in `scss/decoration/index.scss`
+        - `@import '../../../node_modules/electro-privacy/dist/electro-privacy';`
+
+2. NPM Install: Use Github's npm repo.
 `npm install @electro-creative-workshop/electro-privacy-module`
 which gives you the most recent version and will update later as new versions
 are released.
+
+change your import from:
+
+`import('electro-privacy').catch(err => {....`
+
+to
+
+`import('@electro-creative-workshop/electro-privacy').catch(err => {...`
+
+You will probably need to reimport your css like so, but sites may vary.
+
+`@use '~@electro-creative-workshop/electro-privacy/dist/electro-privacy' as *;`
 
 In order to use Github's repo, you must generate a token that has read:packages in scope
 [New Token](https://github.com/settings/tokens/new)
@@ -35,12 +56,7 @@ For more information, see [Using Private Dependendies with Vercel](https://verce
 
 1. Add this package as a project dependency in `package.json`
 
-2. Load required JS & CSS from this package
 
-    - in `main.js`:
-        - `import 'electro-privacy'`
-    - in `scss/decoration/index.scss`
-        - `@import '../../../node_modules/electro-privacy/dist/electro-privacy';`
 
 3. Add to the footer near the "Cookie Settings" button:
 
