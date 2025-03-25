@@ -17,7 +17,7 @@ Load required JS & CSS from this package
     - in `main.js`:
         - `import 'electro-privacy'`
     - in `scss/decoration/index.scss`
-        - `@import '../../../node_modules/electro-privacy/dist/electro-privacy';`
+        - `@use '../../../node_modules/electro-privacy/dist/electro-privacy';`
 
 2. NPM Install: Use Github's npm repo.
 `npm install @electro-creative-workshop/electro-privacy-module`
@@ -32,7 +32,7 @@ to
 
 `import('@electro-creative-workshop/electro-privacy').catch(err => {...`
 
-You will probably need to reimport your css like so, but sites may vary.
+You will probably need to reimport your css like so, but sites may vary. Be sure to to an `npm run build` to troubleshoot.
 
 `@use '~@electro-creative-workshop/electro-privacy/dist/electro-privacy' as *;`
 
