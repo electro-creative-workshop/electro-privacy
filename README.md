@@ -36,6 +36,10 @@ You will probably need to reimport your css like so, but sites may vary. Be sure
 
 `@use '~@electro-creative-workshop/electro-privacy/dist/electro-privacy' as *;`
 
+You may have to add a file in `types` called `electro-privacy.d.ts` that declares the module:
+
+`declare module '@electro-creative-workshop/electro-privacy';`
+
 In order to use Github's repo, you must generate a token that has read:packages in scope
 [New Token](https://github.com/settings/tokens/new)
 Then run the following command in the repository. You will be prompted for your
