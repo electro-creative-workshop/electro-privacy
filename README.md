@@ -32,7 +32,7 @@ to
 
 `import('@electro-creative-workshop/electro-privacy').catch(err => {...`
 
-You will probably need to reimport your css like so, but sites may vary. Be sure to to an `npm run build` to troubleshoot.
+You will probably need to reimport your css like so, but sites may vary. Be sure to do an `npm run build` to troubleshoot.
 
 `@use '~@electro-creative-workshop/electro-privacy/dist/electro-privacy' as *;`
 
