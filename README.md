@@ -2,6 +2,66 @@
 
 This code is to simplify the integration of the second OneTrust modal into WordPress and NextJS sites. It is published as an npm package to **NPM** under the scope `@electro-creative-workshop/electro-privacy`.
 
+## Google Tag Manager Consent Gating (React/Next.js)
+
+This package now provides a reusable React component for gating Google Tag Manager (GTM) and Google Analytics (GA4) behind OneTrust performance consent.
+
+**Component:** `GtmConsentGate`
+
+**Location:** `@electro-creative-workshop/electro-privacy/src/js/gtm-consent-gate.js`
+
+### Usage Example (Next.js/React)
+
+
+1. Import the component and provide your GTM ID, GA4 measurement IDs, and the GTM script component. You can pass these directly in code, or use environment variables (recommended for production):
+
+**A. Directly in code:**
+
+        ```jsx
+        import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy/src/js/gtm-consent-gate';
+        import { GoogleTagManager } from '@next/third-parties/google';
+
+        <GtmConsentGate
+            gtmId="GTM-XXXXXXX"
+            gaMeasurementIds={["G-YYYYYYYY"]}
+            GoogleTagManager={GoogleTagManager}
+        />
+        ```
+
+**B. Using environment variables (Next.js example):**
+
+        ```jsx
+        import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy/src/js/gtm-consent-gate';
+        import { GoogleTagManager } from '@next/third-parties/google';
+
+        // .env.local:
+        // NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
+        // NEXT_PUBLIC_GA4_IDS=G-YYYYYYYY,G-ZZZZZZZZ
+
+        const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+        const gaMeasurementIds = process.env.NEXT_PUBLIC_GA4_IDS
+            ? process.env.NEXT_PUBLIC_GA4_IDS.split(',')
+            : [];
+
+        <GtmConsentGate
+            gtmId={gtmId}
+            gaMeasurementIds={gaMeasurementIds}
+            GoogleTagManager={GoogleTagManager}
+        />
+        ```
+
+2. Place the component in your layout or page where you would normally load GTM.
+
+3. The component will only render GTM if the user has granted OneTrust performance consent, and will fully remove/disable GTM and GA4 if consent is revoked.
+
+**Props:**
+- `gtmId` (string, required): Your GTM container ID
+- `gaMeasurementIds` (array, optional): GA4 measurement IDs to hard-disable when consent is absent
+- `GoogleTagManager` (React component, required): The GTM script/component to render
+- `performanceCode` (string, optional): OneTrust performance consent code (default: 'C0002')
+
+See `test/gtm-consent-gate.test.js` for usage and test examples.
+
 ## Adding the dependency
 
 There are two options.
