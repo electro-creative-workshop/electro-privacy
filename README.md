@@ -12,13 +12,33 @@ This package now provides a reusable React component for gating Google Tag Manag
 
 ### Usage Example (Next.js/React)
 
+#### Migrating from direct GoogleTagManager usage
+
+If your site currently uses:
+
+```jsx
+<GoogleTagManager gtmId="GTM-XXXXXXX" />
+```
+
+Replace it with:
+
+```jsx
+<GtmConsentGate
+    gtmId="GTM-XXXXXXX"
+    gaMeasurementIds={["G-YYYYYYYY"]} // optional, for GA4
+    GoogleTagManager={GoogleTagManager}
+/>
+```
+
+This ensures GTM and GA4 only run when the user has granted OneTrust performance consent, and are fully disabled/removed if consent is revoked.
+
 
 1. Import the component and provide your GTM ID, GA4 measurement IDs, and the GTM script component. You can pass these directly in code, or use environment variables (recommended for production):
 
 **A. Directly in code:**
 
         ```jsx
-        import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy/src/js/gtm-consent-gate';
+        import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy';
         import { GoogleTagManager } from '@next/third-parties/google';
 
         <GtmConsentGate
@@ -31,7 +51,7 @@ This package now provides a reusable React component for gating Google Tag Manag
 **B. Using environment variables (Next.js example):**
 
         ```jsx
-        import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy/src/js/gtm-consent-gate';
+        import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy';
         import { GoogleTagManager } from '@next/third-parties/google';
 
         // .env.local:
