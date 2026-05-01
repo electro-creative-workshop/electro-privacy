@@ -1,5 +1,3 @@
-// Export GtmConsentGate for package consumers
-export { GtmConsentGate } from './gtm-consent-gate';
 // load language support & determine lang based on url
 import {getLanguageString} from "./language-support";
 

@@ -3,6 +3,12 @@
     "version": "1.7.7",
     "description": "Loads OneTrust Do Not Share JavaScript and CSS",
     "main": "dist/otDnsScript1.js",
+    "exports": {
+        ".": "./dist/otDnsScript1.js",
+        "./gtm-consent-gate": "./dist/gtm-consent-gate.js",
+        "./dist/*": "./dist/*",
+        "./package.json": "./package.json"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/electro-creative-workshop/electro-privacy.git"
@@ -41,9 +47,21 @@
         "test:watch": "vitest",
         "build:webpack": "webpack --progress --config webpack.config.js",
         "build:css": "cp src/css/privacy.css dist/electro-privacy.css",
-        "build": "npm run build:webpack && npm run build:css",
+        "build:gtm": "cp src/js/gtm-consent-gate.js dist/gtm-consent-gate.js",
+        "build": "npm run build:webpack && npm run build:css && npm run build:gtm",
         "knip": "knip",
         "prepublishOnly": "npm run build"
+    },
+    "peerDependencies": {
+        "react": ">=18"
+    },
+    "peerDependenciesMeta": {
+        "react": {
+            "optional": true
+        }
+    },
+    "dependencies": {
+        "webpack-version-file": "^0.1.7"
     },
     "files": [
         "dist",

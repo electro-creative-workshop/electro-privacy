@@ -1,5 +1,7 @@
 # [Unreleased]
-- Add `GtmConsentGate` React component for gating Google Tag Manager (GTM) and Google Analytics (GA4) behind OneTrust performance consent. Includes comprehensive tests. See README for usage details.
+- Add `GtmConsentGate` React component for gating Google Tag Manager (GTM) and Google Analytics (GA4) behind OneTrust performance consent.
+- Export `GtmConsentGate` as a separate package entrypoint: `@electro-creative-workshop/electro-privacy/gtm-consent-gate`.
+- Keep architecture decoupled: `ot-dns` runtime remains independent from GTM consent-gate integration.
 # History
 
 ## 1.1.1 Stable Version

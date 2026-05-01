@@ -1,18 +1,73 @@
 # Clorox OneTrust "Your Privacy Choices" Integration
 
-This code is to simplify the integration of the second OneTrust modal into WordPress and NextJS sites. It is published as an npm package to **NPM** under the scope `@electro-creative-workshop/electro-privacy`.
+This package simplifies integration of the second OneTrust modal for WordPress and Next.js sites.
+Published package: **@electro-creative-workshop/electro-privacy**.
+
+---
+
+## What this package provides
+
+- OneTrust "Your Privacy Choices" integration support
+- React/Next.js GTM + GA4 consent gating component export
+- CSS for the privacy choices UI
+- Environment-aware behavior for production vs staging
+- Optional debug logging
+
+---
+
+## Installation
+
+### Option 1: npm (recommended)
+
+Install from GitHub Packages:
+
+```bash
+npm install @electro-creative-workshop/electro-privacy
+```
+
+You must have GitHub Packages access for the **@electro-creative-workshop** scope.
+
+### Option 2: Install from Git branch (testing)
+
+Use this to test the Firefox branch:
+
+```bash
+npm install github:electro-creative-workshop/electro-privacy#firefox
+```
+
+### Option 3: Legacy GitHub dependency format
+
+If needed, you can pin by branch/tag/semver in package.json:
+
+```json
+"dependencies": {
+  "@electro-creative-workshop/electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x"
+}
+```
+
+---
+
+## CSS import
+
+Import package CSS in your global stylesheet:
+
+```css
+@import '@electro-creative-workshop/electro-privacy/dist/electro-privacy.css';
+```
+
+Note: this module no longer requires Sass.
+
+---
 
 ## Google Tag Manager Consent Gating (React/Next.js)
 
-This package now provides a reusable React component for gating Google Tag Manager (GTM) and Google Analytics (GA4) behind OneTrust performance consent.
+This package exports `GtmConsentGate` for gating Google Tag Manager (GTM) and Google Analytics (GA4) behind OneTrust performance consent.
 
-**Component:** `GtmConsentGate`
+- Component name: **GtmConsentGate**
+- Package import: **@electro-creative-workshop/electro-privacy/gtm-consent-gate**
+- Architecture: **separate from ot-dns runtime (not auto-executed)**
 
-**Location:** `@electro-creative-workshop/electro-privacy/src/js/gtm-consent-gate.js`
-
-### Usage Example (Next.js/React)
-
-#### Migrating from direct GoogleTagManager usage
+### Migrating from direct GoogleTagManager usage
 
 If your site currently uses:
 
@@ -20,252 +75,307 @@ If your site currently uses:
 <GoogleTagManager gtmId="GTM-XXXXXXX" />
 ```
 
-Replace it with:
+Replace with:
 
 ```jsx
 <GtmConsentGate
-    gtmId="GTM-XXXXXXX"
-    gaMeasurementIds={["G-YYYYYYYY"]} // optional, for GA4
-    GoogleTagManager={GoogleTagManager}
+  gtmId="GTM-XXXXXXX"
+  gaMeasurementIds={["G-YYYYYYYY"]} // optional
+  GoogleTagManager={GoogleTagManager}
 />
 ```
 
-This ensures GTM and GA4 only run when the user has granted OneTrust performance consent, and are fully disabled/removed if consent is revoked.
+This ensures GTM and GA4 only run when performance consent is granted, and are disabled/removed if consent is revoked.
 
+### Example A: direct values
 
-1. Import the component and provide your GTM ID, GA4 measurement IDs, and the GTM script component. You can pass these directly in code, or use environment variables (recommended for production):
+```jsx
+import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy/gtm-consent-gate';
+import { GoogleTagManager } from '@next/third-parties/google';
 
-**A. Directly in code:**
+<GtmConsentGate
+  gtmId="GTM-XXXXXXX"
+  gaMeasurementIds={["G-YYYYYYYY"]}
+  GoogleTagManager={GoogleTagManager}
+/>
+```
 
-        ```jsx
-        import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy';
-        import { GoogleTagManager } from '@next/third-parties/google';
+### Example B: environment variables (Next.js)
 
-        <GtmConsentGate
-            gtmId="GTM-XXXXXXX"
-            gaMeasurementIds={["G-YYYYYYYY"]}
-            GoogleTagManager={GoogleTagManager}
-        />
-        ```
+```jsx
+import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy/gtm-consent-gate';
+import { GoogleTagManager } from '@next/third-parties/google';
 
-**B. Using environment variables (Next.js example):**
+// .env.local
+// NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
+// NEXT_PUBLIC_GA4_IDS=G-YYYYYYYY,G-ZZZZZZZZ
 
-        ```jsx
-        import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy';
-        import { GoogleTagManager } from '@next/third-parties/google';
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+const gaMeasurementIds = process.env.NEXT_PUBLIC_GA4_IDS
+  ? process.env.NEXT_PUBLIC_GA4_IDS.split(',')
+  : [];
 
-        // .env.local:
-        // NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
-        // NEXT_PUBLIC_GA4_IDS=G-YYYYYYYY,G-ZZZZZZZZ
+<GtmConsentGate
+  gtmId={gtmId}
+  gaMeasurementIds={gaMeasurementIds}
+  GoogleTagManager={GoogleTagManager}
+/>
+```
 
-        const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
-        const gaMeasurementIds = process.env.NEXT_PUBLIC_GA4_IDS
-            ? process.env.NEXT_PUBLIC_GA4_IDS.split(',')
-            : [];
+### Props
 
-        <GtmConsentGate
-            gtmId={gtmId}
-            gaMeasurementIds={gaMeasurementIds}
-            GoogleTagManager={GoogleTagManager}
-        />
-        ```
+- **gtmId** (string, required): GTM container ID
+- **gaMeasurementIds** (string[], optional): GA4 IDs to hard-disable when consent is absent
+- **GoogleTagManager** (React component, required): GTM component to render
+- **performanceCode** (string, optional): OneTrust performance consent code, default is C0002
 
-2. Place the component in your layout or page where you would normally load GTM.
+---
 
-3. The component will only render GTM if the user has granted OneTrust performance consent, and will fully remove/disable GTM and GA4 if consent is revoked.
+## Next.js App Router SSR note (important)
 
-**Props:**
-- `gtmId` (string, required): Your GTM container ID
-- `gaMeasurementIds` (array, optional): GA4 measurement IDs to hard-disable when consent is absent
-- `GoogleTagManager` (React component, required): The GTM script/component to render
-- `performanceCode` (string, optional): OneTrust performance consent code (default: 'C0002')
+If you import **GtmConsentGate** directly in a server component (example: app layout), production build can fail during page data collection with **window is not defined**.
 
-See `test/gtm-consent-gate.test.js` for usage and test examples.
+Use a client-only wrapper and dynamic import with SSR disabled.
 
-## Adding the dependency
+### 1) Create a client wrapper
 
-There are two options.
+```tsx
+'use client';
 
-1. **Legacy GitHub:** Pull from git directly. Add a line to your `package.json`:
+import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy/gtm-consent-gate';
+import { GoogleTagManager } from '@next/third-parties/google';
 
-    ```json
-    "electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x"
-    ```
+type GtmConsentGateClientProps = {
+  gtmId: string;
+  gaMeasurementIds?: string[];
+};
 
-    Replace `x.x.x` with the exact version desired. To update the version, edit `package.json` by hand.
+export default function GtmConsentGateClient({
+  gtmId,
+  gaMeasurementIds,
+}: Readonly<GtmConsentGateClientProps>) {
+  return (
+    <GtmConsentGate
+      gtmId={gtmId}
+      gaMeasurementIds={gaMeasurementIds}
+      GoogleTagManager={GoogleTagManager}
+    />
+  );
+}
+```
 
-    Load required JS & CSS from this package:
-    - In `main.js`: `import 'electro-privacy'`
-    - In your main CSS file: `@import '../../../node_modules/electro-privacy/dist/electro-privacy.css';`
+### 2) Load wrapper from server layout with SSR disabled
 
-2. **npm (GitHub Packages):** Install the package from the GitHub npm registry. This gives you the published version and standard npm updates.
-    ```bash
-    npm install @electro-creative-workshop/electro-privacy
-    ```
-    You must be logged in to GitHub Packages (see below) and have access to the `@electro-creative-workshop` scope.
+```tsx
+import dynamic from 'next/dynamic';
 
-change your import from:
+const GtmConsentGateClient = dynamic(() => import('./gtm-consent-gate-client'), {
+  ssr: false,
+});
 
-`import('electro-privacy').catch(err => {....`
+// ...
+<GtmConsentGateClient
+  gtmId="GTM-XXXXXXX"
+  gaMeasurementIds={['G-YYYYYYYY']}
+/>
+```
 
-to
+---
+
+## Dynamic client import for privacy module (if needed)
+
+If you need to load the package only in browser runtime:
 
 ```jsx
 'use client';
 import { useEffect } from 'react';
 
 export default function ElectroPrivacyLoader() {
-    useEffect(() => {
-        // Dynamically import electro-privacy only on the client
-        import('@electro-creative-workshop/electro-privacy');
-    }, []);
-    // This component doesn't render anything visible
-    return null;
+  useEffect(() => {
+    import('@electro-creative-workshop/electro-privacy');
+  }, []);
+  return null;
 }
 ```
 
-You will probably need to reimport your css like so, but sites may vary. Be sure to do an `npm run build` to troubleshoot. Note: this module no longer needs Sass: it is native CSS.
+Optional type declarations if your project needs them:
 
-`@import '@electro-creative-workshop/electro-privacy/dist/electro-privacy.css';`
-
-You may have to add a file in `types` called `electro-privacy.d.ts` that declares the module:
-
-```jsx
+```ts
 declare module 'electro-privacy';
 declare module '@electro-creative-workshop/electro-privacy';
 ```
 
-In order to use Github's repo, you must generate a token that has read:packages in scope
-[New Token](https://github.com/settings/tokens/new)
-Then run the following command in the repository. You will be prompted for your
-GitHub username, and a password, which is the token's value.
+---
+
+## GitHub Packages authentication
+
+Create a personal access token with **read:packages**.
+
+Then login:
 
 ```bash
 npm login --scope=@electro-creative-workshop --auth-type=legacy --registry=https://npm.pkg.github.com
 ```
 
-On Vercel, you need to set up a `NPM_RC` environment variable like so:
+### Vercel configuration
 
-    registry=https://registry.npmjs.org
-    //npm.pkg.github.com/:\_authToken={your read-only token here}
-    @electro-creative-workshop:registry=https://npm.pkg.github.com/
+Set **NPM_RC** environment variable with:
 
-For more information, see [Using Private Dependendies with Vercel](https://vercel.com/guides/using-private-dependencies-with-vercel)
-
-## WordPress Sites
-
-1. Add this package as a project dependency in `package.json`
-
-2. Add to the footer near the "Cookie Settings" button:
-
-    - `<button id="do-not-share">Your Privacy Choices</button>`
-    - Add the "opt out" icon here next to the text: https://oag.ca.gov/privacy/ccpa/icons-download
-
-3. In your footer styles (e.g. footer.css or footer.scss), add the `#do-not-share` to the `#ot-sdk-btn` rule to style "Your Privacy Choices" button the same way as "Cookie Settings". For example:
-
-    ```
-    #ot-sdk-btn, #do-not-share {
-     margin-bottom: 1em;
-     padding: 0 !important;
-     font-size: 1em !important;
-     color: $color-white !important;
-     border: none !important;
-    }
-    ```
-
-## NextJS sites:
-
-### Your NextJS site may differ slightly, but this is the general flavor of the changes
-
-1. Add this package as a project dependency in `package.json`
-
-2. in `src/pages/\_app.js`
-
-    - `import { useEffect } from 'react'`
-    - in `export default function App({ Component, pageProps }) {` or something similar, add: - `useEffect(() => { import('electro-privacy'); }, [])`
-
-3. in your global styles (e.g. `src/styles/global.css`)
-
-    - `@import '../../node_modules/electro-privacy/dist/electro-privacy.css';`
-
-4. Add near the "Cookie Settings" button:
-
-```
-    <button id="do-not-share">
+```text
+registry=https://registry.npmjs.org
+//npm.pkg.github.com/:_authToken={your read-only token here}
+@electro-creative-workshop:registry=https://npm.pkg.github.com/
 ```
 
-5. Add `#do-not-share` to the existing `#ot-sdk-btn` rule to style the "Do Not Share..." text:
+Reference: Using private dependencies with Vercel.
 
+---
+
+## WordPress integration
+
+1. Add package dependency.
+2. Add button near Cookie Settings:
+
+```html
+<button id="do-not-share">Your Privacy Choices</button>
 ```
+
+3. Add California opt-out icon next to text:
+https://oag.ca.gov/privacy/ccpa/icons-download
+4. Style button similarly to Cookie Settings:
+
+```css
 #ot-sdk-btn,
 #do-not-share {
-  background: none !important;
+  margin-bottom: 1em;
+  padding: 0 !important;
+  font-size: 1em !important;
   border: none !important;
-  color: #133d8d !important;
+}
 ```
 
-## Token Configuration
+---
 
-The OneTrust tokens are hardcoded in the module. The module automatically uses the appropriate token (production or staging) based on the environment detection. No configuration is required.
+## Next.js Pages Router style integration (legacy pattern)
 
-## UAT Values
+1. Add package dependency.
+2. In app bootstrap file, load package on client:
 
-The current production version sends entries to the live OneTrust collection point by default. If you need to support UAT, set this variable before importing electro-privacy:
+```jsx
+import { useEffect } from 'react';
 
-`window.electroPrivacyStaging = true;`
+export default function App({ Component, pageProps }) {
+  useEffect(() => {
+    import('@electro-creative-workshop/electro-privacy');
+  }, []);
 
-This will change the following values to the non-production values:
+  return <Component {...pageProps} />;
+}
+```
 
-- url
-- token (hardcoded staging token)
-- ID
+3. Import package CSS globally.
+4. Add the privacy choices button markup.
+5. Add matching styles for #do-not-share.
 
-Alternatively, the module automatically detects non-production environments based on the hostname (e.g., `vercel.app`, `staging`, `dev`, `qa`, `local`, `lndo.site`, `pantheonsite`).
+---
+
+## Token configuration
+
+OneTrust values are built into the module.
+Module automatically selects production or staging values based on environment detection.
+
+---
+
+## UAT values
+
+To force staging behavior before importing the package:
+
+```js
+window.electroPrivacyStaging = true;
+```
+
+This switches URL, token, and ID to non-production values.
+
+The module also auto-detects many non-production host patterns (such as staging/dev/qa/local style hostnames).
+
+---
 
 ## Debug logging
 
-To log the API URL and environment (production vs staging) to the browser console when submitting, set this before loading electro-privacy:
+Enable debug logs before loading package:
 
-`window.electroPrivacyDebug = true;`
+```js
+window.electroPrivacyDebug = true;
+```
 
-The request body (email, token) is never logged to avoid PII and token leakage. Debug logging is off by default.
+Debug logs include API URL and environment only.
+Request body data (email/token) is intentionally not logged.
 
-## QA Criteria
+---
 
-- Run `window.electroPrivacyVersion` in the console to ensure the latest version `1.x.x` shows.
-- Test endpoint submissions to ensure OneTrust is sending through the submitted email address.
-- Log in to the OneTrust testing portal to ensure that your submission is received.
-- https://uat.onetrust.com/consent/data-subjects
-- Ensure that your test does not show on the production OneTrust site unless you are on production.
-- Ensure that the “Cookie Settings” link properly loads the OneTrust category modal.
-- Once this has gone live, please check https://app.onetrust.com/consent/data-subjects
+## QA checklist
 
-## Language Support
+- Confirm loaded version in browser console:
+  - window.electroPrivacyVersion
+- Verify submissions are received in OneTrust test portal:
+  - https://uat.onetrust.com/consent/data-subjects
+- Ensure test submissions do not appear in production unless running production.
+- Verify Cookie Settings still opens OneTrust category modal.
+- After go-live, validate production portal:
+  - https://app.onetrust.com/consent/data-subjects
 
-The default implementation supports English & Spanish based on the lang attribute in the html tag:
+---
 
-    <html lang="es-US">
+## Language support
 
-Other languages will be supported as needed, but the using site will need to load the appropriate strings into a global array used by electro-privacy:
+Default behavior supports English and Spanish using html lang (example: es-US).
 
-    /**
-    * Add language support to electro-privacy module
-    *   This code needs to be executed before importing
-        electro-privacy
-    */
+For additional languages, define mapping before importing package:
 
-    window.ElectroPrivacyLanguageMap = {
-    'zz-US': require('../../..
-      /node_modules/electro-privacy/dist/lang/zz-US.json'),
-    };
+```js
+window.ElectroPrivacyLanguageMap = {
+  'zz-US': require('../../../node_modules/electro-privacy/dist/lang/zz-US.json'),
+};
+```
 
-**Note:** This needs to be set up before electro-privacy is included by the client. The mapping key must match the `lang` value on the site's `<html>` tag.
+Mapping key must match the html lang attribute.
+
+---
 
 ## Publishing a new version
 
 This repo checks in `dist/`, so release tags must include the exact generated artifacts.
 
-**What’s the difference between a tag and a published version?**
+1. Ensure build passes:
+
+```bash
+npm run build
+```
+
+2. Commit changes.
+3. Bump version and create tag:
+
+```bash
+npm version patch
+# or npm version minor
+# or npm version major
+```
+
+4. Push commit and tags:
+
+```bash
+git push --follow-tags
+```
+
+5. Publish:
+
+```bash
+npm publish
+```
+
+### Package publishing auth (one-time setup)
+
+Create token with **write:packages**, then configure user-level npm auth:
 
 - **Git tag** - A label in your Git repo that points at one specific commit (for example `v1.0.5`).
 - **Published version** - The package uploaded to GitHub Packages by `npm publish`.
