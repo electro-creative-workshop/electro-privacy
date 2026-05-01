@@ -5,7 +5,10 @@
     "main": "dist/otDnsScript1.js",
     "exports": {
         ".": "./dist/otDnsScript1.js",
-        "./gtm-consent-gate": "./dist/gtm-consent-gate.js",
+        "./gtm-consent-gate": {
+            "types": "./dist/gtm-consent-gate.d.ts",
+            "default": "./dist/gtm-consent-gate.js"
+        },
         "./dist/*": "./dist/*",
         "./package.json": "./package.json"
     },
@@ -28,6 +31,8 @@
     "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme",
     "devDependencies": {
         "@eslint/js": "^10.0.1",
+        "@testing-library/react": "^16.3.0",
+        "@types/react": "^19.2.2",
         "@vitest/coverage-v8": "^4.1.10",
         "copy-webpack-plugin": "^14.0.0",
         "eslint": "^10.8.1",
@@ -35,6 +40,7 @@
         "jsdom": "^30.0.1",
         "knip": "^6.32.1",
         "prettier": "3.9.6",
+        "typescript": "^5.9.3",
         "vitest": "^4.1.10",
         "webpack": "^5.109.2",
         "webpack-cli": "^7.2.2"
@@ -47,7 +53,7 @@
         "test:watch": "vitest",
         "build:webpack": "webpack --progress --config webpack.config.js",
         "build:css": "cp src/css/privacy.css dist/electro-privacy.css",
-        "build:gtm": "cp src/js/gtm-consent-gate.js dist/gtm-consent-gate.js",
+        "build:gtm": "tsc -p tsconfig.gtm.json",
         "build": "npm run build:webpack && npm run build:css && npm run build:gtm",
         "knip": "knip",
         "prepublishOnly": "npm run build"

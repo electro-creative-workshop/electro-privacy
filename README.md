@@ -66,6 +66,7 @@ This package exports `GtmConsentGate` for gating Google Tag Manager (GTM) and Go
 - Component name: **GtmConsentGate**
 - Package import: **@electro-creative-workshop/electro-privacy/gtm-consent-gate**
 - Architecture: **separate from ot-dns runtime (not auto-executed)**
+- TypeScript: **included** (`gtm-consent-gate.d.ts` is shipped with the package)
 
 ### Migrating from direct GoogleTagManager usage
 
@@ -203,6 +204,7 @@ Optional type declarations if your project needs them:
 ```ts
 declare module 'electro-privacy';
 declare module '@electro-creative-workshop/electro-privacy';
+declare module '@electro-creative-workshop/electro-privacy/gtm-consent-gate';
 ```
 
 ---
