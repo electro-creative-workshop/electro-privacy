@@ -1,6 +1,51 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+/**
+ * ============================================================
+ * GTM CONSENT GATE (ARCHITECTURE OVERVIEW)
+ * ============================================================
+ *
+ * This component is a HARD GATE for loading Google Tag Manager.
+ *
+ * Purpose:
+ * - Prevent GTM from loading until performance consent (C0002) is granted
+ * - Avoid early script execution due to OneTrust timing issues
+ * - Provide teardown + reset if consent is revoked after load
+ *
+ * IMPORTANT:
+ * - This controls whether GTM EXISTS on the page
+ * - GTM consent mode controls what GTM can RUN
+ *
+ * These are complementary layers — not replacements for each other.
+ *
+ * ------------------------------------------------------------
+ * FUTURE (after GTM consent mode rollout):
+ *
+ * ✅ KEEP:
+ * - The main GTM gating (showGTM) — protects against early execution
+ *
+ * ⚠️ MAY BE SIMPLIFIED:
+ * - Cookie parsing fallback (if OptanonActiveGroups is reliable)
+ * - Recheck timers (if OT timing stabilizes)
+ * - Preference center observer (UX-dependent)
+ * - Hard reload on revoke (may be softened)
+ *
+ * ❌ DO NOT REMOVE:
+ * - The core gate itself unless GTM load timing is fully trusted
+ */
+
 const DEFAULT_PERFORMANCE_CODE = 'C0002';
+
+/**
+ * Recheck delays help mitigate OneTrust async timing issues.
+ *
+ * WHY:
+ * - OneTrust updates consent state asynchronously
+ * - OptanonActiveGroups may not be immediately accurate
+ *
+ * FUTURE:
+ * - Could potentially be removed if timing becomes reliable
+ */
 const CONSENT_RECHECK_DELAYS_MS = [0, 150, 600, 1500] as const;
 
 type BrowserWindow = Window & {
@@ -20,6 +65,9 @@ export type GtmConsentGateProps = {
   GoogleTagManager: React.ComponentType<GtmComponentProps>;
 };
 
+/**
+ * Helper: reads a cookie value by name
+ */
 function getCookieValue(name: string): string | null {
   const match = document.cookie
     .split(';')
@@ -29,6 +77,15 @@ function getCookieValue(name: string): string | null {
   return match.slice(name.length + 1);
 }
 
+/**
+ * Detects whether the OneTrust preference center is currently open.
+ *
+ * WHY:
+ * - Prevents GTM loading while user is actively making consent decisions
+ *
+ * FUTURE:
+ * - Could be removed depending on UX requirements
+ */
 function isPreferenceCenterOpen(): boolean {
   const preferenceCenter = document.getElementById('onetrust-pc-sdk');
   if (!preferenceCenter) return false;
@@ -41,6 +98,15 @@ function isPreferenceCenterOpen(): boolean {
   return computedStyle.display !== 'none' && computedStyle.visibility !== 'hidden';
 }
 
+/**
+ * Fallback: parse consent from OneTrust cookie
+ *
+ * WHY:
+ * - OptanonActiveGroups is not always immediately available
+ *
+ * FUTURE:
+ * - Could likely be removed if active groups are reliable
+ */
 function hasPerformanceConsentFromCookie(performanceCode: string): boolean | null {
   const optanonConsent = getCookieValue('OptanonConsent');
   if (!optanonConsent) return null;
@@ -62,6 +128,12 @@ function hasPerformanceConsentFromCookie(performanceCode: string): boolean | nul
   return !performanceGroup.endsWith(':0');
 }
 
+/**
+ * Primary consent signal: OneTrust active groups
+ *
+ * FUTURE:
+ * - Prefer to rely on this entirely if stable
+ */
 function hasPerformanceConsentFromActiveGroups(performanceCode: string): boolean | null {
   const activeGroups = (window as BrowserWindow).OptanonActiveGroups;
   if (typeof activeGroups !== 'string' || activeGroups.trim().length === 0) return null;
@@ -78,6 +150,9 @@ function hasPerformanceConsentFromActiveGroups(performanceCode: string): boolean
   );
 }
 
+/**
+ * Combined consent check (fail-closed)
+ */
 function hasPerformanceConsent(performanceCode: string): boolean {
   const activeGroupsConsent = hasPerformanceConsentFromActiveGroups(performanceCode);
   if (activeGroupsConsent === false) return false;
@@ -89,6 +164,12 @@ function hasPerformanceConsent(performanceCode: string): boolean {
   return false;
 }
 
+/**
+ * Removes GTM from page entirely
+ *
+ * WHY:
+ * - Ensures no tracking remains after consent revocation
+ */
 function teardownGtm(gtmId: string): void {
   document.getElementById('_next-gtm')?.remove();
   document.getElementById('_next-gtm-init')?.remove();
@@ -113,6 +194,15 @@ function teardownGtm(gtmId: string): void {
   }
 }
 
+/**
+ * Disables GA via runtime flags
+ *
+ * WHY:
+ * - Additional safety layer if GTM misfires
+ *
+ * FUTURE:
+ * - May be redundant once GTM consent mode is fully trusted
+ */
 function setGaRuntimeDisabled(measurementIds: readonly string[], disabled: boolean): void {
   const windowWithGaFlags = window as unknown as BrowserWindow & Record<string, unknown>;
 
@@ -122,6 +212,9 @@ function setGaRuntimeDisabled(measurementIds: readonly string[], disabled: boole
   }
 }
 
+/**
+ * Reload wrapper used after consent revocation
+ */
 export const browserNavigation = {
   reload(): void {
     window.location.reload();
@@ -134,9 +227,25 @@ export function GtmConsentGate({
   performanceCode = DEFAULT_PERFORMANCE_CODE,
   GoogleTagManager,
 }: GtmConsentGateProps): React.ReactElement | null {
+
+  /**
+   * Controls whether GTM is rendered at all
+   */
   const [showGTM, setShowGTM] = useState(false);
+
+  /**
+   * Tracks whether GTM has ever been loaded
+   */
   const hasLoadedGtmRef = useRef(false);
+
+  /**
+   * Tracks delayed consent rechecks
+   */
   const pendingConsentChecksRef = useRef<number[]>([]);
+
+  /**
+   * Prevents multiple reloads
+   */
   const hasTriggeredReloadRef = useRef(false);
 
   useEffect(() => {
@@ -149,6 +258,12 @@ export function GtmConsentGate({
       pendingConsentChecksRef.current = [];
     }
 
+    /**
+     * Hard reset when consent is revoked
+     *
+     * FUTURE:
+     * - Could potentially be simplified to teardown only
+     */
     function revokeConsentAndReload(): void {
       if (hasTriggeredReloadRef.current) return;
       hasTriggeredReloadRef.current = true;
@@ -157,6 +272,9 @@ export function GtmConsentGate({
       browserNavigation.reload();
     }
 
+    /**
+     * Core logic: determines whether GTM is allowed
+     */
     function updateGtmState(): void {
       const canRun = hasPerformanceConsent(performanceCode) && !isPreferenceCenterOpen();
       setGaRuntimeDisabled(gaMeasurementIds, !canRun);
@@ -171,6 +289,7 @@ export function GtmConsentGate({
 
     function handleConsentApplied(): void {
       const canRun = hasPerformanceConsent(performanceCode);
+
       if (!canRun && hasLoadedGtmRef.current) {
         revokeConsentAndReload();
         return;
@@ -182,6 +301,7 @@ export function GtmConsentGate({
       for (const delay of CONSENT_RECHECK_DELAYS_MS) {
         const timerId = window.setTimeout(() => {
           const shouldRun = hasPerformanceConsent(performanceCode);
+
           if (!shouldRun && hasLoadedGtmRef.current) {
             revokeConsentAndReload();
             return;
@@ -218,6 +338,11 @@ export function GtmConsentGate({
     };
   }, [gaMeasurementIds, gtmId, performanceCode]);
 
+  /**
+   * CRITICAL:
+   * GTM does not render unless consent allows it
+   */
   if (!showGTM) return null;
+
   return GoogleTagManager ? <GoogleTagManager gtmId={gtmId} /> : null;
 }
