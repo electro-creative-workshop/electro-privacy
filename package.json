@@ -21,13 +21,13 @@
     },
     "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme",
     "devDependencies": {
-        "@vitest/coverage-v8": "^4.1.5",
+        "@vitest/coverage-v8": "^4.1.8",
         "copy-webpack-plugin": "^14.0.0",
-        "jsdom": "^29.1.0",
-        "prettier": "3.8.3",
-        "vitest": "^4.1.5",
-        "webpack": "^5.106.2",
-        "webpack-cli": "^7.0.2"
+        "jsdom": "^29.1.1",
+        "prettier": "3.8.4",
+        "vitest": "^4.1.8",
+        "webpack": "^5.107.2",
+        "webpack-cli": "^7.0.3"
     },
     "scripts": {
         "prettier": "prettier -w .",
