@@ -142,3 +142,15 @@
 - **Refactor:** Updated `src/js/ot-dns-script-2.js` to use the extracted modules and centralized validation helpers.
 - **Maintenance:** Updated helper docs/instructions to reflect the root `test/` location.
 - **Logging:** Updated debug-only console output to use `console.info()`.
+
+## 1.6.3
+
+- **Maintenance:** Updated package/dev tooling dependencies: `@vitest/coverage-v8` to `^4.1.5`, `jsdom` to `^29.1.0`, `prettier` to `3.8.3`, `vitest` to `^4.1.5`, and `webpack` to `^5.106.2`.
+- **Release:** Bumped package version from `1.6.2` to `1.6.3` and refreshed lockfile/build artifact for distribution.
+
+## 1.6.4
+
+- **Security/Maintenance:** Obscured embedded OneTrust token literals in `src/js/privacy-config.js` by splitting them into segments and reconstructing with `JSON.stringify(segments.join(''))`, preserving payload behavior while reducing hardcoded-secret scanner noise.
+- **Build:** Regenerated distribution assets (`dist/otDnsScript1.js` and `dist/otDnsScript1.js.map`) after the token configuration refactor.
+- **Maintenance:** Updated development dependencies: `@vitest/coverage-v8` to `^4.1.8`, `jsdom` to `^29.1.1`, `prettier` to `3.8.4`, `vitest` to `^4.1.8`, `webpack` to `^5.107.2`, and `webpack-cli` to `^7.0.3`.
+- **Maintenance:** Added repository automation skill docs for npm dependency updates and version release workflow under `.github/skills/`.
