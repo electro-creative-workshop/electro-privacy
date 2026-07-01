@@ -158,3 +158,8 @@
 ## 1.7.0
 
 - **Security/Maintenance:** Remove webpack-version-file because it is unmaintained and introduced a high severity vulnerability with brace-expansion@2.1.1
+
+## 1.7.1
+
+- **Release:** Publish follow-up patch so git-tag consumers receive distribution assets with the matching embedded version metadata.
+- **Maintenance:** Align tagged source and committed `dist` output for `v1.7.1` using the corrected release ordering workflow.
