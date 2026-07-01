@@ -48,7 +48,19 @@ git branch --show-current
 - Add a new heading for the target version and summarize release changes as bullet points.
 - Preserve the existing changelog style.
 
-4. Build and test before version bump.
+4. Bump version without creating commit/tag yet.
+
+```bash
+# Option A: bump type
+npm version minor --no-git-tag-version
+
+# Option B: exact version
+npm version 1.6.4 --no-git-tag-version
+```
+
+- This updates `package.json` (and `package-lock.json` if present) first so builds embed the target version.
+
+5. Build and test using the bumped version.
 
 ```bash
 npm run build
@@ -57,27 +69,30 @@ npm test
 
 - Fix failures before continuing.
 
-5. Bump version and create release commit/tag.
+6. Create release commit and tag (including dist artifacts).
 
 ```bash
-# Option A: bump type
-npm version patch -m "chore(release): %s"
+git add CHANGELOG.md package.json package-lock.json dist/
+git commit -m "chore(release): 1.6.4"
+git tag v1.6.4
 
-# Option B: exact version
-npm version 1.6.4 -m "chore(release): %s"
+# If package-lock.json does not exist in this repo, omit it from git add.
+
+# Optional verification before push
+git show --stat --oneline -1
+git tag --list "v1.6.4"
 ```
 
-- Stage `CHANGELOG.md` before `npm version` so it is included in the release commit.
-- `npm version` updates `package.json` (and `package-lock.json` if present), creates a release commit, and creates a `v<version>` tag.
+- Ensure `dist/` is included in the release commit so legacy consumers and tags match published artifacts.
 
-6. Push commit and tags.
+7. Push commit and tags.
 
 ```bash
 git push origin main
 git push origin --tags
 ```
 
-7. Ensure GitHub Packages auth is configured.
+8. Ensure GitHub Packages auth is configured.
 
 - Confirm a GitHub token exists with write:packages scope.
 - Confirm `~/.npmrc` includes:
@@ -87,22 +102,30 @@ git push origin --tags
 @electro-creative-workshop:registry=https://npm.pkg.github.com/
 ```
 
-8. Publish from repository root.
+9. Publish from repository root.
 
 ```bash
 npm publish
 ```
 
 - Ask for final confirmation immediately before `npm publish`.
-- `prepublishOnly` runs `npm run build`, so `dist/` is rebuilt automatically before publish.
+- `prepublishOnly` runs `npm run build`; this should produce no diff if release ordering is correct.
 
-9. Verify published version.
+10. Verify published version.
 
 ```bash
 npm view @electro-creative-workshop/electro-privacy version --registry=https://npm.pkg.github.com/
 ```
 
 - Confirm the reported version matches the target release.
+
+11. Post-publish sanity check.
+
+```bash
+git status --short
+```
+
+- Working tree should be clean. If `dist/` changed, stop and correct the release ordering notes/process before the next release.
 
 ## Notes
 
