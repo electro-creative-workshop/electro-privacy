@@ -21,13 +21,13 @@
     },
     "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme",
     "devDependencies": {
-        "@vitest/coverage-v8": "^4.1.8",
+        "@vitest/coverage-v8": "^4.1.9",
         "copy-webpack-plugin": "^14.0.0",
         "jsdom": "^29.1.1",
-        "prettier": "3.8.4",
-        "vitest": "^4.1.8",
-        "webpack": "^5.107.2",
-        "webpack-cli": "^7.0.3"
+        "prettier": "3.9.4",
+        "vitest": "^4.1.9",
+        "webpack": "^5.108.3",
+        "webpack-cli": "^7.1.0"
     },
     "scripts": {
         "prettier": "prettier -w .",
@@ -37,9 +37,6 @@
         "build:css": "cp src/css/privacy.css dist/electro-privacy.css",
         "build": "npm run build:webpack && npm run build:css",
         "prepublishOnly": "npm run build"
-    },
-    "dependencies": {
-        "webpack-version-file": "^0.1.7"
     },
     "files": [
         "dist",

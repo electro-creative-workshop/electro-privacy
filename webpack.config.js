@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const VersionFile = require('webpack-version-file');
 const packageJSON = require('./package.json');
 const CopyPlugin = require("copy-webpack-plugin");
 
@@ -19,9 +18,7 @@ module.exports = {
     },
     plugins: [
         new webpack.BannerPlugin({
-            banner: (version) => {
-                return `version: ${packageJSON.version}`;
-            },
+            banner: `version: ${packageJSON.version}`,
         }),
         new webpack.DefinePlugin({
             'ELECTRO_PRIVACY_VERSION': JSON.stringify(packageJSON.version),

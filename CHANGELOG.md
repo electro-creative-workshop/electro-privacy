@@ -154,3 +154,7 @@
 - **Build:** Regenerated distribution assets (`dist/otDnsScript1.js` and `dist/otDnsScript1.js.map`) after the token configuration refactor.
 - **Maintenance:** Updated development dependencies: `@vitest/coverage-v8` to `^4.1.8`, `jsdom` to `^29.1.1`, `prettier` to `3.8.4`, `vitest` to `^4.1.8`, `webpack` to `^5.107.2`, and `webpack-cli` to `^7.0.3`.
 - **Maintenance:** Added repository automation skill docs for npm dependency updates and version release workflow under `.github/skills/`.
+
+## unreleased
+
+- **Security/Maintenance:** Remove webpack-version-file because it is unmaintained and introduced a high severity vulnerability with brace-expansion@2.1.1
