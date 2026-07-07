@@ -168,3 +168,4 @@
 - **Maintenance:** Merge duplicate #onetrust-pc-sdk #ot-dns-submit blocks
 - **Maintenance:** Consolidated duplicate CSS selector rules for `#onetrust-pc-sdk #ot-dns-submit` in `src/css/privacy.css`.
 - **Maintenance:** Applied lint/style cleanup in DNS scripts by simplifying boolean checks, removing commented-out code, and using optional chaining where appropriate.
+- **Maintenance:** Refactored `getPrivacyRequestConfig` in `src/js/privacy-config.js` to use a single conditional return statement.
