@@ -166,6 +166,7 @@
 
 ## Unreleased
 - **Maintenance:** Add test:coverage command
+- **Maintenance:** Updated `src/js/validateEmail.js` regex character classes to use `\d` instead of `0-9`.
 - **Maintenance:** Merge duplicate #onetrust-pc-sdk #ot-dns-submit blocks
 - **Maintenance:** Consolidated duplicate CSS selector rules for `#onetrust-pc-sdk #ot-dns-submit` in `src/css/privacy.css`.
 - **Maintenance:** Applied lint/style cleanup in DNS scripts by simplifying boolean checks, removing commented-out code, and using optional chaining where appropriate.
