@@ -24,8 +24,6 @@ window.ElectroPrivacyLanguageMap = {
     es: spanishMap,
 };
 
-// console.info('languageMap keys', Object.keys(window.ElectroPrivacyLanguageMap));
-
 let stringMap = window.ElectroPrivacyLanguageMap['en'];
 
 // use html lang attribute to determine strings to use
@@ -63,7 +61,7 @@ var language_support = __webpack_require__(132);
 const MAX_EMAIL_LENGTH = 254; // RFC 5321
 
 const re =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/;
 
 function validateEmail(email) {
     if (!email || typeof email !== 'string') {
@@ -363,21 +361,19 @@ function isNonProductionEnvironment(host, vercelEnv) {
 function getPrivacyRequestConfig({ host, electroPrivacyStaging, vercelEnv } = {}) {
     const useStaging = Boolean(electroPrivacyStaging) || isNonProductionEnvironment(host, vercelEnv);
 
-    if (useStaging) {
-        return {
-            url: STAGING_URL,
-            token: STAGING_TOKEN,
-            preferences: STAGING_PREFERENCES,
-            environment: 'STAGING',
-        };
-    }
-
-    return {
-        url: PRODUCTION_URL,
-        token: PRODUCTION_TOKEN,
-        preferences: PRODUCTION_PREFERENCES,
-        environment: 'PRODUCTION',
-    };
+    return useStaging
+        ? {
+              url: STAGING_URL,
+              token: STAGING_TOKEN,
+              preferences: STAGING_PREFERENCES,
+              environment: 'STAGING',
+          }
+        : {
+              url: PRODUCTION_URL,
+              token: PRODUCTION_TOKEN,
+              preferences: PRODUCTION_PREFERENCES,
+              environment: 'PRODUCTION',
+          };
 }
 
 function getRuntimePrivacyRequestConfig() {
@@ -637,7 +633,6 @@ function submitPreferences() {
 // - show email input DIV
 // - simulate click on Targeting to toggle off (may be removed depending on Clorox decision about UX)
 function doNotShareUI() {
-    // let stockText = document.getElementById("stock-text");
     const stockText = document.getElementById('ot-pc-desc');
     const dnsText = document.getElementById('dns-custom-text');
     const essentialCat = document.querySelectorAll(
@@ -693,7 +688,6 @@ function doNotShareUI() {
 // reverse everything from doNotShareUI function once clicking of CTA
 function hideDnsUI() {
     if (dnsUI) {
-        // let stockText = document.getElementById("stock-text");
         const stockText = document.getElementById('ot-pc-desc');
         const dnsText = document.getElementById('dns-custom-text');
         const essentialCat = document.querySelectorAll(
@@ -756,19 +750,14 @@ function dnsCheck() {
             document.addEventListener('click', function (e) {
                 const sdkButton = document.getElementById('ot-sdk-btn');
                 const dnsButton = document.getElementById('do-not-share');
-                if (e.target && e.target.id === 'ot-sdk-btn' || sdkButton && sdkButton.contains(e.target)) {
+                if (e.target && e.target.id === 'ot-sdk-btn' || sdkButton?.contains(e.target)) {
                     hideDnsUI();
-                } else if (e.target && e.target.id === 'do-not-share' || dnsButton && dnsButton.contains(e.target)) {
+                } else if (e.target && e.target.id === 'do-not-share' || dnsButton?.contains(e.target)) {
                     doNotShareUI();
                 }
             }, {
                 capture: true
             })
-
-            /*
-            document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
-            document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
-             */
 
             // ot banner link
             if (document.getElementById('onetrust-pc-btn-handler')) {
@@ -902,7 +891,7 @@ async function OptanonWrapperLocal() {
         OneTrustActiveGroups: window.OnetrustActiveGroups,
     });
 
-    if (dsIdSet == false) {
+    if (!dsIdSet) {
         const emailTitle = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ .M)('Behavioral Advertising Linked To Your Email Address:');
         const emailBlock = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ .M)('emailTextBlock');
         const emailLabel = (0,_language_support__WEBPACK_IMPORTED_MODULE_0__/* .getLanguageString */ .M)('Email:');
