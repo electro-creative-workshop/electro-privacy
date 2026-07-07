@@ -170,7 +170,6 @@ function submitPreferences() {
 // - show email input DIV
 // - simulate click on Targeting to toggle off (may be removed depending on Clorox decision about UX)
 function doNotShareUI() {
-    // let stockText = document.getElementById("stock-text");
     const stockText = document.getElementById('ot-pc-desc');
     const dnsText = document.getElementById('dns-custom-text');
     const essentialCat = document.querySelectorAll(
@@ -226,7 +225,6 @@ function doNotShareUI() {
 // reverse everything from doNotShareUI function once clicking of CTA
 function hideDnsUI() {
     if (dnsUI) {
-        // let stockText = document.getElementById("stock-text");
         const stockText = document.getElementById('ot-pc-desc');
         const dnsText = document.getElementById('dns-custom-text');
         const essentialCat = document.querySelectorAll(
@@ -289,19 +287,14 @@ function dnsCheck() {
             document.addEventListener('click', function (e) {
                 const sdkButton = document.getElementById('ot-sdk-btn');
                 const dnsButton = document.getElementById('do-not-share');
-                if (e.target && e.target.id === 'ot-sdk-btn' || sdkButton && sdkButton.contains(e.target)) {
+                if (e.target && e.target.id === 'ot-sdk-btn' || sdkButton?.contains(e.target)) {
                     hideDnsUI();
-                } else if (e.target && e.target.id === 'do-not-share' || dnsButton && dnsButton.contains(e.target)) {
+                } else if (e.target && e.target.id === 'do-not-share' || dnsButton?.contains(e.target)) {
                     doNotShareUI();
                 }
             }, {
                 capture: true
             })
-
-            /*
-            document.getElementById('do-not-share').addEventListener('click', doNotShareUI);
-            document.getElementById('ot-sdk-btn').addEventListener('click', hideDnsUI);
-             */
 
             // ot banner link
             if (document.getElementById('onetrust-pc-btn-handler')) {

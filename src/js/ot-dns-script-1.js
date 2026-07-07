@@ -14,7 +14,7 @@ async function OptanonWrapperLocal() {
         OneTrustActiveGroups: window.OnetrustActiveGroups,
     });
 
-    if (dsIdSet == false) {
+    if (!dsIdSet) {
         const emailTitle = getLanguageString('Behavioral Advertising Linked To Your Email Address:');
         const emailBlock = getLanguageString('emailTextBlock');
         const emailLabel = getLanguageString('Email:');
