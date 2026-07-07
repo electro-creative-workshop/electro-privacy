@@ -282,21 +282,19 @@ export function isNonProductionEnvironment(host, vercelEnv) {
 export function getPrivacyRequestConfig({ host, electroPrivacyStaging, vercelEnv } = {}) {
     const useStaging = Boolean(electroPrivacyStaging) || isNonProductionEnvironment(host, vercelEnv);
 
-    if (useStaging) {
-        return {
-            url: STAGING_URL,
-            token: STAGING_TOKEN,
-            preferences: STAGING_PREFERENCES,
-            environment: 'STAGING',
-        };
-    }
-
-    return {
-        url: PRODUCTION_URL,
-        token: PRODUCTION_TOKEN,
-        preferences: PRODUCTION_PREFERENCES,
-        environment: 'PRODUCTION',
-    };
+    return useStaging
+        ? {
+              url: STAGING_URL,
+              token: STAGING_TOKEN,
+              preferences: STAGING_PREFERENCES,
+              environment: 'STAGING',
+          }
+        : {
+              url: PRODUCTION_URL,
+              token: PRODUCTION_TOKEN,
+              preferences: PRODUCTION_PREFERENCES,
+              environment: 'PRODUCTION',
+          };
 }
 
 export function getRuntimePrivacyRequestConfig() {
