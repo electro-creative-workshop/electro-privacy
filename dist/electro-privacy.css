@@ -12,8 +12,6 @@
 #onetrust-pc-sdk #ot-dns-submit {
     padding: 6px;
     margin-left: 5px;
-}
-#onetrust-pc-sdk #ot-dns-submit {
     cursor: pointer;
     border: 1px solid #000 !important;
 }
