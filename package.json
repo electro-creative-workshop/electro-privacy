@@ -32,6 +32,7 @@
     "scripts": {
         "prettier": "prettier -w .",
         "test": "vitest run",
+        "test:coverage": "vitest run --coverage",
         "test:watch": "vitest",
         "build:webpack": "webpack --progress --config webpack.config.js",
         "build:css": "cp src/css/privacy.css dist/electro-privacy.css",
