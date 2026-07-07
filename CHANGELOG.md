@@ -163,3 +163,6 @@
 
 - **Release:** Publish follow-up patch so git-tag consumers receive distribution assets with the matching embedded version metadata.
 - **Maintenance:** Align tagged source and committed `dist` output for `v1.7.1` using the corrected release ordering workflow.
+
+## Unreleased
+- Merge duplicate #onetrust-pc-sdk #ot-dns-submit blocks
