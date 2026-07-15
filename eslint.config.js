@@ -1,38 +1,34 @@
-const js = require('@eslint/js');
-const globals = require('globals');
+import globals from "globals";
+import pluginJs from "@eslint/js";
 
-module.exports = [
-    js.configs.recommended,
-    {
-        languageOptions: {
-            ecmaVersion: 2022,
-            sourceType: 'module',
-            globals: {
-                ...globals.browser,
-                ...globals.node,
-                ELECTRO_PRIVACY_VERSION: 'readonly',
-            },
-        },
-        rules: {
-            'no-unused-vars': ['error', { 
-                argsIgnorePattern: '^_',
-                varsIgnorePattern: '^_',
-            }],
-            'no-console': ['warn', { 
-                allow: ['warn', 'error'] 
-            }],
-            'no-undef': 'error',
-            'prefer-const': 'warn',
-            'no-var': 'error',
-        },
+export default [
+  {
+    ignores: ["docs/**", "dist/**", "coverage/**"],
+  },
+  // Base ESLint rules
+  pluginJs.configs.recommended,
+
+  // Node/CommonJS config files
+  {
+    files: ["webpack.config.js", "vitest.config.js"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.commonjs,
+      },
     },
-    {
-        ignores: [
-            'dist/**',
-            'node_modules/**',
-            '*.config.js',
-            '!eslint.config.js',
-        ],
+  },
+
+  // Custom config
+  {
+    files: ["**/*.{js,mjs,cjs}"],
+
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        require: "readonly",
+        ELECTRO_PRIVACY_VERSION: "readonly",
+      },
     },
+  },
 ];
-
