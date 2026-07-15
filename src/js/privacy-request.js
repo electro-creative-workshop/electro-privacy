@@ -23,7 +23,7 @@ export function buildConsentRequestBody(identifier, token, preferences) {
 
     try {
         JSON.parse(body);
-    } catch (_error) {
+    } catch {
         return {
             ok: false,
             error: 'invalid-json',
