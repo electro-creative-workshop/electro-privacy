@@ -413,7 +413,7 @@ function buildConsentRequestBody(identifier, token, preferences) {
 
     try {
         JSON.parse(body);
-    } catch (_error) {
+    } catch {
         return {
             ok: false,
             error: 'invalid-json',
@@ -471,7 +471,6 @@ function resetEmailFormState({ clearValue = true, enabled = true, doc = document
 
 
 // Define variables
-let otDataSubjectId;
 let dnsUI = false;
 let isSubmitting = false; // Prevent duplicate submissions
 
@@ -504,9 +503,7 @@ function setPreferences(otDataSubjectId) {
 
     // Debug logging (opt-in via window.electroPrivacyDebug; never logs request body to avoid PII/token leakage)
     if (typeof window !== 'undefined' && window.electroPrivacyDebug) {
-        // eslint-disable-next-line no-console -- allowed when debug flag is set
         console.info('electro-privacy: Submitting to URL:', url);
-        // eslint-disable-next-line no-console -- allowed when debug flag is set
         console.info('electro-privacy: Environment:', environment);
     }
 
