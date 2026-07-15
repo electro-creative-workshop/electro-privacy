@@ -28,12 +28,14 @@
         "globals": "^17.7.0",
         "jsdom": "^29.1.1",
         "knip": "^6.27.0",
+        "lefthook": "^2.1.10",
         "prettier": "3.9.5",
         "vitest": "^4.1.10",
         "webpack": "^5.108.4",
         "webpack-cli": "^7.2.1"
     },
     "scripts": {
+        "prepare": "lefthook install",
         "prettier": "prettier -w .",
         "lint": "eslint .",
         "test": "vitest run",
