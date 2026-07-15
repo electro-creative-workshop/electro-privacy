@@ -10,11 +10,23 @@ export default [
 
   // Node/CommonJS config files
   {
-    files: ["webpack.config.js", "vitest.config.js"],
+    files: ["webpack.config.js"],
     languageOptions: {
+      sourceType: "script",
       globals: {
         ...globals.node,
         ...globals.commonjs,
+      },
+    },
+  },
+
+  // Node/ESM config files
+  {
+    files: ["vitest.config.js"],
+    languageOptions: {
+      sourceType: "module",
+      globals: {
+        ...globals.node,
       },
     },
   },
