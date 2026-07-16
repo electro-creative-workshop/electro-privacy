@@ -37,6 +37,7 @@
     "scripts": {
         "prepare": "lefthook install",
         "prettier": "prettier -w .",
+        "type-check": "node scripts/type-check.mjs",
         "lint": "eslint .",
         "test": "vitest run",
         "test:coverage": "vitest run --coverage",
