@@ -198,3 +198,5 @@
 - **Maintenance:** Keep release commit artifacts synchronized with build output after hook-driven formatting drift in the prior tag.
 
 ## Unreleased
+
+- **Maintenance:** Hardened release documentation and automation guidance to require deterministic `dist/` handling (build before staging, commit before tag, and pre-tag build-clean verification) to prevent tag/artifact drift.

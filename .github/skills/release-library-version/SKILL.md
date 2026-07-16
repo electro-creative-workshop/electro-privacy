@@ -69,30 +69,56 @@ npm test
 
 - Fix failures before continuing.
 
-6. Create release commit and tag (including dist artifacts).
+6. Rebuild immediately before commit and stage release artifacts (including `dist/`).
 
 ```bash
+npm run build
 git add CHANGELOG.md package.json package-lock.json dist/
-git commit -m "chore(release): 1.6.4"
-git tag v1.6.4
 
 # If package-lock.json does not exist in this repo, omit it from git add.
+```
 
-# Optional verification before push
+- This extra build step ensures `dist/` in git matches the exact generated output at release time.
+
+7. Create the release commit (without tagging yet).
+
+```bash
+git commit --no-verify -m "chore(release): 1.6.4"
+
+# Use --no-verify for release commits in this repo because commit hooks may reformat
+# generated bundle files and cause release/tag drift. Step 5 already ran build/test gates.
+```
+
+8. Verify release commit is build-clean before tagging.
+
+```bash
+npm run build
+git status --short
+
+# Optional verification before tagging
 git show --stat --oneline -1
+```
+
+- `git status --short` must be clean. If `dist/` changed, stop and fix before tagging.
+
+9. Create and verify tag.
+
+```bash
+git tag v1.6.4
+
 git tag --list "v1.6.4"
 ```
 
 - Ensure `dist/` is included in the release commit so legacy consumers and tags match published artifacts.
 
-7. Push commit and tags.
+10. Push commit and tags.
 
 ```bash
 git push origin main
 git push origin --tags
 ```
 
-8. Ensure GitHub Packages auth is configured.
+11. Ensure GitHub Packages auth is configured.
 
 - Confirm a GitHub token exists with write:packages scope.
 - Confirm `~/.npmrc` includes:
@@ -102,7 +128,7 @@ git push origin --tags
 @electro-creative-workshop:registry=https://npm.pkg.github.com/
 ```
 
-9. Publish from repository root.
+12. Publish from repository root.
 
 ```bash
 npm publish
@@ -111,7 +137,7 @@ npm publish
 - Ask for final confirmation immediately before `npm publish`.
 - `prepublishOnly` runs `npm run build`; this should produce no diff if release ordering is correct.
 
-10. Verify published version.
+13. Verify published version.
 
 ```bash
 npm view @electro-creative-workshop/electro-privacy version --registry=https://npm.pkg.github.com/
@@ -119,7 +145,7 @@ npm view @electro-creative-workshop/electro-privacy version --registry=https://n
 
 - Confirm the reported version matches the target release.
 
-11. Post-publish sanity check.
+14. Post-publish sanity check.
 
 ```bash
 git status --short

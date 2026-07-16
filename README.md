@@ -7,20 +7,22 @@ This code is to simplify the integration of the second OneTrust modal into WordP
 There are two options.
 
 1. **Legacy GitHub:** Pull from git directly. Add a line to your `package.json`:
-   ```json
-   "electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x"
-   ```
-   Replace `x.x.x` with the exact version desired. To update the version, edit `package.json` by hand.
 
-   Load required JS & CSS from this package:
-   - In `main.js`: `import 'electro-privacy'`
-   - In your main CSS file: `@import '../../../node_modules/electro-privacy/dist/electro-privacy.css';`
+    ```json
+    "electro-privacy": "github:electro-creative-workshop/electro-privacy#semver:^x.x.x"
+    ```
+
+    Replace `x.x.x` with the exact version desired. To update the version, edit `package.json` by hand.
+
+    Load required JS & CSS from this package:
+    - In `main.js`: `import 'electro-privacy'`
+    - In your main CSS file: `@import '../../../node_modules/electro-privacy/dist/electro-privacy.css';`
 
 2. **npm (GitHub Packages):** Install the package from the GitHub npm registry. This gives you the published version and standard npm updates.
-   ```bash
-   npm install @electro-creative-workshop/electro-privacy
-   ```
-   You must be logged in to GitHub Packages (see below) and have access to the `@electro-creative-workshop` scope.
+    ```bash
+    npm install @electro-creative-workshop/electro-privacy
+    ```
+    You must be logged in to GitHub Packages (see below) and have access to the `@electro-creative-workshop` scope.
 
 change your import from:
 
@@ -61,6 +63,7 @@ GitHub username, and a password, which is the token's value.
 ```bash
 npm login --scope=@electro-creative-workshop --auth-type=legacy --registry=https://npm.pkg.github.com
 ```
+
 On Vercel, you need to set up a `NPM_RC` environment variable like so:
 
     registry=https://registry.npmjs.org
@@ -133,9 +136,9 @@ The current production version sends entries to the live OneTrust collection poi
 
 This will change the following values to the non-production values:
 
--   url
--   token (hardcoded staging token)
--   ID
+- url
+- token (hardcoded staging token)
+- ID
 
 Alternatively, the module automatically detects non-production environments based on the hostname (e.g., `vercel.app`, `staging`, `dev`, `qa`, `local`, `lndo.site`, `pantheonsite`).
 
@@ -180,35 +183,83 @@ Other languages will be supported as needed, but the using site will need to loa
 
 ## Publishing a new version
 
-- Update the version number in package.json
-- Commit, tag (e.g. git tag v1.2.3), push, and push tags
-- (one time only) Generate a token in GitHub that has write:packages in scope. [Token](https://github.com/settings/tokens/new)
-- (one time only) Create a .npmrc file in your user root directory:
-
-//npm.pkg.github.com/:\_authToken={your write-packages token here}
-@electro-creative-workshop:registry=https://npm.pkg.github.com/
-
-- From the root directory of this repository, run:
-
-```bash
-npm run build
-npm publish
-```
-
-## Publishing a new version
+This repo checks in `dist/`, so release tags must include the exact generated artifacts.
 
 **What’s the difference between a tag and a published version?**
 
-- **Git tag** – A label in your Git repo that points at one specific commit (e.g. `v1.0.5`). It’s a bookmark: “this commit is what we shipped as 1.0.5.” Tags live in the repo and are used for release history, comparing versions, and linking “what’s on the registry” back to a commit.
-- **Published version** – The package that gets uploaded to the registry (GitHub Packages) when you run `npm publish`. That’s what people get when they run `npm install`. The version number comes from `package.json` (which `npm version` updates).
+- **Git tag** - A label in your Git repo that points at one specific commit (for example `v1.0.5`).
+- **Published version** - The package uploaded to GitHub Packages by `npm publish`.
 
-So you have one version number (e.g. `1.0.5`) in two places: a **tag** in Git marking the commit, and the **published package** on the registry that consumers install. Pushing the tag keeps the repo and the registry release in sync.
+Use this release flow from the repository root:
 
-1. `npm run build`
-2. Commit changes
-3. Bump version and create a tag: `npm version patch`, `npm version minor`, or `npm version major`
-   - **patch** – bug fixes (e.g. `1.0.4` → `1.0.5`)
-   - **minor** – new features, backward compatible (e.g. `1.0.4` → `1.1.0`)
-   - **major** – breaking changes (e.g. `1.0.4` → `2.0.0`)
-4. Push changes and tags: `git push --follow-tags`
-5. `npm publish`
+1. Confirm branch and clean working tree.
+
+```bash
+git branch --show-current
+git status --short
+```
+
+2. Update `CHANGELOG.md` for the new version.
+
+3. Bump version without auto commit/tag.
+
+```bash
+npm version patch --no-git-tag-version
+# or: npm version minor --no-git-tag-version
+# or: npm version major --no-git-tag-version
+```
+
+4. Run validation.
+
+```bash
+npm run build
+npm test
+```
+
+5. Rebuild, then stage changelog/version/dist artifacts.
+
+```bash
+npm run build
+git add CHANGELOG.md package.json package-lock.json dist/
+```
+
+6. Create release commit first (do not tag yet).
+
+```bash
+git commit --no-verify -m "chore(release): 1.2.3"
+```
+
+7. Verify the release commit is build-clean before tagging.
+
+```bash
+npm run build
+git status --short
+```
+
+If `git status --short` shows changes (especially in `dist/`), stop and fix before tagging.
+
+8. Create and push release refs.
+
+```bash
+git tag v1.2.3
+git push origin main
+git push origin --tags
+```
+
+9. Publish to GitHub Packages.
+
+```bash
+npm publish
+npm view @electro-creative-workshop/electro-privacy version --registry=https://npm.pkg.github.com/
+git status --short
+```
+
+One-time auth setup:
+
+- Generate a GitHub token with `write:packages` scope: [Token](https://github.com/settings/tokens/new)
+- Add this to `~/.npmrc`:
+
+```text
+//npm.pkg.github.com/:_authToken={your write-packages token here}
+@electro-creative-workshop:registry=https://npm.pkg.github.com/
+```
