@@ -27,6 +27,7 @@ export default [
     {
         files: ['webpack.config.js'],
         languageOptions: {
+            ecmaVersion: 'latest',
             sourceType: 'script',
             globals: {
                 ...globals.node,
@@ -39,6 +40,7 @@ export default [
     {
         files: ['vitest.config.js'],
         languageOptions: {
+            ecmaVersion: 'latest',
             sourceType: 'module',
             globals: {
                 ...globals.node,
