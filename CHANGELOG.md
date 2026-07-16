@@ -2,104 +2,121 @@
 
 ## 1.1.1 Stable Version
 
--   Version that was approved by initial QA testing.
+- Version that was approved by initial QA testing.
 
 ## 1.1.2 Token Change
 
--   Changed token after it was changed in the OneTrust dashboard.
+- Changed token after it was changed in the OneTrust dashboard.
 
 ## 1.1.3 Fixed Broken Token
 
--   Note: the token has to be in quotation marks.
+- Note: the token has to be in quotation marks.
 
 ## 1.1.4 Production Token
 
--   Changed to production token/url/id (removing UAT information).
+- Changed to production token/url/id (removing UAT information).
 
 ## 1.1.5 Form Submit Button Conflict
 
--   Changed id from submit to ot-dns-submit
+- Changed id from submit to ot-dns-submit
 
 ## 1.1.6 Remove console.log
 
--   console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
+- console.log(`email returned valid; emailInputValue = ${emailInputValue}`);
 
 ## 1.1.7 Remove More console.log
 
--   console.log(`function returned false; emailInputValue = ${emailInputValue}`);
--   console.log('invalid email');
+- console.log(`function returned false; emailInputValue = ${emailInputValue}`);
+- console.log('invalid email');
 
 ## 1.1.8 Updated Language
 
--   in DNS popup
+- in DNS popup
 
 ## 1.1.9 Support Parameter on Import Path to Use Staging Server
 
--   if `window.electroPrivacyStaging` set to `true` before electro-privacy js is imported, the library will use staging parameters for backend submissions.
+- if `window.electroPrivacyStaging` set to `true` before electro-privacy js is imported, the library will use staging parameters for backend submissions.
 
 ## 1.2.0 Changed setTimeout to setInterval
 
 ## 1.2.1 Legal Requested Copy Changes
 
 ## 1.2.2 Bug Fixes
- - Fix for Escape key not closing DNS popup (caused by onetrust-banner-sdk changes) - add our own keydown handler
- - Fix some errors with the Display of on/off text in DNS popup for Targeting/Advertising Cookies in addition to slider
+
+- Fix for Escape key not closing DNS popup (caused by onetrust-banner-sdk changes) - add our own keydown handler
+- Fix some errors with the Display of on/off text in DNS popup for Targeting/Advertising Cookies in addition to slider
 
 ## 1.2.3 Bug Fixes
-  - Fix display of on/off text when switching between popups
+
+- Fix display of on/off text when switching between popups
 
 ## 1.2.4 Bug Fixes
+
 - Add display=flex when showing on/off text
 
 ## 1.2.5 Remove Optional Chaining Operator (.?)
+
 - Not all sites support it
 
 ## 1.2.6 Detect Non-Production Systems for Testing
+
 - Use UAT backend for urls that match non-production
 
 ## 1.2.7 Fix Regex Pattern Console Error
+
 - HTML pattern attribute change to use regex v flag (needs more chars escaped in character classes)
 - https://groups.google.com/a/chromium.org/g/blink-dev/c/gIyvMw0n2qw
 
 ## 1.3.0 Add Support for Translation
+
 - add Spanish (US) language file
 - add Arabic language file
 
 ## 1.3.1 Bug Fix
+
 - Remove stray ';
 
 ## 1.4.0 Handle Dynamic Buttons for Cookies & DNS
+
 - use document level capture event handlers to handle dynamic buttons being recreated (dtc shops)
 
 ## 1.4.1 Bug Fix
+
 - look for buttons as event targets or a child of button
 
 ## 1.4.2 Bug Fix
+
 - legal text change
 
 ## 1.4.4 Bug Fix - Dec 6, 2024
+
 - Move "on"/"off" text to be closer the slider
 - Legal requested copy changes
 
 ## 1.4.6 Bug Fix - Dec 16, 2024
+
 - CSS fixes: moved most styles to be inline instead of competing with OneTrust styles
 - Spanish updates
 - Markup changes to target text size
 
 ## 1.4.7 Bug Fix - Dec 16, 2024
+
 - Minor HR spacing fix
 
 ## 1.4.8 Bug Fix - Feb 11, 2025
+
 - Fix JS error "document.getElementById('ot-email') is null"
 - Fix race condition with adding dns ui & js manipulating controls
 - Fix endless interval loop when dnsCheck fn has error
 
 ## 1.4.9 Bug Fix - Feb 25, 2025
+
 - Add source map for Sentry debugging
 - Update dependencies
 - Defensive programming
 
 ## 1.6.1 Security Improvements and Package Fix - Feb 2026
+
 - **Security: Fix JSON injection vulnerability** - Use JSON.stringify() instead of template literals when constructing API request body to prevent malicious email values from breaking JSON structure
 - **Security: Add input sanitization** - Trim whitespace, validate email length (max 254 chars per RFC 5321), and add maxlength attribute to email input field
 - **Security: Prevent duplicate submissions** - Add submission throttling flag to prevent race conditions and multiple simultaneous API calls
@@ -164,10 +181,15 @@
 - **Release:** Publish follow-up patch so git-tag consumers receive distribution assets with the matching embedded version metadata.
 - **Maintenance:** Align tagged source and committed `dist` output for `v1.7.1` using the corrected release ordering workflow.
 
-## Unreleased
-- **Maintenance:** Add test:coverage command
+## 1.7.2
+
+- **Maintenance:** Add `test:coverage` command.
 - **Maintenance:** Updated `src/js/validateEmail.js` regex character classes to use `\d` instead of `0-9`.
-- **Maintenance:** Merge duplicate #onetrust-pc-sdk #ot-dns-submit blocks
+- **Maintenance:** Merge duplicate `#onetrust-pc-sdk #ot-dns-submit` blocks.
 - **Maintenance:** Consolidated duplicate CSS selector rules for `#onetrust-pc-sdk #ot-dns-submit` in `src/css/privacy.css`.
 - **Maintenance:** Applied lint/style cleanup in DNS scripts by simplifying boolean checks, removing commented-out code, and using optional chaining where appropriate.
 - **Maintenance:** Refactored `getPrivacyRequestConfig` in `src/js/privacy-config.js` to use a single conditional return statement.
+- **Development:** Added and configured ESLint 10 with project-specific flat-config entries for runtime code, tests, configs, and scripts.
+- **Maintenance:** Removed the standalone `type-check` script after lint coverage made it redundant.
+
+## Unreleased
