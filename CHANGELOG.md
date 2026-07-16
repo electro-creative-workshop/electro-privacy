@@ -192,4 +192,9 @@
 - **Development:** Added and configured ESLint 10 with project-specific flat-config entries for runtime code, tests, configs, and scripts.
 - **Maintenance:** Removed the standalone `type-check` script after lint coverage made it redundant.
 
+## 1.7.3
+
+- **Release:** Publish follow-up patch to realign tagged source with canonical webpack-generated `dist/otDnsScript1.js` output.
+- **Maintenance:** Keep release commit artifacts synchronized with build output after hook-driven formatting drift in the prior tag.
+
 ## Unreleased
