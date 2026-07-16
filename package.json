@@ -21,27 +21,38 @@
     },
     "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme",
     "devDependencies": {
-        "@vitest/coverage-v8": "^4.1.9",
+        "@eslint/js": "^10.0.1",
+        "@vitest/coverage-v8": "^4.1.10",
         "copy-webpack-plugin": "^14.0.0",
+        "eslint": "^10.7.0",
+        "globals": "^17.7.0",
         "jsdom": "^29.1.1",
-        "prettier": "3.9.4",
-        "vitest": "^4.1.9",
-        "webpack": "^5.108.3",
-        "webpack-cli": "^7.1.0"
+        "knip": "^6.27.0",
+        "lefthook": "^2.1.10",
+        "prettier": "3.9.5",
+        "vitest": "^4.1.10",
+        "webpack": "^5.108.4",
+        "webpack-cli": "^7.2.1"
     },
     "scripts": {
+        "prepare": "lefthook install",
         "prettier": "prettier -w .",
+        "lint": "eslint .",
         "test": "vitest run",
         "test:coverage": "vitest run --coverage",
         "test:watch": "vitest",
         "build:webpack": "webpack --progress --config webpack.config.js",
         "build:css": "cp src/css/privacy.css dist/electro-privacy.css",
         "build": "npm run build:webpack && npm run build:css",
+        "knip": "knip",
         "prepublishOnly": "npm run build"
     },
     "files": [
         "dist",
         "README.md",
         "CHANGELOG.md"
-    ]
+    ],
+    "allowScripts": {
+        "lefthook@2.1.10": true
+    }
 }
