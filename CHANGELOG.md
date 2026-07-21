@@ -202,6 +202,6 @@
 - **Maintenance:** Hardened release documentation and automation guidance to require deterministic `dist/` handling (build before staging, commit before tag, and pre-tag build-clean verification) to prevent tag/artifact drift.
 - **Maintenance:** Remove Lefthook from the repository. Delete `lefthook.yml`. Remove the `lefthook` dev dependency and install wiring from `package.json`
 
-## Unreleased
+## 1.7.5
 
 - **Maintenance:** Dependency refresh
