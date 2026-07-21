@@ -203,3 +203,5 @@
 - **Maintenance:** Remove Lefthook from the repository. Delete `lefthook.yml`. Remove the `lefthook` dev dependency and install wiring from `package.json`
 
 ## Unreleased
+
+- **Maintenance:** Dependency refresh
