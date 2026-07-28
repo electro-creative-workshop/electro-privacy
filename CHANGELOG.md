@@ -205,3 +205,8 @@
 ## 1.7.5
 
 - **Maintenance:** Dependency refresh
+
+## 1.7.6
+
+- **Maintenance:** Updated development dependencies: `globals` to `^17.8.0`, `jsdom` to `^30.0.0`, `knip` to `^6.29.0`, `prettier` to `3.9.6`, and `webpack` to `^5.109.1`.
+- **Maintenance:** Updated the npm dependency-update workflow to omit commit co-author trailers.
