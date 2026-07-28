@@ -25,12 +25,12 @@
         "@vitest/coverage-v8": "^4.1.10",
         "copy-webpack-plugin": "^14.0.0",
         "eslint": "^10.7.0",
-        "globals": "^17.7.0",
-        "jsdom": "^29.1.1",
-        "knip": "^6.27.0",
-        "prettier": "3.9.5",
+        "globals": "^17.8.0",
+        "jsdom": "^30.0.0",
+        "knip": "^6.29.0",
+        "prettier": "3.9.6",
         "vitest": "^4.1.10",
-        "webpack": "^5.108.4",
+        "webpack": "^5.109.1",
         "webpack-cli": "^7.2.1"
     },
     "scripts": {
