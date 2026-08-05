@@ -38,7 +38,7 @@
 ### Formatting and Linting
 
 - Format codebase: `npm run prettier`
-- ESLint config exists in `eslint.config.js`.
+- ESLint config exists in `eslint.config.mjs`.
 - If needed, lint manually with: `npx eslint .`
 
 ## Project Conventions

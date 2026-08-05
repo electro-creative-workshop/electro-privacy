@@ -1,6 +1,6 @@
 ---
 name: npm-updates
-description: 'Update npm dependencies for electro-privacy using npm update and npm-check-updates, skip eslint 10 migration packages (except eslint-plugin-jsdoc), validate with build/tests/lint, and prepare a chore commit summary with dependency deltas.'
+description: 'Update npm dependencies for electro-privacy using npm update and npm-check-updates, validate with build/tests/lint, and prepare a chore commit summary with dependency deltas.'
 argument-hint: 'Optional: package names to prioritize (space separated)'
 user-invocable: true
 ---
@@ -42,5 +42,6 @@ Use this skill when the user asks to update packages, bump dependencies, or run 
 
 ## Validation Notes
 
+- ESLint 10 updates are eligible for normal dependency maintenance. Exclude a package only when peer dependency compatibility or validation identifies a specific issue.
 - If tests or build fail after a package bump, isolate the failing package and retry with that package excluded.
 - Keep peer dependency compatibility as the source of truth over raw upgrade availability.
