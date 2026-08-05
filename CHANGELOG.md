@@ -210,3 +210,8 @@
 
 - **Maintenance:** Updated development dependencies: `globals` to `^17.8.0`, `jsdom` to `^30.0.0`, `knip` to `^6.29.0`, `prettier` to `3.9.6`, and `webpack` to `^5.109.1`.
 - **Maintenance:** Updated the npm dependency-update workflow to omit commit co-author trailers.
+
+## 1.7.7
+
+- **Maintenance:** Updated development dependencies, including ESLint `^10.8.0`.
+- **Maintenance:** Updated dependency-maintenance guidance to support normal ESLint 10 upgrades.
