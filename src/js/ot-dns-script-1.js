@@ -9,6 +9,7 @@ if (typeof window !== 'undefined') {
 
 let dsIdSet = false;
 async function OptanonWrapperLocal() {
+    window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
         event: 'OneTrustGroupsUpdated',
         OneTrustActiveGroups: window.OnetrustActiveGroups,
