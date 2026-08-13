@@ -219,3 +219,4 @@
 ## Unreleased 
 
 - **Fix: dataLayer guard** - Ensure `window.dataLayer` exists before pushing the OneTrust groups event, preventing an error when GTM has not initialized it.
+- **Fix: email field native validation** - Set the `pattern` attribute from a shared source string instead of a stringified `RegExp`, and drive `setCustomValidity` from the current value instead of pinning the error on at init, so a valid address no longer trips the browser's validation bubble on submit.

@@ -2,10 +2,9 @@
 //  Do Not Share script part two
 // / /////////////////////////////////////////////
 import {getLanguageString} from "./language-support";
-import { re } from "./validateEmail.js";
 import { getRuntimePrivacyRequestConfig } from "./privacy-config.js";
 import { buildConsentRequestBody, isValidEmailIdentifier } from "./privacy-request.js";
-import { clearSubmitStatus, resetEmailFormState, setEmailFormDisabled } from "./privacy-form-ui.js";
+import { clearSubmitStatus, initEmailFieldValidation, resetEmailFormState, setEmailFormDisabled } from "./privacy-form-ui.js";
 
 // Define variables
 let dnsUI = false;
@@ -275,8 +274,7 @@ function dnsCheck() {
         // verify UI has been added to document
         if (document.getElementById('do-not-share') && document.getElementById('ot-email') && document.getElementById('ot-dns-submit')) {
             // add pattern to email input
-            document.getElementById('ot-email').pattern = re;
-            document.getElementById('ot-email').setCustomValidity(getLanguageString('Please enter a valid email.'));
+            initEmailFieldValidation(getLanguageString('Please enter a valid email.'));
 
             document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
 

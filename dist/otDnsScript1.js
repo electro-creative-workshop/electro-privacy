@@ -56,26 +56,6 @@ function getLanguageString(strName)
 
 // EXTERNAL MODULE: ./src/js/language-support.js
 var language_support = __webpack_require__(132);
-;// ./src/js/validateEmail.js
-// Pure email validation (no DOM or side effects). Used by ot-dns-script-2 and tests.
-const MAX_EMAIL_LENGTH = 254; // RFC 5321
-
-const re =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/;
-
-function validateEmail(email) {
-    if (!email || typeof email !== 'string') {
-        return false;
-    }
-    const trimmedEmail = email.trim();
-    if (trimmedEmail.length === 0 || trimmedEmail.length > MAX_EMAIL_LENGTH) {
-        return false;
-    }
-    return re.test(trimmedEmail.toLowerCase());
-}
-
-
-
 ;// ./src/js/privacy-config.js
 const PRODUCTION_URL = 'https://privacyportal.onetrust.com/request/v1/consentreceipts';
 const STAGING_URL = 'https://privacyportaluat.onetrust.com/request/v1/consentreceipts';
@@ -387,6 +367,33 @@ function getRuntimePrivacyRequestConfig() {
     });
 }
 
+;// ./src/js/validateEmail.js
+// Pure email validation (no DOM or side effects). Used by ot-dns-script-2 and tests.
+const MAX_EMAIL_LENGTH = 254; // RFC 5321
+
+// Source string form of the address pattern, kept safe for the HTML `pattern` attribute:
+// the parentheses and opening bracket inside the character classes are escaped so the value
+// also compiles when the browser applies the `v` flag. `re` is built from it so the field
+// constraint and the JS validation can never drift apart.
+const EMAIL_PATTERN =
+    '^(([^<>\\(\\)\\[\\]\\\\.,;:\\s@"]+(\\.[^<>\\(\\)\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))' +
+    '@((\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])|(([a-zA-Z\\-\\d]+\\.)+[a-zA-Z]{2,}))$';
+
+const re = new RegExp(EMAIL_PATTERN);
+
+function validateEmail(email) {
+    if (!email || typeof email !== 'string') {
+        return false;
+    }
+    const trimmedEmail = email.trim();
+    if (trimmedEmail.length === 0 || trimmedEmail.length > MAX_EMAIL_LENGTH) {
+        return false;
+    }
+    return re.test(trimmedEmail.toLowerCase());
+}
+
+
+
 ;// ./src/js/privacy-request.js
 
 
@@ -428,6 +435,9 @@ function buildConsentRequestBody(identifier, token, preferences) {
 }
 
 ;// ./src/js/privacy-form-ui.js
+
+
+
 function getEmailFormElements(doc = document) {
     return {
         emailField: doc.getElementById('ot-email'),
@@ -448,11 +458,35 @@ function clearSubmitStatus(doc = document) {
     if (existingSuccess) existingSuccess.remove();
 }
 
+// Keep the browser's validity state in step with the current value: an empty field is left to the
+// `required` attribute, anything else carries the localized message only while it is actually invalid.
+function syncEmailFieldValidity(invalidMessage, doc = document) {
+    const { emailField } = getEmailFormElements(doc);
+    if (!emailField) return;
+
+    const value = emailField.value.trim();
+    const isInvalid = value.length > 0 && !isValidEmailIdentifier(value);
+    emailField.setCustomValidity(isInvalid ? invalidMessage : '');
+}
+
+// Wire the email field for native validation: same address pattern the JS validation uses, and a
+// custom message that follows the value instead of being pinned on at init.
+function initEmailFieldValidation(invalidMessage, doc = document) {
+    const { emailField } = getEmailFormElements(doc);
+    if (!emailField) return;
+
+    emailField.pattern = EMAIL_PATTERN;
+    emailField.addEventListener('input', () => syncEmailFieldValidity(invalidMessage, doc));
+    syncEmailFieldValidity(invalidMessage, doc);
+}
+
 function resetEmailFormState({ clearValue = true, enabled = true, doc = document } = {}) {
     const { emailField } = getEmailFormElements(doc);
 
     if (emailField && clearValue) {
         emailField.value = '';
+        // Clearing the value programmatically fires no `input` event, so drop any stale error too.
+        emailField.setCustomValidity('');
     }
 
     if (enabled) {
@@ -464,7 +498,6 @@ function resetEmailFormState({ clearValue = true, enabled = true, doc = document
 // / /////////////////////////////////////////////
 //  Do Not Share script part two
 // / /////////////////////////////////////////////
-
 
 
 
@@ -738,8 +771,7 @@ function dnsCheck() {
         // verify UI has been added to document
         if (document.getElementById('do-not-share') && document.getElementById('ot-email') && document.getElementById('ot-dns-submit')) {
             // add pattern to email input
-            document.getElementById('ot-email').pattern = re;
-            document.getElementById('ot-email').setCustomValidity((0,language_support/* getLanguageString */.M)('Please enter a valid email.'));
+            initEmailFieldValidation((0,language_support/* getLanguageString */.M)('Please enter a valid email.'));
 
             document.getElementById('ot-dns-submit').addEventListener('click', inputValidation);
 
