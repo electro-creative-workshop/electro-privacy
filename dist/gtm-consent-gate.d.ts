@@ -8,9 +8,6 @@ export type GtmConsentGateProps = {
     performanceCode?: string;
     GoogleTagManager: React.ComponentType<GtmComponentProps>;
 };
-/**
- * Reload wrapper used after consent revocation
- */
 export declare const browserNavigation: {
     reload(): void;
 };

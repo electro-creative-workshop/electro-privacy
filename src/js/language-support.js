@@ -8,9 +8,9 @@ const englishMap = require('../language/en-US.json');
 const spanishMap = require('../language/es-US.json');
 
 window.ElectroPrivacyLanguageMap = {
-    ...window.ElectroPrivacyLanguageMap,
-    en: englishMap,
-    es: spanishMap,
+  ...window.ElectroPrivacyLanguageMap,
+  en: englishMap,
+  es: spanishMap,
 };
 
 let stringMap = window.ElectroPrivacyLanguageMap['en'];
@@ -18,20 +18,19 @@ let stringMap = window.ElectroPrivacyLanguageMap['en'];
 // use html lang attribute to determine strings to use
 const languageAttribute = document.documentElement.getAttribute('lang');
 if (languageAttribute) {
-    if (window.ElectroPrivacyLanguageMap[languageAttribute]) {
-        stringMap = window.ElectroPrivacyLanguageMap[languageAttribute];
-    } else {
-        const language = languageAttribute.split('-')[0];
-        if (window.ElectroPrivacyLanguageMap[language]) {
-            stringMap = window.ElectroPrivacyLanguageMap[language];
-        }
+  if (window.ElectroPrivacyLanguageMap[languageAttribute]) {
+    stringMap = window.ElectroPrivacyLanguageMap[languageAttribute];
+  } else {
+    const language = languageAttribute.split('-')[0];
+    if (window.ElectroPrivacyLanguageMap[language]) {
+      stringMap = window.ElectroPrivacyLanguageMap[language];
     }
+  }
 }
 
-export function getLanguageString(strName)
-{
-    if (stringMap[strName]) {
-        return stringMap[strName];
-    }
-    return strName;
+export function getLanguageString(strName) {
+  if (stringMap[strName]) {
+    return stringMap[strName];
+  }
+  return strName;
 }

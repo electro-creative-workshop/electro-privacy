@@ -1,77 +1,78 @@
 {
-    "name": "@electro-creative-workshop/electro-privacy",
-    "version": "1.7.7",
-    "description": "Loads OneTrust Do Not Share JavaScript and CSS",
-    "main": "dist/otDnsScript1.js",
-    "exports": {
-        ".": "./dist/otDnsScript1.js",
-        "./gtm-consent-gate": {
-            "types": "./dist/gtm-consent-gate.d.ts",
-            "default": "./dist/gtm-consent-gate.js"
-        },
-        "./dist/*": "./dist/*",
-        "./package.json": "./package.json"
+  "name": "@electro-creative-workshop/electro-privacy",
+  "version": "1.7.7",
+  "description": "Loads OneTrust Do Not Share JavaScript and CSS",
+  "main": "dist/otDnsScript1.js",
+  "exports": {
+    ".": "./dist/otDnsScript1.js",
+    "./gtm-consent-gate": {
+      "types": "./dist/gtm-consent-gate.d.ts",
+      "default": "./dist/gtm-consent-gate.js"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/electro-creative-workshop/electro-privacy.git"
-    },
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com",
-        "access": "restricted"
-    },
-    "author": "",
-    "license": "ISC",
-    "engines": {
-        "node": ">=20.19.0"
-    },
-    "bugs": {
-        "url": "https://github.com/electro-creative-workshop/electro-privacy/issues"
-    },
-    "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme",
-    "devDependencies": {
-        "@eslint/js": "^10.0.1",
-        "@testing-library/react": "^16.3.0",
-        "@types/react": "^19.2.2",
-        "@vitest/coverage-v8": "^4.1.10",
-        "copy-webpack-plugin": "^14.0.0",
-        "eslint": "^10.8.1",
-        "globals": "^17.9.0",
-        "jsdom": "^30.0.1",
-        "knip": "^6.32.1",
-        "prettier": "3.9.6",
-        "typescript": "^5.9.3",
-        "vitest": "^4.1.10",
-        "webpack": "^5.109.2",
-        "webpack-cli": "^7.2.2"
-    },
-    "scripts": {
-        "prettier": "prettier -w .",
-        "lint": "eslint .",
-        "test": "vitest run",
-        "test:coverage": "vitest run --coverage",
-        "test:watch": "vitest",
-        "build:webpack": "webpack --progress --config webpack.config.js",
-        "build:css": "cp src/css/privacy.css dist/electro-privacy.css",
-        "build:gtm": "tsc -p tsconfig.gtm.json",
-        "build": "npm run build:webpack && npm run build:css && npm run build:gtm",
-        "knip": "knip",
-        "prepublishOnly": "npm run build"
-    },
-    "peerDependencies": {
-        "react": ">=18"
-    },
-    "peerDependenciesMeta": {
-        "react": {
-            "optional": true
-        }
-    },
-    "dependencies": {
-        "webpack-version-file": "^0.1.7"
-    },
-    "files": [
-        "dist",
-        "README.md",
-        "CHANGELOG.md"
-    ]
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electro-creative-workshop/electro-privacy.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "bugs": {
+    "url": "https://github.com/electro-creative-workshop/electro-privacy/issues"
+  },
+  "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.2.2",
+    "@vitest/coverage-v8": "^4.1.10",
+    "copy-webpack-plugin": "^14.0.0",
+    "eslint": "^10.8.1",
+    "globals": "^17.9.0",
+    "jsdom": "^30.0.1",
+    "knip": "^6.32.1",
+    "prettier": "3.9.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10",
+    "webpack": "^5.109.2",
+    "webpack-cli": "^7.2.2"
+  },
+  "scripts": {
+    "prettier": "prettier -w .",
+    "type-check": "tsc -p tsconfig.gtm.json --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "build:webpack": "webpack --progress --config webpack.config.js",
+    "build:css": "cp src/css/privacy.css dist/electro-privacy.css",
+    "build:gtm": "tsc -p tsconfig.gtm.json",
+    "build": "npm run build:webpack && npm run build:css && npm run build:gtm",
+    "knip": "knip",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "webpack-version-file": "^0.1.7"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ]
 }

@@ -5,14 +5,14 @@ updates:
     schedule:
       interval: weekly
       day: friday
-      time: "05:00"
-      timezone: "America/Los_Angeles"
+      time: '05:00'
+      timezone: 'America/Los_Angeles'
     open-pull-requests-limit: 1
-    rebase-strategy: "auto"
+    rebase-strategy: 'auto'
     commit-message:
-      prefix: "chore"
-      prefix-development: "chore"
-      include: "scope"
+      prefix: 'chore'
+      prefix-development: 'chore'
+      include: 'scope'
     ignore:
       - dependency-name: '*'
         update-types:

@@ -10,8 +10,6 @@ Published package: **@electro-creative-workshop/electro-privacy**.
 - OneTrust "Your Privacy Choices" integration support
 - React/Next.js GTM + GA4 consent gating component export
 - CSS for the privacy choices UI
-- Environment-aware behavior for production vs staging
-- Optional debug logging
 
 ---
 
@@ -61,12 +59,37 @@ Note: this module no longer requires Sass.
 
 ## Google Tag Manager Consent Gating (React/Next.js)
 
-This package exports `GtmConsentGate` for gating Google Tag Manager (GTM) and Google Analytics (GA4) behind OneTrust performance consent.
+This package exports `GtmConsentGate` for sites where analytics runs by default until a visitor opts out through OneTrust. It combines the saved OneTrust preference with an unsaved Preference Center selection so new GTM and GA4 activity stops immediately when analytics is switched off.
+
+### Why provide GA4 Measurement IDs?
+
+GTM identifies the container, while GA4 Measurement IDs identify the Analytics destinations that may already be running. Providing the IDs lets the gate stop those destinations immediately when a visitor opts out, including during the Save flow.
+
+For implementation and validation details used by repository maintainers, see the GTM consent skill in the source repo: https://github.com/electro-creative-workshop/electro-privacy/blob/firefox/.github/skills/gtm-consent.md
+
+Maintainer reminder for GTM consent-gate source changes:
+
+```bash
+npm run build:gtm
+```
 
 - Component name: **GtmConsentGate**
 - Package import: **@electro-creative-workshop/electro-privacy/gtm-consent-gate**
 - Architecture: **separate from ot-dns runtime (not auto-executed)**
 - TypeScript: **included** (`gtm-consent-gate.d.ts` is shipped with the package)
+
+### Host-site setup
+
+Complete these steps in the host site:
+
+1. Install this package and the host site's GTM renderer. The examples below use `@next/third-parties` for Next.js.
+2. Load OneTrust before the client gate runs. OneTrust must provide the `OptanonConsent` cookie and `OptanonActiveGroups` global used to determine the saved preference.
+3. Add the client wrapper shown below, then render it once in the root layout or application shell. Do not also render an unguarded `<GoogleTagManager>` elsewhere.
+4. Set `NEXT_PUBLIC_GTM_ID` to the site's container ID. Set `NEXT_PUBLIC_GA4_IDS` to a comma-separated list of the GA4 Measurement IDs controlled by that container.
+5. In OneTrust, confirm the analytics category code. This package defaults to `C0002`; pass `performanceCode` only when the host site's analytics category uses a different code.
+6. Verify the deployed Preference Center uses the selector `#ot-group-id-C0002 input[type="checkbox"]` (substituting the configured category code). Update the component before deployment if the site's OneTrust markup differs.
+7. Configure OneTrust GTM tag exceptions for the same analytics category. The application gate protects the unsaved-selection and runtime-teardown cases; tag exceptions enforce the saved choice for all governed tags.
+8. Test default tracking, pending opt-out, save, close without saving, and a later page load with the saved opt-out in Firefox, Chrome, and Edge.
 
 ### Migrating from direct GoogleTagManager usage
 
@@ -81,12 +104,12 @@ Replace with:
 ```jsx
 <GtmConsentGate
   gtmId="GTM-XXXXXXX"
-  gaMeasurementIds={["G-YYYYYYYY"]} // optional
+  gaMeasurementIds={['G-YYYYYYYY']} // optional
   GoogleTagManager={GoogleTagManager}
 />
 ```
 
-This ensures GTM and GA4 only run when performance consent is granted, and are disabled/removed if consent is revoked.
+The gate allows GTM by default when there is no saved opt-out. It disables GA4 immediately for a pending or saved analytics opt-out, removes the configured GTM runtime after a saved opt-out, and reloads once to reset any tags that initialized earlier.
 
 ### Example A: direct values
 
@@ -94,11 +117,7 @@ This ensures GTM and GA4 only run when performance consent is granted, and are d
 import { GtmConsentGate } from '@electro-creative-workshop/electro-privacy/gtm-consent-gate';
 import { GoogleTagManager } from '@next/third-parties/google';
 
-<GtmConsentGate
-  gtmId="GTM-XXXXXXX"
-  gaMeasurementIds={["G-YYYYYYYY"]}
-  GoogleTagManager={GoogleTagManager}
-/>
+<GtmConsentGate gtmId="GTM-XXXXXXX" gaMeasurementIds={['G-YYYYYYYY']} GoogleTagManager={GoogleTagManager} />;
 ```
 
 ### Example B: environment variables (Next.js)
@@ -111,16 +130,10 @@ import { GoogleTagManager } from '@next/third-parties/google';
 // NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
 // NEXT_PUBLIC_GA4_IDS=G-YYYYYYYY,G-ZZZZZZZZ
 
-const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
-const gaMeasurementIds = process.env.NEXT_PUBLIC_GA4_IDS
-  ? process.env.NEXT_PUBLIC_GA4_IDS.split(',')
-  : [];
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID ?? '';
+const gaMeasurementIds = process.env.NEXT_PUBLIC_GA4_IDS ? process.env.NEXT_PUBLIC_GA4_IDS.split(',') : [];
 
-<GtmConsentGate
-  gtmId={gtmId}
-  gaMeasurementIds={gaMeasurementIds}
-  GoogleTagManager={GoogleTagManager}
-/>
+<GtmConsentGate gtmId={gtmId} gaMeasurementIds={gaMeasurementIds} GoogleTagManager={GoogleTagManager} />;
 ```
 
 ### Props
@@ -128,17 +141,16 @@ const gaMeasurementIds = process.env.NEXT_PUBLIC_GA4_IDS
 - **gtmId** (string, required): GTM container ID
 - **gaMeasurementIds** (string[], optional): GA4 IDs to hard-disable when consent is absent
 - **GoogleTagManager** (React component, required): GTM component to render
-- **performanceCode** (string, optional): OneTrust performance consent code, default is C0002
+- **performanceCode** (string, optional): OneTrust analytics category code, default is C0002
 
 ---
 
-## Next.js App Router SSR note (important)
+## Next.js App Router
 
-If you import **GtmConsentGate** directly in a server component (example: app layout), production build can fail during page data collection with **window is not defined**.
+`GtmConsentGate` is a client component. Wrap it in a client component, then
+render that wrapper once from the server layout or application shell.
 
-Use a client-only wrapper and dynamic import with SSR disabled.
-
-### 1) Create a client wrapper
+### Create a client wrapper
 
 ```tsx
 'use client';
@@ -151,34 +163,18 @@ type GtmConsentGateClientProps = {
   gaMeasurementIds?: string[];
 };
 
-export default function GtmConsentGateClient({
-  gtmId,
-  gaMeasurementIds,
-}: Readonly<GtmConsentGateClientProps>) {
-  return (
-    <GtmConsentGate
-      gtmId={gtmId}
-      gaMeasurementIds={gaMeasurementIds}
-      GoogleTagManager={GoogleTagManager}
-    />
-  );
+export default function GtmConsentGateClient({ gtmId, gaMeasurementIds }: Readonly<GtmConsentGateClientProps>) {
+  return <GtmConsentGate gtmId={gtmId} gaMeasurementIds={gaMeasurementIds} GoogleTagManager={GoogleTagManager} />;
 }
 ```
 
-### 2) Load wrapper from server layout with SSR disabled
+### Render wrapper from the server layout
 
 ```tsx
-import dynamic from 'next/dynamic';
-
-const GtmConsentGateClient = dynamic(() => import('./gtm-consent-gate-client'), {
-  ssr: false,
-});
+import GtmConsentGateClient from './gtm-consent-gate-client';
 
 // ...
-<GtmConsentGateClient
-  gtmId="GTM-XXXXXXX"
-  gaMeasurementIds={['G-YYYYYYYY']}
-/>
+<GtmConsentGateClient gtmId="GTM-XXXXXXX" gaMeasurementIds={['G-YYYYYYYY']} />;
 ```
 
 ---
@@ -243,7 +239,7 @@ Reference: Using private dependencies with Vercel.
 ```
 
 3. Add California opt-out icon next to text:
-https://oag.ca.gov/privacy/ccpa/icons-download
+   https://oag.ca.gov/privacy/ccpa/icons-download
 4. Style button similarly to Cookie Settings:
 
 ```css

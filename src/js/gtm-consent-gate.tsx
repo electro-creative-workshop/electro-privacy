@@ -1,57 +1,14 @@
+'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
 
-/**
- * ============================================================
- * GTM CONSENT GATE (ARCHITECTURE OVERVIEW)
- * ============================================================
- *
- * This component is a HARD GATE for loading Google Tag Manager.
- *
- * Purpose:
- * - Prevent GTM from loading until performance consent (C0002) is granted
- * - Avoid early script execution due to OneTrust timing issues
- * - Provide teardown + reset if consent is revoked after load
- *
- * IMPORTANT:
- * - This controls whether GTM EXISTS on the page
- * - GTM consent mode controls what GTM can RUN
- *
- * These are complementary layers — not replacements for each other.
- *
- * ------------------------------------------------------------
- * FUTURE (after GTM consent mode rollout):
- *
- * ✅ KEEP:
- * - The main GTM gating (showGTM) — protects against early execution
- *
- * ⚠️ MAY BE SIMPLIFIED:
- * - Cookie parsing fallback (if OptanonActiveGroups is reliable)
- * - Recheck timers (if OT timing stabilizes)
- * - Preference center observer (UX-dependent)
- * - Hard reload on revoke (may be softened)
- *
- * ❌ DO NOT REMOVE:
- * - The core gate itself unless GTM load timing is fully trusted
- */
-
-const DEFAULT_PERFORMANCE_CODE = 'C0002';
-
-/**
- * Recheck delays help mitigate OneTrust async timing issues.
- *
- * WHY:
- * - OneTrust updates consent state asynchronously
- * - OptanonActiveGroups may not be immediately accurate
- *
- * FUTURE:
- * - Could potentially be removed if timing becomes reliable
- */
+const DEFAULT_ANALYTICS_CODE = 'C0002';
 const CONSENT_RECHECK_DELAYS_MS = [0, 150, 600, 1500] as const;
 
 type BrowserWindow = Window & {
   OptanonActiveGroups?: string;
   google_tag_manager?: Record<string, unknown>;
-  dataLayer?: unknown[];
+  __ELECTRO_PRIVACY_DEBUG__?: boolean;
 };
 
 type GtmComponentProps = {
@@ -65,49 +22,16 @@ export type GtmConsentGateProps = {
   GoogleTagManager: React.ComponentType<GtmComponentProps>;
 };
 
-/**
- * Helper: reads a cookie value by name
- */
 function getCookieValue(name: string): string | null {
   const match = document.cookie
     .split(';')
     .map((cookie) => cookie.trim())
     .find((cookie) => cookie.startsWith(`${name}=`));
-  if (!match) return null;
-  return match.slice(name.length + 1);
+
+  return match ? match.slice(name.length + 1) : null;
 }
 
-/**
- * Detects whether the OneTrust preference center is currently open.
- *
- * WHY:
- * - Prevents GTM loading while user is actively making consent decisions
- *
- * FUTURE:
- * - Could be removed depending on UX requirements
- */
-function isPreferenceCenterOpen(): boolean {
-  const preferenceCenter = document.getElementById('onetrust-pc-sdk');
-  if (!preferenceCenter) return false;
-
-  const ariaHidden = preferenceCenter.getAttribute('aria-hidden');
-  if (ariaHidden === 'false') return true;
-  if (ariaHidden === 'true') return false;
-
-  const computedStyle = window.getComputedStyle(preferenceCenter);
-  return computedStyle.display !== 'none' && computedStyle.visibility !== 'hidden';
-}
-
-/**
- * Fallback: parse consent from OneTrust cookie
- *
- * WHY:
- * - OptanonActiveGroups is not always immediately available
- *
- * FUTURE:
- * - Could likely be removed if active groups are reliable
- */
-function hasPerformanceConsentFromCookie(performanceCode: string): boolean | null {
+function readCategoryFromCookie(categoryCode: string): boolean | null {
   const optanonConsent = getCookieValue('OptanonConsent');
   if (!optanonConsent) return null;
 
@@ -115,26 +39,17 @@ function hasPerformanceConsentFromCookie(performanceCode: string): boolean | nul
   try {
     decodedConsent = decodeURIComponent(optanonConsent);
   } catch {
-    decodedConsent = optanonConsent;
+    // Use the raw cookie when it is not URI encoded.
   }
 
   const groupsMatch = decodedConsent.match(/groups=([^&]+)/);
-  if (!groupsMatch) return null;
+  const category = groupsMatch?.[1].split(',').find((group) => group.startsWith(`${categoryCode}:`));
 
-  const groups = groupsMatch[1].split(',');
-  const performanceGroup = groups.find((group) => group.startsWith(`${performanceCode}:`));
-  if (!performanceGroup) return null;
-
-  return !performanceGroup.endsWith(':0');
+  if (!category) return null;
+  return !category.endsWith(':0');
 }
 
-/**
- * Primary consent signal: OneTrust active groups
- *
- * FUTURE:
- * - Prefer to rely on this entirely if stable
- */
-function hasPerformanceConsentFromActiveGroups(performanceCode: string): boolean | null {
+function readCategoryFromActiveGroups(categoryCode: string): boolean | null {
   const activeGroups = (window as BrowserWindow).OptanonActiveGroups;
   if (typeof activeGroups !== 'string' || activeGroups.trim().length === 0) return null;
 
@@ -144,32 +59,150 @@ function hasPerformanceConsentFromActiveGroups(performanceCode: string): boolean
     .filter(Boolean);
 
   if (groups.length === 0) return null;
+  return groups.some((group) => group === categoryCode || group.startsWith(`${categoryCode}:1`));
+}
 
-  return groups.some(
-    (group) => group === performanceCode || group.startsWith(`${performanceCode}:1`)
+function readSavedAnalyticsAllowed(categoryCode: string): boolean {
+  const activeGroupsAllowed = readCategoryFromActiveGroups(categoryCode);
+
+  // OneTrust can publish an active-groups denial before its cookie write completes.
+  if (activeGroupsAllowed === false) return false;
+
+  const cookieAllowed = readCategoryFromCookie(categoryCode);
+  if (cookieAllowed !== null) return cookieAllowed;
+  if (activeGroupsAllowed !== null) return activeGroupsAllowed;
+
+  // This integration is default-on: a missing saved choice is not an opt-out.
+  return true;
+}
+
+function isPreferenceCenterOpen(preferenceCenter: HTMLElement | null): boolean {
+  if (!preferenceCenter) return false;
+
+  const ariaHidden = preferenceCenter.getAttribute('aria-hidden');
+  if (ariaHidden === 'false') return true;
+  if (ariaHidden === 'true') return false;
+
+  const style = window.getComputedStyle(preferenceCenter);
+  return style.display !== 'none' && style.visibility !== 'hidden';
+}
+
+function readPendingAnalyticsAllowed(preferenceCenter: HTMLElement | null, categoryCode: string): boolean | null {
+  if (!preferenceCenter) return null;
+
+  const toggle = preferenceCenter.querySelector<HTMLInputElement>(
+    `#ot-group-id-${categoryCode} input[type="checkbox"]`
+  );
+
+  return toggle ? toggle.checked : null;
+}
+
+function isValidGa4MeasurementId(measurementId: string): boolean {
+  return measurementId.startsWith('G-');
+}
+
+function normalizeGaMeasurementIds(measurementIds: readonly string[]): string[] {
+  return Array.from(
+    new Set(
+      measurementIds
+        .map((measurementId) => measurementId.trim())
+        .filter((measurementId) => measurementId.length > 0)
+        .filter(isValidGa4MeasurementId)
+    )
   );
 }
 
-/**
- * Combined consent check (fail-closed)
- */
-function hasPerformanceConsent(performanceCode: string): boolean {
-  const activeGroupsConsent = hasPerformanceConsentFromActiveGroups(performanceCode);
-  if (activeGroupsConsent === false) return false;
+function readGaMeasurementIdsFromEnvironment(): string[] {
+  const rawIds = process.env.NEXT_PUBLIC_GA4_IDS ?? '';
+  if (!rawIds) {
+    if (shouldDebugLog()) {
+      console.debug('[Electro Privacy] NEXT_PUBLIC_GA4_IDS is empty or undefined');
+    }
+    return [];
+  }
 
-  const cookieConsent = hasPerformanceConsentFromCookie(performanceCode);
-  if (cookieConsent !== null) return cookieConsent;
+  const normalizedIds = normalizeGaMeasurementIds(rawIds.split(','));
+  if (shouldDebugLog()) {
+    console.debug('[Electro Privacy] NEXT_PUBLIC_GA4_IDS parsed', {
+      raw: rawIds,
+      parsed: normalizedIds,
+    });
+  }
 
-  if (activeGroupsConsent !== null) return activeGroupsConsent;
-  return false;
+  return normalizedIds;
 }
 
-/**
- * Removes GTM from page entirely
- *
- * WHY:
- * - Ensures no tracking remains after consent revocation
- */
+function readGaMeasurementIdsFromGtagScripts(): string[] {
+  const detectedIds: string[] = [];
+
+  for (const script of document.querySelectorAll<HTMLScriptElement>('script[src*="gtag/js"]')) {
+    try {
+      const scriptUrl = new URL(script.src, window.location.origin);
+      const measurementId = scriptUrl.searchParams.get('id')?.trim() ?? '';
+      if (measurementId) detectedIds.push(measurementId);
+    } catch {
+      // Ignore malformed script src values.
+    }
+  }
+
+  const normalizedIds = normalizeGaMeasurementIds(detectedIds);
+  if (shouldDebugLog()) {
+    console.debug('[Electro Privacy] gtag/js fallback IDs', {
+      discovered: detectedIds,
+      parsed: normalizedIds,
+    });
+  }
+
+  return normalizedIds;
+}
+
+function resolveGaMeasurementIds(configuredIds: readonly string[]): string[] {
+  const explicitIds = normalizeGaMeasurementIds(configuredIds);
+  const environmentIds = readGaMeasurementIdsFromEnvironment();
+  const combinedIds = Array.from(new Set([...explicitIds, ...environmentIds]));
+  const fallbackIds = combinedIds.length === 0 ? readGaMeasurementIdsFromGtagScripts() : [];
+  const resolvedIds = combinedIds.length > 0 ? combinedIds : fallbackIds;
+
+  if (shouldDebugLog()) {
+    console.debug('[Electro Privacy] resolveGaMeasurementIds()', {
+      configuredIds,
+      envIds: environmentIds,
+      fallbackIds,
+      resolvedIds,
+    });
+  }
+
+  return resolvedIds;
+}
+
+function shouldDebugLog(): boolean {
+  return Boolean((window as BrowserWindow).__ELECTRO_PRIVACY_DEBUG__);
+}
+
+function setGaRuntimeDisabled(measurementIds: readonly string[], disabled: boolean): void {
+  const windowWithGaFlags = window as unknown as Window & Record<string, unknown>;
+
+  if (shouldDebugLog()) {
+    console.debug('[Electro Privacy] setGaRuntimeDisabled()', {
+      disabled,
+      measurementIds,
+    });
+    console.debug('[Electro Privacy] setGaRuntimeDisabled received IDs', measurementIds);
+  }
+
+  for (const measurementId of measurementIds) {
+    if (isValidGa4MeasurementId(measurementId)) {
+      const flagName = `ga-disable-${measurementId}`;
+      const previousValue = windowWithGaFlags[flagName];
+      windowWithGaFlags[flagName] = disabled;
+
+      if (shouldDebugLog() && previousValue !== disabled) {
+        console.debug(`[Electro Privacy] ${disabled ? 'Set' : 'Cleared'} ${flagName}`);
+      }
+    }
+  }
+}
+
 function teardownGtm(gtmId: string): void {
   document.getElementById('_next-gtm')?.remove();
   document.getElementById('_next-gtm-init')?.remove();
@@ -181,40 +214,14 @@ function teardownGtm(gtmId: string): void {
   }
 
   const windowWithGtm = window as BrowserWindow;
+  if (!windowWithGtm.google_tag_manager) return;
 
-  if (windowWithGtm.google_tag_manager) {
-    delete windowWithGtm.google_tag_manager[gtmId];
-    if (Object.keys(windowWithGtm.google_tag_manager).length === 0) {
-      delete windowWithGtm.google_tag_manager;
-    }
-  }
-
-  if (Array.isArray(windowWithGtm.dataLayer)) {
-    windowWithGtm.dataLayer.length = 0;
+  delete windowWithGtm.google_tag_manager[gtmId];
+  if (Object.keys(windowWithGtm.google_tag_manager).length === 0) {
+    delete windowWithGtm.google_tag_manager;
   }
 }
 
-/**
- * Disables GA via runtime flags
- *
- * WHY:
- * - Additional safety layer if GTM misfires
- *
- * FUTURE:
- * - May be redundant once GTM consent mode is fully trusted
- */
-function setGaRuntimeDisabled(measurementIds: readonly string[], disabled: boolean): void {
-  const windowWithGaFlags = window as unknown as BrowserWindow & Record<string, unknown>;
-
-  for (const measurementId of measurementIds) {
-    if (!measurementId.startsWith('G-')) continue;
-    windowWithGaFlags[`ga-disable-${measurementId}`] = disabled;
-  }
-}
-
-/**
- * Reload wrapper used after consent revocation
- */
 export const browserNavigation = {
   reload(): void {
     window.location.reload();
@@ -224,32 +231,26 @@ export const browserNavigation = {
 export function GtmConsentGate({
   gtmId,
   gaMeasurementIds = [],
-  performanceCode = DEFAULT_PERFORMANCE_CODE,
+  performanceCode = DEFAULT_ANALYTICS_CODE,
   GoogleTagManager,
 }: GtmConsentGateProps): React.ReactElement | null {
-
-  /**
-   * Controls whether GTM is rendered at all
-   */
-  const [showGTM, setShowGTM] = useState(false);
-
-  /**
-   * Tracks whether GTM has ever been loaded
-   */
-  const hasLoadedGtmRef = useRef(false);
-
-  /**
-   * Tracks delayed consent rechecks
-   */
+  const [savedAnalyticsAllowed, setSavedAnalyticsAllowed] = useState(true);
+  const [pendingAnalyticsAllowed, setPendingAnalyticsAllowed] = useState<boolean | null>(null);
+  const [preferenceCenterOpen, setPreferenceCenterOpen] = useState(false);
+  const [hasLoadedGtm, setHasLoadedGtm] = useState(false);
   const pendingConsentChecksRef = useRef<number[]>([]);
-
-  /**
-   * Prevents multiple reloads
-   */
   const hasTriggeredReloadRef = useRef(false);
+
+  const analyticsAllowed = preferenceCenterOpen
+    ? (pendingAnalyticsAllowed ?? savedAnalyticsAllowed)
+    : savedAnalyticsAllowed;
+  const gaMeasurementIdsKey = gaMeasurementIds.join(',');
 
   useEffect(() => {
     if (!gtmId) return;
+
+    const preferenceCenter = document.getElementById('onetrust-pc-sdk');
+    const seenGtagScripts = new WeakSet<HTMLScriptElement>();
 
     function clearPendingConsentChecks(): void {
       for (const timerId of pendingConsentChecksRef.current) {
@@ -258,91 +259,146 @@ export function GtmConsentGate({
       pendingConsentChecksRef.current = [];
     }
 
-    /**
-     * Hard reset when consent is revoked
-     *
-     * FUTURE:
-     * - Could potentially be simplified to teardown only
-     */
-    function revokeConsentAndReload(): void {
+    function checkConsent(): boolean {
+      const resolvedMeasurementIds = resolveGaMeasurementIds(gaMeasurementIds);
+      const savedAllowed = readSavedAnalyticsAllowed(performanceCode);
+      const isOpen = isPreferenceCenterOpen(preferenceCenter);
+      const pendingAllowed = isOpen ? readPendingAnalyticsAllowed(preferenceCenter, performanceCode) : null;
+      const effectiveAllowed = isOpen ? (pendingAllowed ?? savedAllowed) : savedAllowed;
+
+      setSavedAnalyticsAllowed(savedAllowed);
+      setPreferenceCenterOpen(isOpen);
+      setPendingAnalyticsAllowed(pendingAllowed);
+      setGaRuntimeDisabled(resolvedMeasurementIds, !effectiveAllowed);
+
+      if (!effectiveAllowed && hasLoadedGtm) {
+        teardownGtm(gtmId);
+      }
+
+      return effectiveAllowed;
+    }
+
+    function revokeSavedConsent(): void {
       if (hasTriggeredReloadRef.current) return;
       hasTriggeredReloadRef.current = true;
-      setGaRuntimeDisabled(gaMeasurementIds, true);
+      setGaRuntimeDisabled(resolveGaMeasurementIds(gaMeasurementIds), true);
       teardownGtm(gtmId);
       browserNavigation.reload();
     }
 
-    /**
-     * Core logic: determines whether GTM is allowed
-     */
-    function updateGtmState(): void {
-      const canRun = hasPerformanceConsent(performanceCode) && !isPreferenceCenterOpen();
-      setGaRuntimeDisabled(gaMeasurementIds, !canRun);
-
-      if (!canRun && hasLoadedGtmRef.current) {
-        teardownGtm(gtmId);
-      }
-
-      setShowGTM(canRun);
-      if (canRun) hasLoadedGtmRef.current = true;
-    }
-
     function handleConsentApplied(): void {
-      const canRun = hasPerformanceConsent(performanceCode);
-
-      if (!canRun && hasLoadedGtmRef.current) {
-        revokeConsentAndReload();
-        return;
-      }
-
-      updateGtmState();
       clearPendingConsentChecks();
+      checkConsent();
 
       for (const delay of CONSENT_RECHECK_DELAYS_MS) {
         const timerId = window.setTimeout(() => {
-          const shouldRun = hasPerformanceConsent(performanceCode);
-
-          if (!shouldRun && hasLoadedGtmRef.current) {
-            revokeConsentAndReload();
-            return;
+          const effectiveAllowed = checkConsent();
+          if (!effectiveAllowed && !isPreferenceCenterOpen(preferenceCenter) && hasLoadedGtm) {
+            revokeSavedConsent();
           }
-          updateGtmState();
         }, delay);
-
         pendingConsentChecksRef.current.push(timerId);
       }
     }
 
+    function collectGtagScriptsFromNode(node: Node): HTMLScriptElement[] {
+      const gtagScripts: HTMLScriptElement[] = [];
+
+      if (node instanceof HTMLScriptElement && node.src.includes('gtag/js')) {
+        gtagScripts.push(node);
+      }
+
+      if (!(node instanceof Element)) return gtagScripts;
+
+      for (const script of node.querySelectorAll<HTMLScriptElement>('script[src*="gtag/js"]')) {
+        gtagScripts.push(script);
+      }
+
+      return gtagScripts;
+    }
+
+    function handlePotentialGtagScript(script: HTMLScriptElement): void {
+      if (!script.src.includes('gtag/js')) return;
+      if (seenGtagScripts.has(script)) return;
+
+      seenGtagScripts.add(script);
+      checkConsent();
+    }
+
+    for (const script of document.querySelectorAll<HTMLScriptElement>('script[src*="gtag/js"]')) {
+      seenGtagScripts.add(script);
+    }
+
     let observer: MutationObserver | undefined;
-    const preferenceCenter = document.getElementById('onetrust-pc-sdk');
     if (preferenceCenter) {
-      observer = new MutationObserver(updateGtmState);
+      observer = new MutationObserver(checkConsent);
       observer.observe(preferenceCenter, {
         attributes: true,
         attributeFilter: ['aria-hidden', 'style', 'class'],
+        childList: true,
+        subtree: true,
       });
     }
 
-    updateGtmState();
-    window.addEventListener('OneTrustGroupsUpdated', updateGtmState);
-    window.addEventListener('OneTrustPCLoaded', updateGtmState);
+    let gtagScriptObserver: MutationObserver | undefined;
+    const gtagObserverCallback: MutationCallback = (mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'childList') {
+          for (const node of mutation.addedNodes) {
+            for (const script of collectGtagScriptsFromNode(node)) {
+              handlePotentialGtagScript(script);
+            }
+          }
+          continue;
+        }
+
+        if (mutation.type === 'attributes' && mutation.target instanceof HTMLScriptElement) {
+          handlePotentialGtagScript(mutation.target);
+        }
+      }
+    };
+
+    if (document.head || document.body) {
+      gtagScriptObserver = new MutationObserver(gtagObserverCallback);
+      if (document.head) {
+        gtagScriptObserver.observe(document.head, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['src'],
+        });
+      }
+      if (document.body) {
+        gtagScriptObserver.observe(document.body, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['src'],
+        });
+      }
+    }
+
+    checkConsent();
+    window.addEventListener('OneTrustGroupsUpdated', handleConsentApplied);
+    window.addEventListener('OneTrustPCLoaded', checkConsent);
     window.addEventListener('OTConsentApplied', handleConsentApplied);
 
     return () => {
       clearPendingConsentChecks();
       observer?.disconnect();
-      window.removeEventListener('OneTrustGroupsUpdated', updateGtmState);
-      window.removeEventListener('OneTrustPCLoaded', updateGtmState);
+      gtagScriptObserver?.disconnect();
+      window.removeEventListener('OneTrustGroupsUpdated', handleConsentApplied);
+      window.removeEventListener('OneTrustPCLoaded', checkConsent);
       window.removeEventListener('OTConsentApplied', handleConsentApplied);
-      setGaRuntimeDisabled(gaMeasurementIds, true);
+      setGaRuntimeDisabled(resolveGaMeasurementIds(gaMeasurementIds), true);
     };
-  }, [gaMeasurementIds, gtmId, performanceCode]);
+  }, [gaMeasurementIdsKey, gtmId, hasLoadedGtm, performanceCode]);
 
-  /**
-   * CRITICAL:
-   * GTM does not render unless consent allows it
-   */
-  if (!showGTM) return null;
+  useEffect(() => {
+    if (analyticsAllowed) setHasLoadedGtm(true);
+  }, [analyticsAllowed]);
 
-  return GoogleTagManager ? <GoogleTagManager gtmId={gtmId} /> : null;
+  if (!gtmId || !analyticsAllowed) return null;
+
+  return <GoogleTagManager gtmId={gtmId} />;
 }

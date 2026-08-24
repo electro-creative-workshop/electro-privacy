@@ -38,7 +38,7 @@ Use this skill when the user asks to update packages, bump dependencies, or run 
 8. If validation passes, stage `package.json`, `package-lock.json` (if present), and any source/test files required to satisfy updated tool rules.
 9. In the commit body, include each dependency version change from the `ncu -u` output and briefly note any required source/test fixes.
 10. Ask the user for permission to do a commit and push. Do not include a
-   `Co-authored-by` trailer in commits.
+    `Co-authored-by` trailer in commits.
 
 ## Validation Notes
 

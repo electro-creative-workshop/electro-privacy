@@ -1,31 +1,33 @@
 // load language support & determine lang based on url
-import {getLanguageString} from "./language-support";
+import { getLanguageString } from './language-support';
 
 // Version is injected by webpack DefinePlugin
 // Accessible via: window.electroPrivacyVersion in browser console
 if (typeof window !== 'undefined') {
-    window.electroPrivacyVersion = typeof ELECTRO_PRIVACY_VERSION !== 'undefined' ? ELECTRO_PRIVACY_VERSION : 'unknown';
+  window.electroPrivacyVersion = typeof ELECTRO_PRIVACY_VERSION !== 'undefined' ? ELECTRO_PRIVACY_VERSION : 'unknown';
 }
 
 let dsIdSet = false;
 async function OptanonWrapperLocal() {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-        event: 'OneTrustGroupsUpdated',
-        OneTrustActiveGroups: window.OnetrustActiveGroups,
-    });
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'OneTrustGroupsUpdated',
+    OneTrustActiveGroups: window.OnetrustActiveGroups,
+  });
 
-    if (!dsIdSet) {
-        const emailTitle = getLanguageString('Behavioral Advertising Linked To Your Email Address:');
-        const emailBlock = getLanguageString('emailTextBlock');
-        const emailLabel = getLanguageString('Email:');
-        const submit = getLanguageString('Submit');
-        const emailInstructions = getLanguageString('Once you have made all of your elections, click “Save Settings” to save your settings and close the window.');
-        const deletionRequests = getLanguageString('Deletion, Access, Or Correction Requests');
-        const deletionTextBlock1 = getLanguageString('deletionTextBlock1');
-        const deletionTextBlock2 = getLanguageString('deletionTextBlock2');
+  if (!dsIdSet) {
+    const emailTitle = getLanguageString('Behavioral Advertising Linked To Your Email Address:');
+    const emailBlock = getLanguageString('emailTextBlock');
+    const emailLabel = getLanguageString('Email:');
+    const submit = getLanguageString('Submit');
+    const emailInstructions = getLanguageString(
+      'Once you have made all of your elections, click “Save Settings” to save your settings and close the window.'
+    );
+    const deletionRequests = getLanguageString('Deletion, Access, Or Correction Requests');
+    const deletionTextBlock1 = getLanguageString('deletionTextBlock1');
+    const deletionTextBlock2 = getLanguageString('deletionTextBlock2');
 
-        const otEmailHTML = `
+    const otEmailHTML = `
             <hr/>
             <div id="ot-email-text" style="padding-top: 20px; display: none">
                 <h3 style="font-size: 15px !important;">${emailTitle}</h3>
@@ -50,10 +52,10 @@ async function OptanonWrapperLocal() {
             </div>
         `;
 
-        const targetedAdsTitle = getLanguageString('Do Not Sell or Share for Targeted Advertising');
-        const targetedAdsTextBlock = getLanguageString('targetedAdsTextBlock');
+    const targetedAdsTitle = getLanguageString('Do Not Sell or Share for Targeted Advertising');
+    const targetedAdsTextBlock = getLanguageString('targetedAdsTextBlock');
 
-        const dnsCustomText = `
+    const dnsCustomText = `
             <div id="dns-custom-text" style="display: none">
                 <h3 style="padding-top: 20px; font-size: 15px !important;">${targetedAdsTitle}</h3>
                 <br />
@@ -61,39 +63,39 @@ async function OptanonWrapperLocal() {
             </div>
         `;
 
-        const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
-        otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
+    const otEmailForm = document.querySelectorAll('.ot-sdk-row.ot-cat-grp')[0];
+    otEmailForm.insertAdjacentHTML('afterend', otEmailHTML);
 
-        const otDnsText = document.getElementById('ot-pc-desc');
-        otDnsText.insertAdjacentHTML('afterend', dnsCustomText);
+    const otDnsText = document.getElementById('ot-pc-desc');
+    otDnsText.insertAdjacentHTML('afterend', dnsCustomText);
 
-        // show "on/off" text near the toggle
-        const toggleTextContainer = document.createElement('div');
-        toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
-        toggleTextContainer.setAttribute('style', 'position: relative; top: -5px; display: inline-block; margin-left: 5px;');
-        const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
-        const toggleContainer = insertAfterThis.querySelector('.ot-tgl');
-        toggleContainer.appendChild(toggleTextContainer);
+    // show "on/off" text near the toggle
+    const toggleTextContainer = document.createElement('div');
+    toggleTextContainer.setAttribute('id', 'ot-checkbox-status');
+    toggleTextContainer.setAttribute(
+      'style',
+      'position: relative; top: -5px; display: inline-block; margin-left: 5px;'
+    );
+    const insertAfterThis = document.querySelectorAll('[data-optanongroupid="C0004"]')[0];
+    const toggleContainer = insertAfterThis.querySelector('.ot-tgl');
+    toggleContainer.appendChild(toggleTextContainer);
 
-        dsIdSet = true;
+    dsIdSet = true;
 
-        // import 2nd js file
-        await import(/* webpackMode: "eager" */ './ot-dns-script-2');
-    }
+    // import 2nd js file
+    await import(/* webpackMode: "eager" */ './ot-dns-script-2');
+  }
 }
-
-
-
 
 // removed global callback from ot library
 
 // wait for needed elements to be created in document
 // then do this init
 function checkBeforeInit() {
-    if (document.querySelectorAll('.ot-sdk-row.ot-cat-grp').length && document.getElementById('ot-pc-desc')) {
-        OptanonWrapperLocal();
-    } else {
-        setTimeout(checkBeforeInit, 100);
-    }
+  if (document.querySelectorAll('.ot-sdk-row.ot-cat-grp').length && document.getElementById('ot-pc-desc')) {
+    OptanonWrapperLocal();
+  } else {
+    setTimeout(checkBeforeInit, 100);
+  }
 }
 setTimeout(checkBeforeInit, 100);

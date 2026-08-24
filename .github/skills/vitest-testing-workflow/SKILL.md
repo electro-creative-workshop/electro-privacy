@@ -13,14 +13,15 @@ Use this workflow to add or update tests in this repository while keeping test c
 
 ## Project Context
 
-- Language: JavaScript (ES modules in `src/js/`)
+- Language: JavaScript and TypeScript/React (ES modules in `src/js/`)
 - Test runner: Vitest with `jsdom`
-- Test location: `test/`
+- Test location: `test/` with JavaScript and TypeScript/React test files
 - Main commands:
   - `npm test`
   - `npm run test:watch`
   - `npm test -- -t "test name"`
   - `npm test -- --coverage`
+  - `npm run type-check`
 
 ## When to Use
 
@@ -32,10 +33,12 @@ Use this workflow to add or update tests in this repository while keeping test c
 ## Workflow (5 Steps)
 
 1. **Create or Update Test File**
-  - Add tests in `test/` using `*.test.js`.
-   - Prefer explicit imports from Vitest:
-     - `import { describe, test, expect } from 'vitest';`
-   - Match existing style in this repository (`test()` is preferred).
+
+- Add tests in `test/` using `*.test.js` for JavaScript modules and
+  `*.test.tsx` for TypeScript/React modules.
+- Prefer explicit imports from Vitest:
+  - `import { describe, test, expect } from 'vitest';`
+- Match existing style in this repository (`test()` is preferred).
 
 2. **Run Focused Tests First**
    - Run targeted tests while iterating:
@@ -51,6 +54,8 @@ Use this workflow to add or update tests in this repository while keeping test c
    - Lint changed files or whole repo:
      - `npx eslint .`
    - Resolve warnings/errors introduced by new test code.
+   - Run the TypeScript gate when changing TypeScript or React source/tests:
+     - `npm run type-check`
 
 5. **Format**
    - Format repository files:
@@ -60,6 +65,8 @@ Use this workflow to add or update tests in this repository while keeping test c
 ## Test Design Guidelines
 
 - Prefer testing pure helper modules first (for example: config, request building, UI state helpers).
+- For `GtmConsentGate`, use `test/gtm-consent-gate.test.tsx` for consent state,
+  GA4 disable flags, and GTM teardown behavior.
 - For DOM behavior, keep tests lightweight and only mock browser APIs when needed.
 - Validate meaningful behavior and edge cases, not only happy paths.
 - Do not log PII (for example email addresses or request payloads) in tests or source.
@@ -69,5 +76,7 @@ Use this workflow to add or update tests in this repository while keeping test c
 - New or updated tests are in `test/`.
 - `npm test` passes.
 - Any lint issues introduced by the change are fixed.
+- Formatting has been applied.
+- Coverage for touched modules is improved or maintained.
 - Formatting has been applied.
 - Coverage for touched modules is improved or maintained.
