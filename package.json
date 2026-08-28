@@ -22,9 +22,9 @@
     "homepage": "https://github.com/electro-creative-workshop/electro-privacy/issues#readme",
     "devDependencies": {
         "@eslint/js": "^10.0.1",
-        "@vitest/coverage-v8": "^4.1.10",
+        "@vitest/coverage-v8": "^4.1.11",
         "copy-webpack-plugin": "^14.0.0",
-        "eslint": "^10.8.1",
+        "eslint": "^10.9.1",
         "globals": "^17.9.0",
         "jsdom": "^30.0.1",
         "knip": "^6.32.1",
