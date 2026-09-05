@@ -1,10 +1,3 @@
-# [Unreleased]
-
-- Add `GtmConsentGate` React component for default-on GTM and GA4 behavior that blocks saved and unsaved OneTrust analytics opt-outs.
-- Export `GtmConsentGate` as a separate package entrypoint: `@electro-creative-workshop/electro-privacy/gtm-consent-gate`.
-- Handle OneTrust Preference Center pending-state changes, Firefox delayed consent writes, scoped GTM teardown, GA4 runtime disable flags, and a one-time reload after a saved opt-out.
-- Keep architecture decoupled: `ot-dns` runtime remains independent from GTM consent-gate integration.
-
 # History
 
 ## 1.1.1 Stable Version
@@ -225,14 +218,18 @@
 
 ## Unreleased
 
+- Add `GtmConsentGate` React component for default-on GTM and GA4 behavior that blocks saved and unsaved OneTrust analytics opt-outs.
+- Export `GtmConsentGate` as a separate package entrypoint: `@electro-creative-workshop/electro-privacy/gtm-consent-gate`.
+- Handle OneTrust Preference Center pending-state changes, Firefox delayed consent writes, scoped GTM teardown, GA4 runtime disable flags, and a one-time reload after a saved opt-out.
+- Keep architecture decoupled: `ot-dns` runtime remains independent from GTM consent-gate integration.
+- **Testing: GTM consent regression coverage** - Added 30 Vitest/JSDOM tests covering OneTrust active-group and cookie parsing, initial and delayed consent timing, saved versus unsaved opt-outs, GA4 disable-flag ownership and baselines, scoped GTM teardown, late Preference Center changes, browser-runtime fallbacks, and no-collection assertions.
 - **Fix: dataLayer guard** - Ensure `window.dataLayer` exists before pushing the OneTrust groups event, preventing an error when GTM has not initialized it.
 - **GTM Consent Runtime: GA4 ID resolution hardening** - Updated `src/js/gtm-consent-gate.tsx` so GA4 measurement IDs are resolved from (in order) explicit `gaMeasurementIds` props, `NEXT_PUBLIC_GA4_IDS`, then DOM fallback discovery from `script[src*="gtag/js"]` when explicit/env IDs are unavailable.
-- **GTM Consent Runtime: debug instrumentation** - Added debug logging with `[Electro Privacy]` prefix around GA4 ID resolution inputs/outputs and GA runtime disable calls, including `configuredIds`, `envIds`, `fallbackIds`, final resolved IDs, and IDs passed to `setGaRuntimeDisabled()`.
 - **GTM Consent Runtime: late-script fallback resilience** - Added a `MutationObserver` on `document.head` and `document.body` to detect newly added or newly populated `script[src*="gtag/js"]` nodes and re-run consent checks so late-loaded GA4 IDs still receive `ga-disable-*` flags.
 - **GTM Consent Runtime: observer safety/performance guard** - Observer callback only triggers consent re-check logic when a matching `gtag/js` script node is found, with `WeakSet` de-duplication to avoid repeated work for the same script node.
 - **Docs: install-package behavior clarified** - Clarified maintainer documentation boundaries: installed package payload is intentionally limited by `files` (`dist/`, `README.md`, `CHANGELOG.md`) and does not include repository-only `.github/skills` content.
 - **Docs: README maintainer link fix** - Updated README GTM guidance to reference the source-repository GTM skill URL instead of a package-local `.github/skills` path that does not exist in installed artifacts.
-- **Docs: GTM troubleshooting guidance expanded** - Added/organized a scan-friendly troubleshooting section in `.github/skills/gtm-consent.md` covering missing `ga-disable-*` flags, ID-source checks, late-script behavior expectations, and debug toggle usage.
+- **Docs: GTM troubleshooting guidance expanded** - Added/organized a scan-friendly troubleshooting section in `.github/skills/gtm-consent/SKILL.md` covering missing `ga-disable-*` flags, ID-source checks, and late-script behavior expectations.
 - **Docs: stronger host configuration recommendation** - Elevated guidance to strongly recommend explicitly providing `NEXT_PUBLIC_GA4_IDS` to avoid relying on DOM discovery timing.
 - **Maintenance: formatting config alignment** - Updated Prettier and EditorConfig guidance/configuration (`.prettierrc.json` and `.editorconfig`) to keep whitespace and formatting behavior consistent across local and automated edits.
 - **Release discipline: dist artifact requirement emphasized** - Explicitly documented that after `npm run build:gtm`, regenerated `dist/` artifacts must be committed; consumers execute package code from `dist/`, and skipping this step can silently ship stale runtime behavior.
