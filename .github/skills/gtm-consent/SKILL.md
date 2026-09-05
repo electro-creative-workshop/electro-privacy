@@ -11,6 +11,10 @@ Use this guide when installing `GtmConsentGate` from
 `@electro-creative-workshop/electro-privacy/gtm-consent-gate` in a React or
 Next.js host site.
 
+This workflow is driven by Firefox's **Enhanced Tracking Protection (ETP)**
+behavior, which can expose consent-timing races and requires explicit GTM/GA4
+consent-gate validation on Firefox in addition to Chrome and Edge.
+
 ## Host Site Install Process
 
 Use this section when the workspace contains the plugin and a host site:
@@ -27,7 +31,7 @@ When the bug concerns GA4 activity after an opt-out, inspect and change:
 - `src/js/gtm-consent-gate.tsx`: runtime consent behavior and GA4 disable flags.
 - `test/gtm-consent-gate.test.tsx`: regression coverage for pending opt-out,
   saved opt-out, valid `G-` IDs, and GTM teardown.
-- `README.md` and `.github/skills/gtm-consent.md`: public integration and
+- `README.md` and `.github/skills/gtm-consent/SKILL.md`: public integration and
   implementation guidance.
 - `dist/`: regenerate with the package build when publishing or when the
   consumer is testing a built package.
@@ -48,6 +52,16 @@ For the current Next.js App Router integration, inspect or change:
   the wrapper once, and keep OneTrust loading `beforeInteractive`.
 - `src/app/layout.test.tsx`: verify the wrapper receives the GTM and GA4
   configuration.
+
+In the host layout, read GTM and GA4 env values together:
+
+```tsx
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID ?? '';
+const gaMeasurementIds = (process.env.NEXT_PUBLIC_GA4_IDS ?? '')
+  .split(',')
+  .map((measurementId) => measurementId.trim())
+  .filter(Boolean);
+```
 
 The preferred production configuration is:
 
@@ -70,6 +84,39 @@ When assigning this work, use wording like:
 > GA4/GTM configuration, and related tests. Do not implement consent logic in
 > the host site. Validate pending opt-out, Save, reload, and re-grant behavior
 > in Firefox.
+
+### New host site prompt template
+
+Use this prompt in a new host-site workspace:
+
+> Integrate the latest `firefox` branch of `@electro-creative-workshop/electro-privacy` into this host site and validate consent-gate behavior end to end.
+>
+> Requirements:
+>
+> 1. Install from `firefox` branch first.
+>    - `npm install github:electro-creative-workshop/electro-privacy#firefox`
+>    - If install fails with `EALLOWGIT`, run `npm config set allow-git root --location=project` and retry install.
+> 2. Confirm lockfile resolution.
+>    - Report the resolved commit SHA for `node_modules/@electro-creative-workshop/electro-privacy` from `package-lock.json`.
+> 3. Wire host layout env values.
+>    - Read `NEXT_PUBLIC_GTM_ID` for GTM container ID.
+>    - Read `NEXT_PUBLIC_GA4_IDS`, split by comma, trim, and pass as GA4 measurement IDs.
+>    - Render the GTM consent gate once in the root layout/shell only.
+> 4. Verify Vercel env coverage.
+>    - Run `vercel env ls | grep -E "NEXT_PUBLIC_GTM_ID|NEXT_PUBLIC_GA4_IDS|NEXT_PUBLIC_ONETRUST_ID"`.
+>    - If `NEXT_PUBLIC_GTM_ID` is missing, alert the user and provide exact add commands for production, preview, and development.
+>    - Do the same for `NEXT_PUBLIC_GA4_IDS` if missing where needed.
+> 5. Validate behavior.
+>    - Default load (no opt-out): GTM loads.
+>    - Pending opt-out before save: new GA/GTM activity suppressed.
+>    - Save opt-out: GA disable behavior active and expected teardown/reload behavior.
+>    - Reload with saved opt-out: GTM remains blocked.
+> 6. Report back with files changed, final dependency SHA, test/lint/type-check results, and missing env vars with exact add commands.
+>
+> Constraints:
+>
+> - Host-site changes only: dependency, wrapper/layout wiring, env setup, and tests.
+> - Do not reimplement plugin consent logic in host code.
 
 ## Why GA4 IDs are required
 
@@ -104,6 +151,24 @@ measure and should be replaced before release.
   `NEXT_PUBLIC_GA4_IDS` to avoid relying on late `script[src*="gtag/js"]` DOM
   discovery timing. Keep IDs in public environment variables only when they
   are safe to expose to the browser.
+   For Vercel-hosted sites, verify `NEXT_PUBLIC_GTM_ID` exists before release.
+   If it is missing, alert the user that it must be created and provide these
+   setup steps:
+
+   ```bash
+   vercel link
+   vercel env ls | grep NEXT_PUBLIC_GTM_ID
+   vercel env add NEXT_PUBLIC_GTM_ID production
+   vercel env add NEXT_PUBLIC_GTM_ID preview
+   vercel env add NEXT_PUBLIC_GTM_ID development
+   vercel env pull
+   ```
+
+   Expected check behavior:
+   - If `NEXT_PUBLIC_GTM_ID` appears in `vercel env ls`, reuse the existing
+     value and still confirm environment coverage (production/preview/development).
+   - If `NEXT_PUBLIC_GTM_ID` does not appear, create it for each required
+     environment before validating the consent-gate flow.
 5. Confirm the OneTrust performance category. The default is `C0002`; pass
    `performanceCode` when the host uses another category.
 6. Confirm the Preference Center contains
@@ -159,8 +224,6 @@ flags appear.
   - `gaMeasurementIds` prop (`G-` IDs only)
   - `NEXT_PUBLIC_GA4_IDS`
   - fallback scan of `script[src*="gtag/js"]`
-3. Enable plugin debug logs before the gate runs:
-  `window.ELECTRO_PRIVACY_DEBUG = true`
 
 ### Late script behavior
 
@@ -170,14 +233,6 @@ consent checks so late GA4 IDs can still produce `ga-disable-*` flags.
 
 The observer callback does not re-run consent checks for unrelated mutations.
 It only rechecks when a matching gtag script node is detected.
-
-### Debug toggle scope
-
-`window.ELECTRO_PRIVACY_DEBUG` is the only debug toggle in this gate.
-There is no debug activation from a query param, localStorage, prop, or
-`NODE_ENV` check.
-It must be set before the gate mounts and does not persist across reloads, so
-setting it in the Console and then refreshing will not surface logs.
 
 ## Verification
 

@@ -65,7 +65,9 @@ This package exports `GtmConsentGate` for sites where analytics runs by default 
 
 GTM identifies the container, while GA4 Measurement IDs identify the Analytics destinations that may already be running. Providing the IDs lets the gate stop those destinations immediately when a visitor opts out, including during the Save flow.
 
-For implementation and validation details used by repository maintainers, see the GTM consent skill in the source repo: https://github.com/electro-creative-workshop/electro-privacy/blob/firefox/.github/skills/gtm-consent.md
+For implementation and validation details used by repository maintainers, see the GTM consent skill in the source repo: https://github.com/electro-creative-workshop/electro-privacy/blob/firefox/.github/skills/gtm-consent/SKILL.md
+
+Need the copy/paste prompt for onboarding a new host site? Use the "New host site prompt template" section in the GTM consent skill.
 
 Maintainer reminder for GTM consent-gate source changes:
 
@@ -83,7 +85,7 @@ npm run build:gtm
 Complete these steps in the host site:
 
 1. Install this package and the host site's GTM renderer. The examples below use `@next/third-parties` for Next.js.
-2. Load OneTrust before the client gate runs. OneTrust must provide the `OptanonConsent` cookie and `OptanonActiveGroups` global used to determine the saved preference.
+2. Load OneTrust before the client gate runs. OneTrust must provide the `OptanonConsent` cookie and `OnetrustActiveGroups` global (with `OptanonActiveGroups` supported as a fallback) used to determine the saved preference.
 3. Add the client wrapper shown below, then render it once in the root layout or application shell. Do not also render an unguarded `<GoogleTagManager>` elsewhere.
 4. Set `NEXT_PUBLIC_GTM_ID` to the site's container ID. Set `NEXT_PUBLIC_GA4_IDS` to a comma-separated list of the GA4 Measurement IDs controlled by that container.
 5. In OneTrust, confirm the analytics category code. This package defaults to `C0002`; pass `performanceCode` only when the host site's analytics category uses a different code.
@@ -200,7 +202,6 @@ Optional type declarations if your project needs them:
 ```ts
 declare module 'electro-privacy';
 declare module '@electro-creative-workshop/electro-privacy';
-declare module '@electro-creative-workshop/electro-privacy/gtm-consent-gate';
 ```
 
 ---
@@ -332,7 +333,7 @@ For additional languages, define mapping before importing package:
 
 ```js
 window.ElectroPrivacyLanguageMap = {
-  'zz-US': require('../../../node_modules/electro-privacy/dist/lang/zz-US.json'),
+  'zz-US': require('../../../node_modules/@electro-creative-workshop/electro-privacy/dist/lang/zz-US.json'),
 };
 ```
 
@@ -344,30 +345,39 @@ Mapping key must match the html lang attribute.
 
 This repo checks in `dist/`, so release tags must include the exact generated artifacts.
 
-1. Ensure build passes:
+1. Confirm the working tree is clean before changing the version:
+
+```bash
+git diff --exit-code
+```
+
+2. Bump the version without creating a commit or tag:
+
+```bash
+npm version patch --no-git-tag-version
+# or npm version minor --no-git-tag-version
+# or npm version major --no-git-tag-version
+```
+
+3. Rebuild artifacts and verify them:
 
 ```bash
 npm run build
+git diff --check
 ```
 
-2. Commit changes.
-3. Bump version and create tag:
+4. Stage release files and create the commit and tag:
 
 ```bash
-npm version patch
-# or npm version minor
-# or npm version major
+git add CHANGELOG.md package.json package-lock.json dist
+git commit
+git tag "v$(node -p \"require('./package.json').version\")"
 ```
 
-4. Push commit and tags:
+5. Push commit and tag, then publish:
 
 ```bash
 git push --follow-tags
-```
-
-5. Publish:
-
-```bash
 npm publish
 ```
 
@@ -378,44 +388,6 @@ Create token with **write:packages**, then configure user-level npm auth:
 - **Git tag** - A label in your Git repo that points at one specific commit (for example `v1.0.5`).
 - **Published version** - The package uploaded to GitHub Packages by `npm publish`.
 
-Use this release flow from the repository root:
-
-1. Confirm branch and clean working tree.
-
-```bash
-git branch --show-current
-git status --short
-```
-
-2. Update `CHANGELOG.md` for the new version.
-
-3. Bump version without auto commit/tag.
-
-```bash
-npm version patch --no-git-tag-version
-# or: npm version minor --no-git-tag-version
-# or: npm version major --no-git-tag-version
-```
-
-4. Run validation.
-
-```bash
-npm run build
-npm test
-```
-
-5. Rebuild, then stage changelog/version/dist artifacts.
-
-```bash
-npm run build
-git add CHANGELOG.md package.json package-lock.json dist/
-```
-
-6. Create release commit first (do not tag yet).
-
-```bash
-git commit --no-verify -m "chore(release): 1.2.3"
-```
 
 7. Verify the release commit is build-clean before tagging.
 
