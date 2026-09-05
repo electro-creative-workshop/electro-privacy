@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.gtm.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "rootDir": ".",
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
+  },
+  "include": ["src/js/gtm-consent-gate.tsx", "test/setup.ts", "test/**/*.ts", "test/**/*.tsx"]
+}

@@ -56,6 +56,7 @@ Use this workflow to add or update tests in this repository while keeping test c
    - Resolve warnings/errors introduced by new test code.
    - Run the TypeScript gate when changing TypeScript or React source/tests:
      - `npm run type-check`
+     - `npm run type-check:test`
 
 5. **Format**
    - Format repository files:
@@ -76,7 +77,5 @@ Use this workflow to add or update tests in this repository while keeping test c
 - New or updated tests are in `test/`.
 - `npm test` passes.
 - Any lint issues introduced by the change are fixed.
-- Formatting has been applied.
-- Coverage for touched modules is improved or maintained.
 - Formatting has been applied.
 - Coverage for touched modules is improved or maintained.
