@@ -65,7 +65,9 @@ This package exports `GtmConsentGate` for sites where analytics runs by default 
 
 GTM identifies the container, while GA4 Measurement IDs identify the Analytics destinations that may already be running. Providing the IDs lets the gate stop those destinations immediately when a visitor opts out, including during the Save flow.
 
-For implementation and validation details used by repository maintainers, see the GTM consent skill in the source repo: https://github.com/electro-creative-workshop/electro-privacy/blob/firefox/.github/skills/gtm-consent.md
+For implementation and validation details used by repository maintainers, see the GTM consent skill in the source repo: https://github.com/electro-creative-workshop/electro-privacy/blob/firefox/.github/skills/gtm-consent/SKILL.md
+
+Need the copy/paste prompt for onboarding a new host site? Use the "New host site prompt template" section in the GTM consent skill.
 
 Maintainer reminder for GTM consent-gate source changes:
 

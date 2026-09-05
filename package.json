@@ -67,9 +67,7 @@
       "optional": true
     }
   },
-  "dependencies": {
-    "webpack-version-file": "^0.1.7"
-  },
+  "dependencies": {},
   "files": [
     "dist",
     "README.md",
