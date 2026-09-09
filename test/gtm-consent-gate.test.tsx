@@ -308,6 +308,34 @@ describe('GtmConsentGate', () => {
     expect(dataLayer[dataLayer.length - 1]?.OneTrustActiveGroups).toBe(',C0001,C0002,');
   });
 
+  test('restores groups when an unsaved toggle goes off then on before close', async () => {
+    setSavedAnalytics(true);
+    const toggle = setPreferenceCenter(true, true);
+    render(<GtmConsentGate gtmId="GTM-TEST" GoogleTagManager={GoogleTagManager} />);
+    await waitFor(() => expect(screen.getByTestId('gtm').textContent).toBe('GTM-TEST'));
+
+    act(() => {
+      toggle.checked = false;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await waitFor(() => expect(screen.queryByTestId('gtm')).toBeNull());
+
+    act(() => {
+      toggle.checked = true;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await waitFor(() => expect(screen.getByTestId('gtm').textContent).toBe('GTM-TEST'));
+
+    const dataLayer = window.dataLayer ?? [];
+    const events = dataLayer.filter((entry) => entry.event === 'OneTrustGroupsUpdated');
+    expect(events[events.length - 1]?.OneTrustActiveGroups).toBe(',C0001,C0002,');
+    expect(reloadSpy).not.toHaveBeenCalled();
+
+    act(() => setPreferenceCenter(false));
+    await waitFor(() => expect(screen.getByTestId('gtm').textContent).toBe('GTM-TEST'));
+    expect(reloadSpy).not.toHaveBeenCalled();
+  });
+
   test('does not grant a saved opt-out when the pending Preference Center toggle is checked', async () => {
     setSavedAnalytics(false);
     window.OnetrustActiveGroups = ',C0001,';
@@ -494,6 +522,34 @@ describe('GtmConsentGate', () => {
     lateScript.src = `https://www.googletagmanager.com/gtag/js?id=${lateMeasurementId}`;
 
     await waitFor(() => expect((window as Window & Record<string, unknown>)[lateDisableKey]).toBe(true));
+  });
+
+  test('rechecks a gtag script when its src changes after mount', async () => {
+    const firstMeasurementId = createMeasurementId();
+    const secondMeasurementId = createMeasurementId();
+    const firstDisableKey = `ga-disable-${firstMeasurementId}`;
+    const secondDisableKey = `ga-disable-${secondMeasurementId}`;
+    setSavedAnalytics(true);
+    const toggle = setPreferenceCenter(true, true);
+
+    render(<GtmConsentGate gtmId="GTM-TEST" GoogleTagManager={GoogleTagManager} />);
+    await waitFor(() => expect(screen.getByTestId('gtm').textContent).toBe('GTM-TEST'));
+
+    act(() => {
+      toggle.checked = false;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await waitFor(() => expect(screen.queryByTestId('gtm')).toBeNull());
+
+    const gtagScript = document.createElement('script');
+    gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${firstMeasurementId}`;
+    document.body.appendChild(gtagScript);
+    await waitFor(() => expect((window as Window & Record<string, unknown>)[firstDisableKey]).toBe(true));
+
+    act(() => {
+      gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${secondMeasurementId}`;
+    });
+    await waitFor(() => expect((window as Window & Record<string, unknown>)[secondDisableKey]).toBe(true));
   });
 
   test('reads NEXT_PUBLIC_GA4_IDS and disables each ID before save on pending opt-out', async () => {

@@ -363,7 +363,7 @@ export function GtmConsentGate({
   useEffect(() => {
     if (!gtmId) return;
 
-    const seenGtagScripts = new WeakSet<HTMLScriptElement>();
+    const seenGtagScriptSources = new WeakMap<HTMLScriptElement, string>();
     const ownedGtmScripts = new Set<HTMLScriptElement>();
     let preferenceCenter: HTMLElement | null = null;
     let preferenceCenterObserver: MutationObserver | undefined;
@@ -429,7 +429,7 @@ export function GtmConsentGate({
       setHasCheckedConsent(true);
 
       if (!effectiveAllowed && hasLoadedGtmRef.current) pauseGtm(performanceCode);
-      if (effectiveAllowed && wasPreviouslyDenied && !isOpen && hasLoadedGtmRef.current) {
+      if (effectiveAllowed && wasPreviouslyDenied && hasLoadedGtmRef.current) {
         restoreGtm(performanceCode);
       }
       previousEffectiveAllowedRef.current = effectiveAllowed;
@@ -504,9 +504,10 @@ export function GtmConsentGate({
 
     function handlePotentialGtagScript(script: HTMLScriptElement): void {
       if (!script.src.includes('gtag/js')) return;
-      if (seenGtagScripts.has(script)) return;
+      const currentSrc = script.src;
+      if (seenGtagScriptSources.get(script) === currentSrc) return;
 
-      seenGtagScripts.add(script);
+      seenGtagScriptSources.set(script, currentSrc);
       checkConsent();
     }
 
@@ -530,7 +531,7 @@ export function GtmConsentGate({
     }
 
     for (const script of document.querySelectorAll<HTMLScriptElement>('script[src*="gtag/js"]')) {
-      seenGtagScripts.add(script);
+      seenGtagScriptSources.set(script, script.src);
     }
     registerOwnedGtmScripts(document.querySelectorAll<HTMLScriptElement>('script'));
 
