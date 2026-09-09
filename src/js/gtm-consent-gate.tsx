@@ -82,6 +82,30 @@ function getActiveGroups(): string {
   ) ?? '';
 }
 
+function getSavedActiveGroups(): string {
+  const activeGroups = getActiveGroups();
+  if (activeGroups.trim().length > 0) return activeGroups;
+
+  const optanonConsent = getCookieValue('OptanonConsent');
+  if (!optanonConsent) return '';
+
+  let decodedConsent = optanonConsent;
+  try {
+    decodedConsent = decodeURIComponent(optanonConsent);
+  } catch {
+    // Use the raw cookie when it is not URI encoded.
+  }
+
+  const groupsMatch = decodedConsent.match(/groups=([^&]+)/);
+  if (!groupsMatch) return '';
+
+  return groupsMatch[1]
+    .split(',')
+    .filter((group) => group.endsWith(':1'))
+    .map((group) => group.slice(0, -2))
+    .join(',');
+}
+
 function readCategoryFromActiveGroups(categoryCode: string): boolean | null {
   const activeGroups = getActiveGroups();
   if (activeGroups.trim().length === 0) return null;
@@ -265,6 +289,21 @@ function pauseGtm(performanceCode: string): void {
   });
 }
 
+function restoreGtm(performanceCode: string): void {
+  const windowWithGtm = window as BrowserWindow;
+  windowWithGtm.dataLayer ??= [];
+  const groups = getSavedActiveGroups()
+    .split(',')
+    .map((group) => group.trim())
+    .filter(Boolean);
+
+  if (!groups.includes(performanceCode)) groups.push(performanceCode);
+  windowWithGtm.dataLayer.push({
+    event: 'OneTrustGroupsUpdated',
+    OneTrustActiveGroups: `,${groups.join(',')},`,
+  });
+}
+
 function teardownGtm(gtmId: string, ownedScripts: Set<HTMLScriptElement>): void {
   for (const script of ownedScripts) script.remove();
 
@@ -314,6 +353,7 @@ export function GtmConsentGate({
   const pendingSavedDenialRef = useRef(false);
   const hasLoadedGtmRef = useRef(false);
   const gaOwnerIdRef = useRef(Symbol());
+  const previousEffectiveAllowedRef = useRef<boolean | null>(null);
 
   const analyticsAllowed = preferenceCenterOpen
     ? savedAnalyticsAllowed && (pendingAnalyticsAllowed ?? true)
@@ -374,6 +414,7 @@ export function GtmConsentGate({
       const isOpen = isPreferenceCenterOpen(preferenceCenter);
       const pendingAllowed = isOpen ? readPendingAnalyticsAllowed(preferenceCenter, performanceCode) : null;
       const effectiveAllowed = isOpen ? savedAllowed && (pendingAllowed ?? true) : savedAllowed;
+      const wasPreviouslyDenied = previousEffectiveAllowedRef.current === false;
       const previousSavedAllowed = previousSavedAllowedRef.current;
       const savedBecameDenied = previousSavedAllowed === true && savedAllowed === false;
 
@@ -388,6 +429,10 @@ export function GtmConsentGate({
       setHasCheckedConsent(true);
 
       if (!effectiveAllowed && hasLoadedGtmRef.current) pauseGtm(performanceCode);
+      if (effectiveAllowed && wasPreviouslyDenied && !isOpen && hasLoadedGtmRef.current) {
+        restoreGtm(performanceCode);
+      }
+      previousEffectiveAllowedRef.current = effectiveAllowed;
 
       if (
         !effectiveAllowed &&

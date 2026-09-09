@@ -2,6 +2,11 @@ import globals from 'globals';
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
+const tsRecommendedRules = Object.assign(
+  {},
+  ...tseslint.configs.recommended.map((config) => config.rules ?? {})
+);
+
 export default [
   {
     ignores: ['docs/**', 'dist/**', 'coverage/**'],
@@ -39,7 +44,7 @@ export default [
       '@typescript-eslint': tseslint.plugin,
     },
     rules: {
-      ...tseslint.configs.recommended.rules,
+      ...tsRecommendedRules,
       'no-undef': 'off',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],

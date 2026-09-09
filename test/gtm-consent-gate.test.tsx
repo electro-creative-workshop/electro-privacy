@@ -304,6 +304,8 @@ describe('GtmConsentGate', () => {
     expect(cachedScript?.isConnected).toBe(true);
     expect(scriptInsertions).toBe(1);
     expect((window as Window & Record<string, unknown>)[gaDisableKey]).toBe(false);
+    const dataLayer = window.dataLayer ?? [];
+    expect(dataLayer[dataLayer.length - 1]?.OneTrustActiveGroups).toBe(',C0001,C0002,');
   });
 
   test('does not grant a saved opt-out when the pending Preference Center toggle is checked', async () => {
@@ -448,6 +450,50 @@ describe('GtmConsentGate', () => {
     });
 
     expect((window as Window & Record<string, unknown>)[derivedDisableKey]).toBe(true);
+  });
+
+  test('detects a gtag script inserted after mount while consent is denied', async () => {
+    const lateMeasurementId = createMeasurementId();
+    const lateDisableKey = `ga-disable-${lateMeasurementId}`;
+    setSavedAnalytics(true);
+    const toggle = setPreferenceCenter(true, true);
+
+    render(<GtmConsentGate gtmId="GTM-TEST" GoogleTagManager={GoogleTagManager} />);
+    await waitFor(() => expect(screen.getByTestId('gtm').textContent).toBe('GTM-TEST'));
+
+    act(() => {
+      toggle.checked = false;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await waitFor(() => expect(screen.queryByTestId('gtm')).toBeNull());
+
+    const lateScript = document.createElement('script');
+    lateScript.src = `https://www.googletagmanager.com/gtag/js?id=${lateMeasurementId}`;
+    document.body.appendChild(lateScript);
+
+    await waitFor(() => expect((window as Window & Record<string, unknown>)[lateDisableKey]).toBe(true));
+  });
+
+  test('detects a gtag script src assigned after mount while consent is denied', async () => {
+    const lateMeasurementId = createMeasurementId();
+    const lateDisableKey = `ga-disable-${lateMeasurementId}`;
+    setSavedAnalytics(true);
+    const toggle = setPreferenceCenter(true, true);
+
+    render(<GtmConsentGate gtmId="GTM-TEST" GoogleTagManager={GoogleTagManager} />);
+    await waitFor(() => expect(screen.getByTestId('gtm').textContent).toBe('GTM-TEST'));
+
+    act(() => {
+      toggle.checked = false;
+      toggle.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await waitFor(() => expect(screen.queryByTestId('gtm')).toBeNull());
+
+    const lateScript = document.createElement('script');
+    document.body.appendChild(lateScript);
+    lateScript.src = `https://www.googletagmanager.com/gtag/js?id=${lateMeasurementId}`;
+
+    await waitFor(() => expect((window as Window & Record<string, unknown>)[lateDisableKey]).toBe(true));
   });
 
   test('reads NEXT_PUBLIC_GA4_IDS and disables each ID before save on pending opt-out', async () => {

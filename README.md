@@ -348,7 +348,7 @@ This repo checks in `dist/`, so release tags must include the exact generated ar
 1. Confirm the working tree is clean before changing the version:
 
 ```bash
-git diff --exit-code
+test -z "$(git status --porcelain)"
 ```
 
 2. Bump the version without creating a commit or tag:
@@ -366,30 +366,14 @@ npm run build
 git diff --check
 ```
 
-4. Stage release files and create the commit and tag:
+4. Stage release files and create the release commit:
 
 ```bash
 git add CHANGELOG.md package.json package-lock.json dist
 git commit
-git tag "v$(node -p \"require('./package.json').version\")"
 ```
 
-5. Push commit and tag, then publish:
-
-```bash
-git push --follow-tags
-npm publish
-```
-
-### Package publishing auth (one-time setup)
-
-Create token with **write:packages**, then configure user-level npm auth:
-
-- **Git tag** - A label in your Git repo that points at one specific commit (for example `v1.0.5`).
-- **Published version** - The package uploaded to GitHub Packages by `npm publish`.
-
-
-6. Verify the release commit is build-clean before tagging.
+5. Verify the release commit is build-clean before tagging.
 
 ```bash
 npm run build
@@ -398,21 +382,37 @@ git status --short
 
 If `git status --short` shows changes (especially in `dist/`), stop and fix before tagging.
 
-7. Create and push release refs.
+6. Create the release tag.
 
 ```bash
-git tag v1.2.3
-git push origin main
-git push origin --tags
+git tag "v$(node -p \"require('./package.json').version\")"
+```
+
+7. Push the release commit and tag.
+
+```bash
+git push --follow-tags
 ```
 
 8. Publish to GitHub Packages.
 
 ```bash
 npm publish
+```
+
+9. Verify the published package and final working tree.
+
+```bash
 npm view @electro-creative-workshop/electro-privacy version --registry=https://npm.pkg.github.com/
 git status --short
 ```
+
+### Package publishing auth (one-time setup)
+
+Create token with **write:packages**, then configure user-level npm auth:
+
+- **Git tag** - A label in your Git repo that points at one specific commit (for example `v1.0.5`).
+- **Published version** - The package uploaded to GitHub Packages by `npm publish`.
 
 One-time auth setup:
 

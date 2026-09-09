@@ -36,6 +36,29 @@ function getActiveGroups() {
         ? primaryActiveGroups
         : browserWindow.OptanonActiveGroups)) !== null && _a !== void 0 ? _a : '';
 }
+function getSavedActiveGroups() {
+    const activeGroups = getActiveGroups();
+    if (activeGroups.trim().length > 0)
+        return activeGroups;
+    const optanonConsent = getCookieValue('OptanonConsent');
+    if (!optanonConsent)
+        return '';
+    let decodedConsent = optanonConsent;
+    try {
+        decodedConsent = decodeURIComponent(optanonConsent);
+    }
+    catch {
+        // Use the raw cookie when it is not URI encoded.
+    }
+    const groupsMatch = decodedConsent.match(/groups=([^&]+)/);
+    if (!groupsMatch)
+        return '';
+    return groupsMatch[1]
+        .split(',')
+        .filter((group) => group.endsWith(':1'))
+        .map((group) => group.slice(0, -2))
+        .join(',');
+}
 function readCategoryFromActiveGroups(categoryCode) {
     const activeGroups = getActiveGroups();
     if (activeGroups.trim().length === 0)
@@ -205,6 +228,21 @@ function pauseGtm(performanceCode) {
         OneTrustActiveGroups: groups.length > 0 ? `,${groups.join(',')},` : '',
     });
 }
+function restoreGtm(performanceCode) {
+    var _a;
+    const windowWithGtm = window;
+    (_a = windowWithGtm.dataLayer) !== null && _a !== void 0 ? _a : (windowWithGtm.dataLayer = []);
+    const groups = getSavedActiveGroups()
+        .split(',')
+        .map((group) => group.trim())
+        .filter(Boolean);
+    if (!groups.includes(performanceCode))
+        groups.push(performanceCode);
+    windowWithGtm.dataLayer.push({
+        event: 'OneTrustGroupsUpdated',
+        OneTrustActiveGroups: `,${groups.join(',')},`,
+    });
+}
 function teardownGtm(gtmId, ownedScripts) {
     for (const script of ownedScripts)
         script.remove();
@@ -245,6 +283,7 @@ export function GtmConsentGate({ gtmId, gaMeasurementIds = [], performanceCode =
     const pendingSavedDenialRef = useRef(false);
     const hasLoadedGtmRef = useRef(false);
     const gaOwnerIdRef = useRef(Symbol());
+    const previousEffectiveAllowedRef = useRef(null);
     const analyticsAllowed = preferenceCenterOpen
         ? savedAnalyticsAllowed && (pendingAnalyticsAllowed !== null && pendingAnalyticsAllowed !== void 0 ? pendingAnalyticsAllowed : true)
         : savedAnalyticsAllowed;
@@ -300,6 +339,7 @@ export function GtmConsentGate({ gtmId, gaMeasurementIds = [], performanceCode =
             const isOpen = isPreferenceCenterOpen(preferenceCenter);
             const pendingAllowed = isOpen ? readPendingAnalyticsAllowed(preferenceCenter, performanceCode) : null;
             const effectiveAllowed = isOpen ? savedAllowed && (pendingAllowed !== null && pendingAllowed !== void 0 ? pendingAllowed : true) : savedAllowed;
+            const wasPreviouslyDenied = previousEffectiveAllowedRef.current === false;
             const previousSavedAllowed = previousSavedAllowedRef.current;
             const savedBecameDenied = previousSavedAllowed === true && savedAllowed === false;
             previousSavedAllowedRef.current = savedAllowed;
@@ -314,6 +354,10 @@ export function GtmConsentGate({ gtmId, gaMeasurementIds = [], performanceCode =
             setHasCheckedConsent(true);
             if (!effectiveAllowed && hasLoadedGtmRef.current)
                 pauseGtm(performanceCode);
+            if (effectiveAllowed && wasPreviouslyDenied && !isOpen && hasLoadedGtmRef.current) {
+                restoreGtm(performanceCode);
+            }
+            previousEffectiveAllowedRef.current = effectiveAllowed;
             if (!effectiveAllowed &&
                 pendingSavedDenialRef.current &&
                 !isOpen &&
